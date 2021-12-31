@@ -1,0 +1,215 @@
+\documentclass[12pt,twoside]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\let\layoutspanish\relax
+\addto\captionsspanish{\def\tablename{Tabla}}
+\unaccentedoperators
+
+\usepackage[a4paper]{geometry}
+  \geometry{hmargin={2.5cm,2.5cm},height=22cm}
+  
+\renewcommand{\baselinestretch}{1.2}  
+\setlength{\partopsep}{0pt}
+\setlength{\itemsep}{0pt}
+\setlength{\topsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0.25\baselineskip}
+
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\topfraction}{1}
+\renewcommand{\bottomfraction}{1}
+\renewcommand{\floatpagefraction}{1}
+
+\setcounter{totalnumber}{5}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+
+\usepackage{caption}
+\setcaptionwidth{\textwidth}
+\addtolength{\captionwidth}{-2\parindent}
+\captionsetup{margin=\leftmargini,%
+  width=\captionwidth,%
+  labelfont={up,bf},%
+  font={small,sl},%
+  %indention={\captionindent
+}
+
+\usepackage{indentfirst}
+
+\usepackage[pdftex]{color}
+
+\usepackage[pdftex]{graphicx}
+
+\usepackage{amsmath}
+\allowdisplaybreaks 
+\usepackage{amssymb}
+\usepackage{amsfonts} 
+\usepackage{enumerate}
+
+\usepackage{fancyhdr}
+
+\newcommand{\RunningAuthor}{Ginés Meca Carbonell}
+\newcommand{\Author}[1]{\renewcommand{\RunningAuthor}{#1}}
+\renewcommand{\leftmark}{\RunningAuthor}
+
+\newcommand{\RunningTitle}{Métodos de Machine Learning basados en Árboles de Decisión.}
+\newcommand{\Title}[1]{\renewcommand{\RunningTitle}{#1}}
+\renewcommand{\rightmark}{\RunningTitle}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\small \slshape \leftmark}    
+\fancyhead[RE]{\small \slshape \rightmark}   
+\fancyhead[RO,LE]{\small \slshape \thepage}  
+
+\renewcommand{\headrulewidth}{0.6pt}         
+\renewcommand{\footrulewidth}{0pt}           
+                                             
+\setlength{\headheight}{1.5\headheight}      
+
+\fancypagestyle{plain}{%                     
+  \fancyhf{}                                 
+  \setlength{\headwidth}{\textwidth}
+  \fancyfoot[C]{\small \slshape \thepage}    
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  }
+  
+\newcommand{\abs}[1]{\ensuremath{|#1|}}
+
+\usepackage{hyperref}
+
+\title{Métodos de Machine Learning basados en Árboles de Decisión}
+\author{Ginés Meca Carbonell\\*[1em]
+\begin{minipage}{0.75\textwidth}
+\footnotesize \itshape
+\begin{center}
+Universidad de Alicante \\
+4º de Grado en Matemáticas
+\end{center}
+\end{minipage}
+}
+\date{Junio 2022}
+
+\usepackage{pdfpages}
+
+
+
+
+\begin{document}
+
+\includepdf[pages=1]{anexo-1-portada-memoria-tfg-matematicas.pdf}
+
+
+
+\section*{Resumen}
+
+\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning derivados de los árboles de decisión.}
+
+\newpage
+
+
+
+\section*{Abstract}
+
+\emph{}
+
+\newpage
+
+
+
+\tableofcontents
+
+
+
+\newpage
+
+
+
+\section{Introducción}
+
+Vivimos en la era de la información. Cada segundo, millones de datos viajan entre diferentes lugares del planeta y se guardan formando enormes conjuntos de datos. Además, cada vez hay más instrumentos capaces de recoger información. Donde antes se necesitaba hacer uso de encuestas, ahora nos encontramos con dispositivos, como los teléfonos móviles, capaces de escribir texto, recoger audio y realizar fotografías y vídeos. Así, la información a nuestra alcance es infinita. Podemos conocer cuáles son los conceptos que son tendencia en los buscadores de internet, o cuáles son aquellos audiovisuales que más éxito están teniendo en las redes sociales. Del mismo modo, podemos acceder al historial de imágenes de la cámara de seguridad de nuestra vivienda o a la tabla que recoge las últimas operaciones de nuestra empresa. Es fácil obtener grandes cantidades de datos de aquello que nos interesa.
+
+Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. En este trabajo, trataré de abordar todos aquellos algoritmos derivados de los árboles de decisión.
+
+Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, elaborar un mapa conceptual de modelos.
+
+
+
+\subsection{Datos: Llueve en Australia}
+
+Para hacernos una idea de cómo funciona cada uno de los algoritmos detallados a lo largo del trabajo, haremos uso del conjunto de datos indicado. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente.
+
+\begin{figure}[h]
+	\includegraphics[width = \textwidth]{Intro_01}
+	\caption{Encabezado del dataset}
+\end{figure}
+
+En total, se tiene 23 columnas que recogen información de 145460 días.
+
+
+\subsection{Metodología}
+
+A la hora de aplicar los diferentes métodos al conjunto de datos se procederá mediante validación cruzada. Es decir:
+
+\begin{enumerate}
+\item Se selecciona el modelo correspondiente.
+\item Se separa, al azar, el conjunto de datos inicial en dos: datos de entrenamiento y datos de testeo.
+\item Se entrena el modelo con los datos de entrenamiento.
+\item Se aplica el modelo entrenado a los datos de testeo.
+\item Se comprueba la veracidad de las predicciones realizadas.
+\end{enumerate}
+
+Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{sec:Anexo}).
+
+
+
+\newpage
+
+
+
+\section{Árboles de decisión CART}
+\subsection{Preliminares}
+
+Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada si simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. Se trata de un algoritmo que divide sucesivamente el conjunto inicial de datos en diferentes subconjuntos a través de diversas condiciones relacionadas con sus variables explicativas. Por ejemplo, si de nuestro conjunto de datos de ejemplo elegimos las variables explicativas 'Cloud3pm' y 'Humidity3pm'(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, el esquema que seguirá nuestro árbol de clasificación será el siguiente:
+\begin{figure}[h]
+	\centering
+	\includegraphics[width = 0.7\textwidth]{ex1_01}
+	\caption{Ejemplo 1. Árbol de decisión}
+	\label{fig:Ejemplo 1}
+\end{figure}
+
+Como se puede observar, el algoritmo es muy intuitivo: se introduce un individuo y se le aplica la primera condición; si la respuesta es afirmativa se sigue el camino de la izquierda y si es negativa el de la derecha. Mediante este proceso, se van comprobando si sus variables explicativas cumplen las diferentes condiciones que se planteen hasta llegar a un grupo que deja de dividirse que será su predicción.
+
+Por otro lado, es fácil ver que las condiciones del algoritmo se corresponden con una partición del espacio. Como en el ejemplo anterior se han elegido únicamente dos variables explicativas, se puede hacer una representación de los individuos sobre $\mathbb{R}^{2}$ y determinar sobre él las diferentes regiones de predicción.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width = 0.5\textwidth]{ex1_02}
+	\caption{Partición del espacio del Ejemplo 1}
+	\label{fig:Ejemplo 1.2}
+\end{figure}
+
+
+\subsubsection{Notación y conceptos básicos}
+
+A continuación, se introducirán una serie de términos básicos para poder hacer referencias correctas a los conceptos presentados. Por un lado, nos encontramos con las siguientes definiciones:
+\begin{description}
+\item[Nodo raíz: ]Primer nodo, que contiene a todos los individuos, a partir del cual comienzan a realizarse las divisiones.
+\item[Nodo interno: ]Nodos intermedios que provienen de una división y desencadenan otra. Dentro de ellos, se pueden definir:
+	\begin{description}
+	\item[Nodo padre: ]Nodo anterior al nodo interno que hemos fijado.
+	\item[Nodos hijos: ]Nodos resultantes de la división del nodo interno fijado.
+	\end{description}
+\item[Nodo hoja: ]Nodos finales que dan lugar a la predicción.
+\end{description}
+
+Se pueden identificar todos estos nodos en la figura del ejemplo 1 (\ref{fig:Ejemplo 1}). Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
+
+CONCEPTO DE SOBREAJUSTE.
+
+
+\section{Anexo} \label{sec:Anexo}
+\end{document}
