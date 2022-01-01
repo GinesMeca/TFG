@@ -208,8 +208,51 @@ A continuación, se introducirán una serie de términos básicos para poder hac
 
 Se pueden identificar todos estos nodos en la figura del ejemplo 1 (\ref{fig:Ejemplo 1}). Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
 
-CONCEPTO DE SOBREAJUSTE.
+Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: overfitting). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento del mismo. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, mientras que al introducir nuevos individuos estas predicciones presentan grandes errores.
+
+Para lidiar con el sobreajuste, interesa manejar también otras dos nociones: el sesgo y la varianza. El sesgo (en inglés: bias) hace referencia a los errores cometidos en las predicciones de los individuos de nuestro conjunto de entrenamiento. Por contra, la varianza es la medida del error cometido en los individuos que no pertenecen a este conjunto; en nuestro caso, lo mediremos en los individuos del conjunto de testeo. No obstante, estos conceptos generan un problema: interesa tener valores bajos de ambos indicadores, pero disminuir el sesgo conlleva un aumento de la varianza. Así, a la hora de construir un modelo de Machine Learning, interesa estudiar que el sesgo no sea excesivamente bajo, para evitar el sobreajuste, pero también que no sea excesivamente alto para que las predicciones sean fiables.
+
+
+\subsubsection{Objetos de estudio de un CART}
+
+Una vez visto cómo se realizan las predicciones al trabajar con árboles de decisión, corresponde explicar el funcionamiento del mismo. Para ello, habrá que tratar los siguientes aspectos:
+\begin{enumerate}
+\item Elección de variables y valores asociados a cada nodo.
+\item Criterio de parada de división de los nodos
+\item Clase asignada a cada nodo
+\end{enumerate}
+
+
+\subsection{Elección de variables y valores asociados a cada nodo}
+Sea un conjunto de datos de n individuos y p+1 variables ($n,p \in \mathbb{N}$). De este modo, sean $X_1, X_2, ... , X_p$ las variables explicativas y $X_{p+1}$ la variable dependiente a predecir. En el caso de nuestro conjunto de datos de ejemplo:
+\begin{table}[h]
+\centering
+\begin{tabular}{rcccc|c}
+ & \multicolumn{1}{l}{$X_1$}         & $X_2$                        & ...                      & $X_{22}$ & $X_{23}$ \\ \hline
+\multicolumn{1}{l|}{$x_1$} & \multicolumn{1}{r|}{2008-12-01} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
+\multicolumn{1}{l|}{$x_2$} & \multicolumn{1}{r|}{2008-12-02} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
+\multicolumn{1}{l|}{$x_3$} & \multicolumn{1}{r|}{2008-12-03} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
+\end{tabular}
+\end{table}
+
+
+Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen M regiones diferentes denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como f al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de f) asociadas a cada región $R_m$. De este modo:
+\begin{equation*}
+f(x) = \sum^M_{m = 1} c_{m}I(x \in R_m) \, \, \, \forall x \in D
+\end{equation*}
+donde D es el dominio de la función (espacio de las variables explicativas) e I es la función indicadora:
+\begin{equation*}
+I(x) = 
+\left.
+\begin{array}{ccc}
+1 & si & x \in R_m \\
+0 & si & x \not\in R_m 
+\end{array}
+\right\}
+\end{equation*}
+
 
 
 \section{Anexo} \label{sec:Anexo}
+Todo el código empleado en la elaboración de los ejemplos se encuentra en la carpeta de GitHub creada para tal fin (\url{link})
 \end{document}
