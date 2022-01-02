@@ -217,28 +217,43 @@ Para lidiar con el sobreajuste, interesa manejar también otras dos nociones: el
 
 Una vez visto cómo se realizan las predicciones al trabajar con árboles de decisión, corresponde explicar el funcionamiento del mismo. Para ello, habrá que tratar los siguientes aspectos:
 \begin{enumerate}
-\item Elección de variables y valores asociados a cada nodo.
+\item Elección de variables y valores asociados a cada nodo interno.
 \item Criterio de parada de división de los nodos
-\item Clase asignada a cada nodo
+\item Valor o clase asignada a cada nodo
 \end{enumerate}
 
 
-\subsection{Elección de variables y valores asociados a cada nodo}
-Sea un conjunto de datos de n individuos y p+1 variables ($n,p \in \mathbb{N}$). De este modo, sean $X_1, X_2, ... , X_p$ las variables explicativas y $X_{p+1}$ la variable dependiente a predecir. En el caso de nuestro conjunto de datos de ejemplo:
+\subsection{Elección de variables y valores asociados a cada nodo interno}
+Sea un conjunto de datos de n individuos y p+1 variables ($n,p \in \mathbb{N}$). De este modo, sean $X_1, X_2, ... , X_p$ las variables explicativas e $y$ la variable dependiente. En el caso de nuestro conjunto de datos de ejemplo:
 \begin{table}[h]
 \centering
 \begin{tabular}{rcccc|c}
- & \multicolumn{1}{l}{$X_1$}         & $X_2$                        & ...                      & $X_{22}$ & $X_{23}$ \\ \hline
+ & \multicolumn{1}{l}{$X_1$}         & $X_2$                        & ...                      & $X_{22}$ & $y$ \\ \hline
 \multicolumn{1}{l|}{$x_1$} & \multicolumn{1}{r|}{2008-12-01} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
 \multicolumn{1}{l|}{$x_2$} & \multicolumn{1}{r|}{2008-12-02} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
 \multicolumn{1}{l|}{$x_3$} & \multicolumn{1}{r|}{2008-12-03} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
 \end{tabular}
 \end{table}
 
-
-Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen M regiones diferentes denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como f al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de f) asociadas a cada región $R_m$. De este modo:
+Se busca conocer cómo realizar las divisiones. En particular, nos centraremos en la primera división y el proceso será similar para las siguientes. Al situarnos en el nodo raíz, nos encontramos con el conjunto de datos al completo y pretendemos dividirlo en dos regiones, que denotaremos $R_1$ y $R_2$, en función de una de las variables explicativas, $X_j$, y de un valor respecto de esta, s, de manera que:
 \begin{equation*}
-f(x) = \sum^M_{m = 1} c_{m}I(x \in R_m) \, \, \, \forall x \in D
+R_1 (j,s) = \{ X | X_j \leq s \} \, \, \, \wedge \, \, \,  R_2 (j,s) = \{ X | X_j > s\}
+\end{equation*}
+
+Sabemos que $Y_1$ se mantendrá constante sobre $R_1$ y que $Y_2$ también será constante sobre $R_2$. De esta manera, buscamos j y s tales que:
+\begin{equation*}
+\min_{j,s}(\min_{c_1, c_2}(\sum_{x_i \in R_1}(y_i - c_1)^2 + \sum_{x_i \in R_2}(y_i - c_2)^2))
+\end{equation*}
+o lo que es lo mismo, buscamos j y s que minimicen el error cometido en la predicción de los individuos del conjunto de entrenamiento. Esta tarea se puede llevar a cabo probando todos los casos posibles y escogiendo el que minimice la expresión.
+
+
+\subsection{Criterio de parada de escisión de nodos}
+
+
+\subsection{Valor o clase asignada a cada nodo}
+Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen M regiones diferentes denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como Y al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de Y) asociadas a cada región $R_m$. De este modo:
+\begin{equation*}
+Y(x) = \sum^M_{m = 1} c_{m}I(x \in R_m) \, \, \, \forall x \in D
 \end{equation*}
 donde D es el dominio de la función (espacio de las variables explicativas) e I es la función indicadora:
 \begin{equation*}
@@ -250,6 +265,21 @@ I(x) =
 \end{array}
 \right\}
 \end{equation*}
+
+
+Así, a la hora de entrenar un modelo, se busca minimizar los errores entre y e Y. Por ejemplo, si tomamos el error mínimo cuadrático, llegamos al problema:
+\begin{equation*}
+\min_{Y_i} \sum_{i=1}^n (y_i - Y_i)^2 \Rightarrow \min_{c_m} \sum_{m = 1}^M \sum_{x_i \in R_m} (y_i - c_m)^2
+\end{equation*}
+donde $Y_i = Y(x_i) \, \, \forall i=1,...n$. Si denotamos $f(c_m) = \sum_{x_i \in R_m} (y_i - c_m)^2$, observamos que alcanzar la solución óptima del problema planteado es equivalente a minimizar la función f:
+\begin{equation*}
+f'(c_m) = -2 \sum_{x_i \in R_m} (y_i - c_m) = -2 \sum_{x_i \in R_m}y_i + 2n_mc_m = 0 \Leftrightarrow c_m = \frac{1}{n_m} \sum_{x_i \in R_m}y_i
+\end{equation*}
+donde $n_m$ es el conjunto de datos pertenecientes a la región $R_m$, $\forall m = 1,...M$.
+
+En conclusión, el valor asignado a cada nodo hoja será la media de las observaciones de los individuos del conjunto de entrenamiento que pertenecen a dicho nodo.
+
+
 
 
 
