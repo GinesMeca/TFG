@@ -174,19 +174,19 @@ Además, los cálculos se realizarán en el lenguaje de programación Python. To
 \section{Árboles de decisión CART}
 \subsection{Preliminares}
 
-Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada si simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. Se trata de un algoritmo que divide sucesivamente el conjunto inicial de datos en diferentes subconjuntos a través de diversas condiciones relacionadas con sus variables explicativas. Por ejemplo:
+Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada su simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. Se trata de un algoritmo que divide sucesivamente el conjunto inicial de datos en diferentes subconjuntos a través de diversas condiciones relacionadas con sus variables explicativas. Por ejemplo:
 
-\textbf{Ejemplo 1: } \textit{Se pretende estudiar la variable 'RainTomorrow' del conjunto de datos dado en función de las variables explicativas 'Cloud3pm' y 'Humidity3pm'(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, escogiendo únicamente las variables explicativas indicadas, el esquema que seguirá nuestro árbol de clasificación será el siguiente: }
+\textbf{Ejemplo 2.1: } \textit{Se pretende estudiar la variable 'RainTomorrow' del conjunto de datos dado en función de las variables explicativas 'Cloud3pm' y 'Humidity3pm'(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, escogiendo únicamente las variables explicativas indicadas, el esquema que seguirá nuestro árbol de clasificación será el siguiente: }
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.7\textwidth]{ex2_1_01}
 	\caption{Ejemplo 2.1. Árbol de decisión}
-	\label{fig:Ejemplo 1}
+	\label{fig:Ejemplo 2.1}
 \end{figure}
 
-Como se puede observar, el algoritmo es muy intuitivo: se introduce un individuo y se le aplica la primera condición; si la respuesta es afirmativa se sigue el camino de la izquierda y si es negativa el de la derecha. Mediante este proceso, se van comprobando si sus variables explicativas cumplen las diferentes condiciones que se planteen hasta llegar a un grupo que deja de dividirse que será su predicción.
+Como se puede observar, el algoritmo es muy intuitivo: se introduce un individuo y se le aplica la primera condición; si la respuesta es afirmativa se sigue el camino de la izquierda y si es negativa el de la derecha. Mediante este proceso, se va comprobando si sus variables explicativas cumplen las diferentes condiciones que se plantean hasta llegar a un grupo que deja de dividirse, que será su predicción.
 
-Por otro lado, es fácil ver que las condiciones del algoritmo se corresponden con una partición del espacio. Como en el ejemplo anterior se han elegido únicamente dos variables explicativas, se puede hacer una representación de los individuos sobre $\mathbb{R}^{2}$ y determinar sobre él las diferentes regiones de predicción.
+Por otro lado, es fácil ver que las condiciones del algoritmo se corresponden con particiones del espacio. Como en el ejemplo anterior se han elegido únicamente dos variables explicativas, se puede hacer una representación de los individuos sobre $\mathbb{R}^{2}$ y determinar sobre él las diferentes regiones de predicción.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.5\textwidth]{ex2_1_02}
@@ -202,15 +202,15 @@ A continuación, se introducirán una serie de términos básicos para poder hac
 \item[Nodo raíz: ]Primer nodo, que contiene a todos los individuos, a partir del cual comienzan a realizarse las divisiones.
 \item[Nodo interno: ]Nodos intermedios que provienen de una división y desencadenan otra. Dentro de ellos, se pueden definir:
 	\begin{description}
-	\item[Nodo padre: ]Nodo anterior al nodo interno que hemos fijado.
+	\item[Nodo padre: ]Nodo anterior a un nodo interno fijado.
 	\item[Nodos hijos: ]Nodos resultantes de la división del nodo interno fijado.
 	\end{description}
 \item[Nodo hoja: ]Nodos finales que dan lugar a la predicción.
 \end{description}
 
-Se pueden identificar todos estos nodos en la figura del ejemplo 1 (\ref{fig:Ejemplo 2.1}). Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
+Se pueden identificar todos estos nodos en la figura del ejemplo 2.1 (\ref{fig:Ejemplo 2.1}). Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
 
-Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: overfitting). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento del mismo. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, mientras que al introducir nuevos individuos estas predicciones presentan grandes errores.
+Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: overfitting). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, mientras que al introducir nuevos individuos estas predicciones presentan grandes errores.
 
 Para lidiar con el sobreajuste, interesa manejar también otras dos nociones: el sesgo y la varianza. El sesgo (en inglés: bias) hace referencia a los errores cometidos en las predicciones de los individuos de nuestro conjunto de entrenamiento. Por contra, la varianza es la medida del error cometido en los individuos que no pertenecen a este conjunto; en nuestro caso, lo mediremos en los individuos del conjunto de testeo. No obstante, estos conceptos generan un problema: interesa tener valores bajos de ambos indicadores, pero disminuir el sesgo conlleva un aumento de la varianza. Así, a la hora de construir un modelo de Machine Learning, interesa estudiar que el sesgo no sea excesivamente bajo, para evitar el sobreajuste, pero también que no sea excesivamente alto para que las predicciones sean fiables.
 
@@ -254,7 +254,13 @@ o lo que es lo mismo, buscamos j y s que minimicen el error cometido en la predi
 
 
 \subsubsection{Árboles de clasificación}
-En el caso de los árboles de clasificación, la variable dependiente es una clase; es decir, como en la tabla dada al comienzo de la subsección (\ref{sec: subsec22}). Ahora, en lugar del error mínimo cuadrático, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; es decir, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases.
+En el caso de los árboles de clasificación, la variable dependiente es una clase; es decir, como en la tabla dada al comienzo de la subsección (\ref{sec: subsec22}). Ahora, en lugar del error mínimo cuadrático, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; es decir, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define como:
+\begin{equation*}
+G = \sum_{k=1}^K p_{mk}(1 - p_{mk})
+\end{equation*}
+donde $p_{mk}$ es la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región m y K es el número total de clases. Así, fijado un m, se puede calcular el índice Gini de una determinada región. Además, se puede observar que valores de $p_{mk}$ cercanos a 0 o 1 implican que el producto $p_{mk}(1- p_{mk})$ sea muy pequeño. Por tanto, el índice Gini actúa como medidor de la pureza de una región: un índice Gini bajo significa que los diferentes $p_{mk}$ están cercanos a 0 o 1 y el nodo es "puro".
+
+SABEMOS CALCULAR ÍNDICE GINI EN REGIONES, FALTA HACER LAS MEDIAS PONDERADAS PARA NODOS.
 
 
 \subsection{Criterio de parada de escisión de nodos}
@@ -293,6 +299,8 @@ f'(c_m) = -2 \sum_{x_i \in R_m} (y_i - c_m) = -2 \sum_{x_i \in R_m}y_i + 2n_mc_m
 donde $n_m$ es el conjunto de datos pertenecientes a la región $R_m$, $\forall m = 1,...M$.
 
 En conclusión, el valor asignado a cada nodo hoja será la media de las observaciones de los individuos del conjunto de entrenamiento que pertenecen a dicho nodo.
+
+En el caso de árboles de clasificación, la tarea se simplifica: basta con calcular la proporción de individuos de cada clase en cada región y, así, el valor asignado a cada subconjunto del espacio será la clase a la que le corresponde la mayor proporción en el mismo.
 
 
 \subsection{Ejemplo}
