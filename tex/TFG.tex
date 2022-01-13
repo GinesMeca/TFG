@@ -142,9 +142,9 @@ Dado que en los últimos años varios alumnos han realizado su TFG sobre árbole
 \subsection{Datos: Llueve en Australia}
 
 Para hacernos una idea de cómo funciona cada uno de los algoritmos detallados a lo largo del trabajo, haremos uso del conjunto de datos indicado. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente.
-
 \begin{figure}[h]
-	\includegraphics[width = \textwidth]{Intro_01}
+	\centering
+	\includegraphics[width = 0.4\textwidth]{Intro_01}
 	\caption{Encabezado del dataset}
 \end{figure}
 
@@ -162,6 +162,12 @@ A la hora de aplicar los diferentes métodos al conjunto de datos se procederá 
 \item Se aplica el modelo entrenado a los datos de testeo.
 \item Se comprueba la veracidad de las predicciones realizadas.
 \end{enumerate}
+
+Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos de entrenamiento y testeo se realiza de manera aleatoria. No obstante, dada la naturaleza de los datos, procederemos de otra manera.
+
+Separando el conjunto de datos de manera aleatoria nos encontraremos con que los datos de testeo se encontrarán intercalados con los de entrenamiento. Esto puede ocasionar que la predicción de testeo a realizar se encuentre entre dos datos utilizados al entrenar el modelo. Este método no es erróneo, pero no nos da ninguna información acerca de cómo se desenvuelve el algoritmo a la hora de clasificar datos de fechas posteriores.
+
+Entonces, el procedimiento será ligeramente distinto. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo de manera que al introducir las fechas actuales, no registradas, y de las cuales no sabemos que ocurrirá unos días o semanas más tarde en función de los datos que poseemos sobre fechas posteriores.
 
 Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{sec:Anexo}).
 
@@ -256,11 +262,17 @@ o lo que es lo mismo, buscamos j y s que minimicen el error cometido en la predi
 \subsubsection{Árboles de clasificación}
 En el caso de los árboles de clasificación, la variable dependiente es una clase; es decir, como en la tabla dada al comienzo de la subsección (\ref{sec: subsec22}). Ahora, en lugar del error mínimo cuadrático, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; es decir, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define como:
 \begin{equation*}
-G = \sum_{k=1}^K p_{mk}(1 - p_{mk})
+G_{region} = \sum_{k=1}^K p_{mk}(1 - p_{mk})
 \end{equation*}
-donde $p_{mk}$ es la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región m y K es el número total de clases. Así, fijado un m, se puede calcular el índice Gini de una determinada región. Además, se puede observar que valores de $p_{mk}$ cercanos a 0 o 1 implican que el producto $p_{mk}(1- p_{mk})$ sea muy pequeño. Por tanto, el índice Gini actúa como medidor de la pureza de una región: un índice Gini bajo significa que los diferentes $p_{mk}$ están cercanos a 0 o 1 y el nodo es "puro".
+donde $p_{mk}$ es la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región m y K es el número total de clases. Así, fijado un m, se puede calcular el índice Gini de una determinada región. Además, se puede observar que valores de $p_{mk}$ cercanos a 0 o 1 implican que el producto $p_{mk}(1- p_{mk})$ sea muy pequeño. Por tanto, el índice Gini actúa como medidor de la pureza de una región: un índice Gini bajo significa que los diferentes $p_{mk}$ están cercanos a 0 o 1 y la región es "pura".
 
-SABEMOS CALCULAR ÍNDICE GINI EN REGIONES, FALTA HACER LAS MEDIAS PONDERADAS PARA NODOS.
+Sabiendo esto, solo queda evaluar el índice Gini de un nodo. Esto se hace mediante una media ponderada, es decir:
+\begin{equation*}
+G_{nodo} = \frac{n_1}{n_1 + n_2}G_1 + \frac{n_2}{n_1 + n_2}G_2
+\end{equation*}
+donde  $n_1$ y $n_2$ son la cantidad de individuos de las regiones $R_1$ y $R_2$, respectivamente, y $G_1$ y $G_2$ son los índices Gini de las mismas. Así, la tarea se resume en obtener, mediante comprobación de todas las opciones posibles, la variable y el valor que minimizan el índice Gini del nodo.
+
+
 
 
 \subsection{Criterio de parada de escisión de nodos}
@@ -268,7 +280,7 @@ Se podría pensar que la precisión de un CART aumenta conforme aumenta en profu
 
 Por un lado, la técnica más simple consiste en establecer una profundidad máxima. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo 2.1 (Figura \ref{fig:Ejemplo 2.1}) se ha establecido una profundidad máxima igual a 3.
 
-Por otro lado,
+Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la división del nodo y se calcula el índice Gini del mismo(proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues de esta manera se mantiene una mayor pureza.
 
 
 \subsection{Valor o clase asignada a cada nodo hoja}
@@ -304,6 +316,7 @@ En el caso de árboles de clasificación, la tarea se simplifica: basta con calc
 
 
 \subsection{Ejemplo}
+\textit{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para así construir el árbol más fiable.}
 
 
 
