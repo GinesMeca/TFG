@@ -167,7 +167,7 @@ Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos
 
 Separando el conjunto de datos de manera aleatoria nos encontraremos con que los datos de testeo se encontrarán intercalados con los de entrenamiento. Esto puede ocasionar que la predicción de testeo a realizar se encuentre entre dos datos utilizados al entrenar el modelo. Este método no es erróneo, pero no nos da ninguna información acerca de cómo se desenvuelve el algoritmo a la hora de clasificar datos de fechas posteriores.
 
-Entonces, el procedimiento será ligeramente distinto. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo de manera que al introducir las fechas actuales, no registradas, y de las cuales no sabemos que ocurrirá unos días o semanas más tarde en función de los datos que poseemos sobre fechas posteriores.
+Entonces, el procedimiento será ligeramente distinto, emplearemos la validación 'Out Of Time'. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo de manera que al introducir las fechas actuales, no registradas, y de las cuales no sabemos que ocurrirá unos días o semanas más tarde en función de los datos que poseemos sobre fechas posteriores.
 
 Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{sec:Anexo}).
 
@@ -317,6 +317,22 @@ En el caso de árboles de clasificación, la tarea se simplifica: basta con calc
 
 \subsection{Ejemplo}
 \textit{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para así construir el árbol más fiable.}
+
+\textit{Además, con tal de analizar los resultados, utilizaremos el AUC; es decir, el área bajo la curva ROC('Area Under the Curve'), creada en base a la sensibilidad(tasa de  verdaderos positivos) y especifidad(tasa de verdaderos negativos) de las predicciones. Así, operando el AUC de la forma $2 \times AUC - 1$ obtenemos el coeficiente Gini(no confundir con el índice Gini de escisión de nodos). Cuanto más alto sea el valor de este coeficiente, mejor será nuestro clasificador.}
+
+\textit{Con esto, aplicando los diferentes árboles de clasificación, llegamos al siguiente resultado:}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.3\textwidth]{ex2_2_01}
+\caption{Resultados árboles de clasificación para RainTomorrow}
+\end{figure}
+
+\textit{En la tabla se ven reflejados los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
+
+\textit{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento aumentando, conforme aumenta la profundidad, la desviación entre los conjuntos. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
+
+\textit{El valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
 
 
 
