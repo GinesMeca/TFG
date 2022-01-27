@@ -133,13 +133,13 @@ Universidad de Alicante \\
 
 Vivimos en la era de la información. Cada segundo, millones de datos viajan entre diferentes lugares del planeta y se guardan formando enormes conjuntos de datos. Además, cada vez hay más instrumentos capaces de recoger información. Donde antes se necesitaba hacer uso de encuestas, ahora nos encontramos con dispositivos, como los teléfonos móviles, capaces de escribir texto, recoger audio y realizar fotografías y vídeos. Así, la información a nuestra alcance es infinita. Podemos conocer cuáles son los conceptos que son tendencia en los buscadores de internet, o cuáles son aquellos audiovisuales que más éxito están teniendo en las redes sociales. Del mismo modo, podemos acceder al historial de imágenes de la cámara de seguridad de nuestra vivienda o a la tabla que recoge las últimas operaciones de nuestra empresa. Es fácil obtener grandes cantidades de datos de aquello que nos interesa.
 
-Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. En este trabajo, trataré de abordar todos aquellos algoritmos derivados de los árboles de decisión.
+Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que estudiaremos en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984. De hecho, fue el propio Leo Breiman quien, basándose en CART, desarrolló años más tarde el algoritmo Random Forest. Paralelamente, la publicación de Freund y Schapire en 1997 de un nuevo método basado en boosting daría lugar a otra serie de algoritmos; es aquí donde nos encontramos algoritmos más complejos, como el xgboost, que ocuparán gran parte del trabajo.
 
-Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, elaborar un mapa conceptual de modelos.
+Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, elaborar un mapa conceptual de modelos lo más completo posible.
 
 
 
-\subsection{Datos: Llueve en Australia}
+\subsection{Datos: Llueve en Australia} \label{sec: subsec11}
 
 Para hacernos una idea de cómo funciona cada uno de los algoritmos detallados a lo largo del trabajo, haremos uso del conjunto de datos indicado. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente.
 \begin{figure}[h]
@@ -308,6 +308,10 @@ donde $Y_i = Y(x_i) \, \, \forall i=1,...n$. Si denotamos $f(c_m) = \sum_{x_i \i
 \begin{equation*}
 f'(c_m) = -2 \sum_{x_i \in R_m} (y_i - c_m) = -2 \sum_{x_i \in R_m}y_i + 2n_mc_m = 0 \Leftrightarrow c_m = \frac{1}{n_m} \sum_{x_i \in R_m}y_i
 \end{equation*}
+y
+\begin{equation*}
+f''(c_m) = -2 \sum_{x_i \in R_m} (-1) = 2n_m > 0
+\end{equation*}
 donde $n_m$ es el conjunto de datos pertenecientes a la región $R_m$, $\forall m = 1,...M$.
 
 En conclusión, el valor asignado a cada nodo hoja será la media de las observaciones de los individuos del conjunto de entrenamiento que pertenecen a dicho nodo.
@@ -330,18 +334,72 @@ En el caso de árboles de clasificación, la tarea se simplifica: basta con calc
 
 \textit{En la tabla se ven reflejados los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
 
-\textit{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento aumentando, conforme aumenta la profundidad, la desviación entre los conjuntos. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
+\textit{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento aumentando, conforme aumenta la profundidad, la desviación entre los conjuntos. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
 
 \textit{El valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
 
 
 
 \subsection{Ventajas y desventajas}
+Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los árboles de decisión son una herramienta muy potente para el análisis de datos. No obstante, pese a presentar muchos puntos a favor, también hay una serie de inconvenientes a tener en cuenta. En esta subsección, nos encargaremos de analizarlos.
+
+\textbf{\underline{Ventajas:}}
+\begin{itemize}
+\item Se pueden emplear en problemas de regresión y de clasificación.
+\item Es un método muy intuitivo de fácil comprensión.
+\item La manera de proceder del modelo se asemeja a cómo lo hace la mente humana: se van estableciendo condiciones que restringen, paso a paso, el conjunto total de datos hasta llegar a la solución.
+\item Se puede obtener una representación gráfica de los diferentes modelos, lo cual facilita su comprensión a nivel visual.
+\end{itemize}
+
+\textbf{\underline{Desventajas:}}
+\begin{itemize}
+\item La capacidad predictora de los árboles de decisión es inferior a la que se puede obtener mediante otros métodos. De hecho, podemos observar que la fiabilidad del modelo del ejemplo anterior en el conjunto de testeo no alcanza el $65\%$.
+\item Se trata de un algoritmo inestable. Es decir, un ligero cambio en los datos de entrenamiento puede conllevar a la creación de un modelo totalmente distinto. %¿Por qué?
+\end{itemize}
 
 
 
+\newpage
+\section{Métodos derivados de los árboles de decisión}
+Los árboles de decisión son una gran herramienta predictiva. Tanto los CART como muchos de los algoritmos utilizados para construir árboles de decisión se desarrollaron a lo largo de la década de los 80. No obstante, ya hemos visto que estos algoritmos no llegan a alcanzar grandes niveles de eficacia; por tanto, durante la década de los 90 se publicaron diferentes artículos con distintas técnicas que, utilizando árboles de decisión, consiguen aumentar con creces estos niveles de fiabilidad.
+
+A la hora de combinar los árboles de decisión para construir modelos más complejos se pueden seguir dos caminos: bagging o boosting.
 
 
+\subsection{Algoritmos de bagging}
+Los algoritmos de bagging se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión. De esta manera, se generarán tantos árboles como muestras se hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles y en un problema de clasificación será la clase que más veces se ha repetido.
+
+Analizaremos tres algoritmos de bagging distintos: Bagging, Random Forest y Extra-Trees.
+
+
+\subsubsection{Bagging}
+Tras participar en la creación del algoritmo CART, Leo Breiman publicó, en 1996, un artículo en el que introducía un nuevo método con el fin de disminuir la varianza de CART: Bagging. Bagging es un algoritmo que toma diferentes muestras aleatorias de individuos con repetición del conjunto de datos y con cada una de ellas construye un árbol de decisión haciendo uso de todas las variables explicativas disponibles.
+
+
+\subsubsection{Random Forest}
+El desarrollo de Bagging llevó a Breiman a definir un nuevo algoritmo 5 años más tarde. Con Random Forest, Breiman consiguió, además de disminuir la varianza, obtener información más completa de las variables explicativas. El procedimiento es muy parecido al de Bagging: nuevamente se toman diferentes muestras con repetición de los individuos y, para cada muestra, también se toma una muestra aleatoria de m variables (con $m \leq p$). Una buena elección de m podría ser: $ m = \lfloor \sqrt{p} \rfloor$.
+
+De esta manera, cada árbol presentará diferentes variables explicativas; lo que se traduce en árboles con variables significativas totalmente distintas, pues aquellas que lo son para un árbol puede ser que no se encuentren en el siguiente.
+
+
+\subsubsection{Extra-Trees}
+El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, a la hora de realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las p variables, se probará con m valores generados aleatoriamente correspondientes a las m variables explicativas.
+
+
+\subsubsection{Ejemplo}
+
+
+
+\newpage
 \section{Anexo} \label{sec:Anexo}
 Todo el código empleado en la elaboración de los ejemplos se encuentra en la carpeta de GitHub creada para tal fin (\url{link})
+
+En cuanto a los datos utilizados, como ya se comenta en la introducción (\ref{sec: subsec11}), han sido extraídos de Kaggle y se puede llegar a ellos a través del siguiente link: \url{https://www.kaggle.com/jsphyg/weather-dataset-rattle-package}.
+
+Además, se ha realizado un procesamiento de los mismos para su correcta utilización. Para ello, se ha seguido la siguiente estructura, la cual se encuentra disponible en la web de Kedro (\url{https://kedro.readthedocs.io/en/stable/12_faq/01_faq.html}):
+\begin{figure}[h]
+\centering
+\includegraphics[width = \textwidth]{Kedro}
+\caption{Figuras disponibles en el link de Kedro.}
+\end{figure}
 \end{document}
