@@ -387,7 +387,84 @@ El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen 
 
 
 \subsubsection{Ejemplo}
+\textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la subsección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
 
+\textit{Al igual que en el ejemplo de CART, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
+
+\textit{Aplicando los diferentes algoritmos llegamos a: }
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.9\textwidth]{ex3_1_01}
+\caption{Resultados algoritmos de bagging para RainTomorrow}
+\end{figure}
+
+\noindent
+\textit{donde 'Bag' se corresponde con Bagging, 'RT' con Random Forest y 'ET' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, escogiendo los modelos que generan 100 árboles ($Bag\_100$, $RF\_100$ y $ET\_100$), obtenemos índices de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos además de un significante descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja un claro descenso de la varianza.}
+
+
+\subsubsection{Ventajas y desventajas}
+Al igual que se ha hecho con CART, a continuación se realizará un análisis de pros y contras de los algoritmos de bagging.
+
+\textbf{\underline{Ventajas:}}
+\begin{itemize}
+\item Los algoritmos de bagging son capaces de disminuir la varianza; lo que implica que las predicciones realizadas serán (casi) igual de fiables que las del conjunto de entrenamiento.
+\item Los algoritmos de bagging son más precisos que otros algoritmos más simples (como CART).
+\end{itemize}
+
+\textbf{\underline{Desventajas:}}
+\begin{itemize}
+\item Se pierde la fácil visualización y el entendimiento de CART.
+\end{itemize}
+
+
+\newpage
+\subsection{Algoritmos de boosting}
+Los algoritmos de boosting, al igual que los de bagging, generan diferentes árboles de decisión a través de los cuales se realiza la predicción final. No obstante, mientras los algoritmos de bagging generan árboles independientes y devuelven una respuesta promedio o la respuesta más votada, los algoritmos de boosting generan los árboles secuencialmente, teniendo en cuenta los resultados anteriores. De esta manera, esta clase de métodos consigue reducir el sesgo; es decir, el error cometido en los datos del conjunto de entrenamiento, ya que la forma en la que se construyen los diferentes CART permite otorgar pesos diferentes a los individuos, consiguiendo así que el nuevo árbol generado se focalice en predecir bien a aquellos individuos que presentan mayor error (o que se han clasificado erróneamente) en el árbol anterior.
+
+A lo largo de esta subsección trataremos de abordar a fondo los principales algoritmos de boosting: AdaBoost, Gradient Boosting, XGBoost, LightGBM y CatBoost.
+
+
+\subsubsection{AdaBoost}
+Adaboost fue publicado en 1997 por Freund y Schapire. El algoritmo es el siguiente:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.8\textwidth]{AdaBoost_01}
+\label{The Elements of Statistical Learning}
+\end{figure}
+
+A continuación, procederemos a explicarlo con detalle.
+
+Partimos de una matriz de datos X compuesta por n individuos a los que se les miden p variables. Además, disponemos de la variables dependiente, que denotaremos por y. Además, como ya avanzábamos, AdaBoost construye los árboles secuencialmente modificando los pesos de los individuos en cada iteración; por tanto, también habrá que tener en cuenta la matriz de pesos. Es decir:
+\begin{equation*}
+X =
+\begin{pmatrix}
+x_{11} & x_{12} & \dots & x_{1p} \\
+x_{21} & x_{22} & \dots & x_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{n1} & x_{n2} & \dots & x_{np} 
+\end{pmatrix}
+\, \, \, 
+\wedge
+\, \, \,
+y = 
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n
+\end{pmatrix}
+\, \, \,
+\wedge
+\, \, \,
+P =
+\begin{pmatrix}
+w_1 & 0 & \dots & 0 \\
+0 & w_2 & \dots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \dots & w_n
+\end{pmatrix}
+\end{equation*}
 
 
 \newpage
