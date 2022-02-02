@@ -430,7 +430,8 @@ Adaboost fue publicado en 1997 por Freund y Schapire. El algoritmo es el siguien
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.8\textwidth]{AdaBoost_01}
-\label{The Elements of Statistical Learning}
+\caption{The Elements of Statistical Learning}
+\label{fig: AdaBoost_01}
 \end{figure}
 
 A continuación, procederemos a explicarlo con detalle.
@@ -465,6 +466,37 @@ w_1 & 0 & \dots & 0 \\
 0 & 0 & \dots & w_n
 \end{pmatrix}
 \end{equation*}
+
+Como podemos ver en la figura \ref{fig: AdaBoost_01}, el primer paso consiste en asignar el mismo peso a todos los individuos; ya que no se ha realizado ningún árbol previo y, por tanto, nos interesa calcular buenas predicciones del máximo número de individuos posibles. Así, en primer lugar:
+\begin{equation*}
+w_i = \frac{1}{n} \, \, \, \forall i \in \{1, \dots, n \}
+\end{equation*}
+
+A continuación, siguiendo el esquema de la figura \ref{fig: AdaBoost_01}, se crea un árbol de decisión. Una particularidad de AdaBoost es que, en lugar de árboles al uso, construye tocones; es decir, algoritmos que solo contienen dos nodos hoja. De esta manera, cada tocón construido (denotados por $G_m$) realiza una única división del espacio, obteniendo dos subconjuntos. Además, es evidente que en cada tocón únicamente se verá involucrada una variable.
+
+Una vez construido el tocón, siguiendo los métodos explicados en la subsección \ref{sec: subsec22}, definimos:
+
+\begin{equation*}
+err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_m(x_i))}{\sum_{i=1}^{n} w_i} 
+\end{equation*}
+
+\noindent
+es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma de los pesos en el denominador. La expresión del denominador nos permite asegurar que $err_m \in [0, 1]$, ya que con las modificaciones que se aplicarán posteriormente, la suma $\sum_{i = 1}^n w_i$ puede ser distinta de 1 para alguna de las iteraciones posteriores. Notemos que, para $m = 1$:
+
+\begin{equation*}
+err_1 = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
+\end{equation*}
+
+A continuación, siguiendo el apartado 3b de la figura \ref{fig: AdaBoost_01}, definimos:
+
+\begin{equation*}
+\alpha _m = \log \left( \frac{1 - err_m}{err_m} \right)
+\end{equation*}
+
+Teniendo en cuenta que $err_m \in [0, 1]$, podemos dibujar la gráfica de la función $\alpha_m$:
+
+
+
 
 
 \newpage
