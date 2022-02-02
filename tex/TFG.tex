@@ -495,6 +495,14 @@ A continuación, siguiendo el apartado 3b de la figura \ref{fig: AdaBoost_01}, d
 
 Teniendo en cuenta que $err_m \in [0, 1]$, podemos dibujar la gráfica de la función $\alpha_m$:
 
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.8\textwidth]{AdaBoost_02}
+\caption{Gráfico de $\alpha_m$}
+\label{fig: AdaBoost_02}
+\end{figure}
+
+Como podemos observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de clasificación ($err_m \simeq 0$), a $\alpha_m$ le corresponderá un valor positivo. Por el contrario, un mal trabajo de clasificación ($err_m \simeq 1$) se verá traducido en un $\alpha_m$ negativo. Así, podemos entender $\alpha_m$ como un medidor de la importancia del tocón $G_m(x)$ en el modelo: un valor alto implica una buena clasificación general y, por tanto, su respuesta es importante para el resultado final y, por otro lado, un valor bajo implica una clasificación general pobre con un número considerable de errores y, por tanto, conviene que su influencia en el resultado final no sea muy elevada.
 
 
 
