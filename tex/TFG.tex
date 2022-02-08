@@ -504,6 +504,55 @@ Teniendo en cuenta que $err_m \in [0, 1]$, podemos dibujar la gráfica de la fun
 
 Como podemos observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de clasificación ($err_m \simeq 0$), a $\alpha_m$ le corresponderá un valor positivo. Por el contrario, un mal trabajo de clasificación ($err_m \simeq 1$) se verá traducido en un $\alpha_m$ negativo. Así, podemos entender $\alpha_m$ como un medidor de la importancia del tocón $G_m(x)$ en el modelo: un valor alto implica una buena clasificación general y, por tanto, su respuesta es importante para el resultado final y, por otro lado, un valor bajo implica una clasificación general pobre con un número considerable de errores y, por tanto, conviene que su influencia en el resultado final no sea muy elevada.
 
+Para cerrar la segunda parte del algoritmo, nos queda analizar la expresión:
+
+\begin{equation*}
+(d) \, \, Set \, \, w_i \longleftarrow w_i \cdot exp[\alpha_m \cdot I(y_i \neq G_m(x_i))], \, i = 1, 2, \dots n 
+\end{equation*}
+
+\noindent
+que se encarga de modificar los pesos para el paso siguiente. Para ilustrarla más fácilmente, definimos:
+
+\begin{equation*}
+P_m = 
+\begin{pmatrix}
+w_1^m & 0 & \dots & 0 \\
+0 & w_2^m & \dots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \dots & w_n^m
+\end{pmatrix}
+\end{equation*}
+
+\noindent
+donde $w_i^m$ es el peso del individuo i en la iteración m-ésima. Así, la expresión (d) viene a decir:
+
+\begin{equation*}
+w_i^{m+1} =
+\left\{
+\begin{array}{crl}
+w_i^m & si & y_i = G_m(x_i) \\
+w_i^m e^{\alpha_m} & si & y_i \neq G_m(x_i) \\
+\end{array}
+\right.
+\end{equation*}
+
+Notemos que, en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m >> 0$), habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen.
+
+Para finalizar con el bucle, queda hacer especial hincapié en un par de conceptos. Si m=1, el proceso explicado no genera ninguna complicación: todos los individuos tienen el mismo peso, se genera un árbol de solo dos nodos hoja, se realiza el cálculo de $err_1$ y $alpha_1$ y se calcula $P_2$(matriz de pesos a utilizar en m=2). No obstante, para m > 1 $P_m \neq I$; es decir, los individuos tendrán pesos diferentes. Esto se tiene que ver reflejado a la hora de generar $G_m(x)$. El índice Gini de una región, involucrado en el criterio de escisión de nodos \ref{sec: subsec22}, es el siguiente:
+
+\begin{equation*}
+G_{region} = \sum_{k=1}^K p_{rk}(1 - p_{rk}) = 1 - \sum_{k=1}^K p_{rk}^2
+\end{equation*}
+
+\noindent
+donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región r y K era el número total de clases (en la expresión original de \ref{sec: subsec22}, r viene denotado por m, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento. Esto es porque está definido para cuando el peso es el mismo para todos. Así, nos será necesario introducir un índice Gini ponderado.
+
+El nuevo índice Gini que usaremos es:
+
+\begin{equation*}
+G_{region} = 1 
+\end{equation*}
+
 
 
 
