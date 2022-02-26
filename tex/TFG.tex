@@ -386,6 +386,19 @@ De esta manera, cada árbol presentará diferentes variables explicativas; lo qu
 El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, a la hora de realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las p variables, se probará con m valores generados aleatoriamente correspondientes a las m variables explicativas.
 
 
+\subsubsection{Error de Out-Of-Bag}
+Cabe dedicar un apartado para hablar de la noción del error Out-Of-Bag (OOB). Como ya hemos visto, los algoritmos de bagging toman muestras con repetición de los individuos para la construcción de cada uno de los árboles. Aquellos individuos que no participan en la creación de un árbol reciben el nombre de individuos out-of-bag. Es decir, si tenemos n individuos, la probabilidad de que un individuo no se escoja para la creación de un árbol (individuo out-of-bag) es:
+\begin{equation*}
+\left( \frac{n-1}{n} \right)^n
+\end{equation*}
+
+Por tanto, como podemos observar, cuando el número de invididuos de nuestra muestra sea elevado (supongamos $n \rightarrow +\infty$):
+\begin{equation*}
+\lim_{n \rightarrow + \infty} \left( \frac{n-1}{n} \right)^n = \lim_{n \rightarrow +\infty} \left( 1 - \frac{1}{n} \right)^n = \lim_{n \rightarrow +\infty} \left[ \left( 1 + \frac{1}{-n} \right)^{-n} \right] ^{-1} = e^{-1} \simeq 0.3679
+\end{equation*}
+
+Es decir, sabemos que, si contamos con un conjunto de datos de gran tamaño, cerca de un $37 \%$ de los individuos no se tendrán en cuenta para la creación de cada árbol (en particular).
+
 \subsubsection{Ejemplo}
 \textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la subsección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
 
@@ -400,7 +413,15 @@ El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen 
 \end{figure}
 
 \noindent
-\textit{donde 'Bag' se corresponde con Bagging, 'RT' con Random Forest y 'ET' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, escogiendo los modelos que generan 100 árboles ($Bag\_100$, $RF\_100$ y $ET\_100$), obtenemos índices de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos además de un significante descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja un claro descenso de la varianza.}
+\textit{donde 'Bag' se corresponde con Bagging, 'RT' con Random Forest y 'ET' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos. Además, se aprecia un significante descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja una clara disminución de la varianza del modelo.}
+
+\textit{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.9\textwidth]{ex3_1_02}
+\caption{Convergencia coeficientes Gini}
+\end{figure}
 
 
 \subsubsection{Ventajas y desventajas}
@@ -481,10 +502,10 @@ err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_m(x_i))}{\sum_{i=1}^{n} w_i}
 \end{equation*}
 
 \noindent
-es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma de los pesos en el denominador. La expresión del denominador nos permite asegurar que $err_m \in [0, 1]$, ya que con las modificaciones que se aplicarán posteriormente, la suma $\sum_{i = 1}^n w_i$ puede ser distinta de 1 para alguna de las iteraciones posteriores. Notemos que, para $m = 1$:
+es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas nos encontramos con que el denominador puede ser distinto de 1. No obstante, nosotros siempre estandarizaremos los errores antes de empezar de nuevo con el bucle por lo que nuestro denominador siempre será 1:
 
 \begin{equation*}
-err_1 = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
+err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
 \end{equation*}
 
 A continuación, siguiendo el apartado 3b de la figura \ref{fig: AdaBoost_01}, definimos:
@@ -536,7 +557,7 @@ w_i^m e^{\alpha_m} & si & y_i \neq G_m(x_i) \\
 \right.
 \end{equation*}
 
-Notemos que, en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m >> 0$), habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen.
+Notemos que, en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m >> 0$), habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $\alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen. Por otro lado, en caso de que $G_m(x)$ tenga una eficacia del $50\%$, $\alpha_m = 0$, el modelo no tendrá importancia y, dado que la probabilidad de acertar o no es la misma, no tiene sentido modificar los pesos. Por último, en el caso de obtener un modelo $G_m(x)$ que haga un pésimo trabajo de clasificación (eficacia menor que el $50\%$), $\alpha_m << 0$, podríamos interpretar que el modelo está trabajando a la inversa y que hay que considerar las clasificaciones contrarias que éste nos da. Por tanto, en este caso, interesa disminuir el peso de los mal clasificados por el modelo, lo que es equivalente a aumentar el peso de los bien clasificados, ya que los que el modelo clasifique correctamente serán los que nosotros consideraremos como erróneos dada la eficacia del modelo.
 
 Para finalizar con el bucle, queda hacer especial hincapié en un par de conceptos. Si m=1, el proceso explicado no genera ninguna complicación: todos los individuos tienen el mismo peso, se genera un árbol de solo dos nodos hoja, se realiza el cálculo de $err_1$ y $alpha_1$ y se calcula $P_2$(matriz de pesos a utilizar en m=2). No obstante, para m > 1 $P_m \neq I$; es decir, los individuos tendrán pesos diferentes. Esto se tiene que ver reflejado a la hora de generar $G_m(x)$. El índice Gini de una región, involucrado en el criterio de escisión de nodos \ref{sec: subsec22}, es el siguiente:
 
@@ -545,13 +566,216 @@ G_{region} = \sum_{k=1}^K p_{rk}(1 - p_{rk}) = 1 - \sum_{k=1}^K p_{rk}^2
 \end{equation*}
 
 \noindent
-donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región r y K era el número total de clases (en la expresión original de \ref{sec: subsec22}, r viene denotado por m, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento. Esto es porque está definido para cuando el peso es el mismo para todos. Así, nos será necesario introducir un índice Gini ponderado.
+donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región r y K era el número total de clases (en la expresión original de \ref{sec: subsec22}, r viene denotado por m, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento, por lo que tendremos que encontrar una manera de conseguir que estos pesos sean considerados.
 
-El nuevo índice Gini que usaremos es:
+La solución más fácil, y la que se encuentra implementada en Python, es la siguiente: estandarizamos los pesos, es decir, dividimos el peso de cada individuo por la suma total de pesos, y consideramos el resultado como las frecuencias relativas de cada individuo. Así, podemos conseguir también las frecuencias absolutas de la muestra:
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Individuo & w \\ \hline
+1 & $w_1$ \\ \hline
+2 & $w_2$ \\ \hline
+\vdots & \vdots \\ \hline
+n & $w_n$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+Individuo & w* \\ \hline
+1 & $\frac{w_1}{\sum_{i=1}^n w_i}$ \\ \hline
+2 & $\frac{w_2}{\sum_{i=1}^n w_i}$ \\ \hline
+\vdots & \vdots \\ \hline
+n & $\frac{w_n}{\sum_{i=1}^n w_i}$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+Individuo & w* \\ \hline
+1 & $w_1^*$ \\ \hline
+2 & $w_2^*$ \\ \hline
+\vdots & \vdots \\ \hline
+n & $w_n^*$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\end{center}
+\begin{center}
+$\Rightarrow$
+\begin{tabular}{|c|c|c|}
+\hline
+Individuo & w* & F\\ \hline
+1 & $w_1^*$ & $w_1^*$ \\ \hline
+2 & $w_2^*$ & $\displaystyle \sum_{i=1}^2 w_i^*$ \\ \hline
+\vdots & \vdots & \vdots \\ \hline
+n & $w_n^*$ & $\displaystyle \sum_{i=1}^n w_i^* \, \, (= 1)$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+Individuo & F \\ \hline
+1 & $F_1$ \\ \hline
+2 & $F_2$ \\ \hline
+\vdots & \vdots \\ \hline
+n & $F_n \, \, (=1)$ \\ \hline
+\end{tabular}
+\end{center}
 
+El siguiente paso es generar n números aleatorios $(t_1, t_2, \dots, t_n)$ pertenecientes al intervalo [0, 1]. Entonces, se cumple que:
 \begin{equation*}
-G_{region} = 1 
+\exists j \in \{1, \dots, n \} /t_i \in [F_{j-1}, F_{j}] \, \, \forall i \in \{1, \dots, n \}
 \end{equation*}
+donde $F_0$ = 0.
+
+Entonces, la solución propuesta al problema de los pesos consiste en crear un nuevo conjunto de datos utilizando los $t_i$ generados aleatoriamente: si $t_i \in [F_{j-1}, F_{j}]$, entonces añadimos $x_j$ a nuestro nuevo conjunto. De esta manera, obtendremos un nuevo conjunto de datos de n individuos en el que los individuos mal clasificados por el árbol anterior tendrán mayor presencia (como sus pesos son más altos, los intervalos $[F_{j-1}, F_{j}]$ serán más amplios). Por último, asignamos un peso de 1/n a cada uno de los individuos del nuevo conjunto de datos y ya podemos proceder a la creación del siguiente tocón.
+
+\bigskip \bigskip \bigskip \bigskip \bigskip
+
+\textbf{\underline{Ejemplo funcionamiento del bucle:}}
+
+\textit{Supongamos que nuestro conjunto de datos se redujese a:}
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.4\textwidth]{AdaBoost_03}
+\end{figure}
+
+\textit{Por tanto, creamos un árbol de decisión de una única división y obtenemos:}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5\textwidth]{AdaBoost_04}
+\end{figure}
+
+\textit{Como podemos observar, solo hay un individuo mal clasificado, el número 9. A continuación, calculamos $err_1$:}
+\begin{equation*}
+err_1 = \frac{num.errores}{n} = \frac{1}{10} = 0.1
+\end{equation*}
+\noindent
+\textit{y, haciendo uso de él, obtenemos $\alpha_1$:}
+\begin{equation*}
+\alpha_1 = \log{\frac{1 - err_1}{err_1}} = \log{\frac{1- 0.1}{0.1}} = \log{\frac{0.9}{0.1}} = \log{9} \simeq 2.1972
+\end{equation*}
+
+\textit{Una vez hechos estos cálculos, podemos realizar la reasignación de pesos:}
+\begin{equation*}
+w_i^{m+1} =
+\left\{
+\begin{array}{crl}
+w_i^m & if & y_i = G_m(x_i) \\
+w_i^m e^{\alpha_m} & if & y_i \neq G_m(x_i) \\
+\end{array}
+\right.
+\Rightarrow
+w_i^{2} =
+\left\{
+\begin{array}{crl}
+w_i^1 & if & i \neq 9 \\
+w_i^1 e^{\alpha_1} & if & i = 9 \\
+\end{array}
+\right.
+\Rightarrow
+w_i^{2} =
+\left\{
+\begin{array}{crl}
+w_i^1 & if & i \neq 9 \\
+9 w_i^1  & if & i = 9 \\
+\end{array}
+\right.
+\end{equation*}
+\noindent
+\textit{donde los superíndices hacen referencia a la iteración en la que nos encontramos. Así, modificamos los pesos: }
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.4\textwidth]{AdaBoost_05}
+\end{figure}
+
+\textit{Ahora, toca ocuparse de la generación del nuevo conjunto de datos. Aplicando el proceso definido antes: }
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Individuo & w \\ \hline
+0 & $0.1$ \\ \hline
+1 & $0.1$ \\ \hline
+2 & $0.1$ \\ \hline
+3 & $0.1$ \\ \hline
+4 & $0.1$ \\ \hline
+5 & $0.1$ \\ \hline
+6 & $0.1$ \\ \hline
+7 & $0.1$ \\ \hline
+8 & $0.1$ \\ \hline
+9 & $0.9$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+Individuo & w* \\ \hline
+0 & $\frac{0.1}{1.8}$ \\ \hline
+1 & $\frac{0.1}{1.8}$ \\ \hline
+2 & $\frac{0.1}{1.8}$ \\ \hline
+3 & $\frac{0.1}{1.8}$ \\ \hline
+4 & $\frac{0.1}{1.8}$ \\ \hline
+5 & $\frac{0.1}{1.8}$ \\ \hline
+6 & $\frac{0.1}{1.8}$ \\ \hline
+7 & $\frac{0.1}{1.8}$ \\ \hline
+8 & $\frac{0.1}{1.8}$ \\ \hline
+9 & $\frac{0.9}{1.8}$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+Individuo & w* \\ \hline
+0 & $0.0556$ \\ \hline
+1 & $0.0556$ \\ \hline
+2 & $0.0556$ \\ \hline
+3 & $0.0556$ \\ \hline
+4 & $0.0556$ \\ \hline
+5 & $0.0556$ \\ \hline
+6 & $0.0556$ \\ \hline
+7 & $0.0556$ \\ \hline
+8 & $0.0556$ \\ \hline
+9 & $0.5$ \\ \hline
+\end{tabular}
+$\Rightarrow$
+\end{center}
+
+\begin{center}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+Individuo & F \\ \hline
+0 & $0.0556$ \\ \hline
+1 & $0.1111$ \\ \hline
+2 & $0.1667$ \\ \hline
+3 & $0.2222$ \\ \hline
+4 & $0.2778$ \\ \hline
+5 & $0.3333$ \\ \hline
+6 & $0.3889$ \\ \hline
+7 & $0.4444$ \\ \hline
+8 & $0.5$ \\ \hline
+9 & $1$ \\ \hline
+\end{tabular}
+\end{center}
+\textit{Por tanto, solo queda generar 10 números aleatorios en [0, 1] y asociarlos a los individuos en función del intervalo en el que se encuentren: }
+\begin{center}
+$\Rightarrow$
+\begin{tabular}{|c|c|}
+\hline
+t & Individuo asociado \\ \hline
+0.3954 & 7 \\ \hline
+0.4193 & 7 \\ \hline
+0.0144 & 0 \\ \hline
+0.5211 & 9 \\ \hline
+0.0210 & 0 \\ \hline
+0.9923 & 9 \\ \hline
+0.0953 & 1 \\ \hline
+0.5072 & 9 \\ \hline
+0.7743 & 9 \\ \hline
+0.8238 & 9 \\ \hline
+\end{tabular}
+\end{center}
+\textit{Por tanto, el conjunto de datos que utilizaremos para entrenar el segundo tocón será el formado por los individuos que aparecen en la última tabla. Como podemos comprobar, el individuo 9, antes mal clasificado, ahora aparece 5 veces, por lo que el algoritmo tendrá que clasificarlo bien para no asumir un error tan elevado.}
+
+\bigskip \bigskip \bigskip \bigskip \bigskip
+
+Una vez terminado el bucle, nos queda analizar cómo realiza las predicciones AdaBoost.
 
 
 
