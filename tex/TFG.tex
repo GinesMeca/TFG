@@ -775,8 +775,14 @@ t & Individuo asociado \\ \hline
 
 \bigskip \bigskip \bigskip \bigskip \bigskip
 
-Una vez terminado el bucle, nos queda analizar cómo realiza las predicciones AdaBoost.
+Una vez terminado el bucle, nos queda analizar cómo realiza las predicciones AdaBoost. Como podemos ver en el pseudocódigo, la solución de la función es:
+\begin{equation*}
+G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
+\end{equation*}
 
+Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba pensado para dos clases, a una se le asocia el valor -1 y a la otra el valor +1. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, G(x) = - 1; en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, G(x) = 1. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
+
+Por último, comentar que este algoritmo es conocido como 'Discrete AdaBoost'. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación y en el caso de tener dos grupos. No obstante, 3 años más tarde se expuso (\textit{Friedman et al.}) el algoritmo 'Real Adaboost', que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos.
 
 
 
