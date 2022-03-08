@@ -28,14 +28,7 @@
 \setcounter{bottomnumber}{2}
 
 \usepackage{caption}
-\setcaptionwidth{\textwidth}
-\addtolength{\captionwidth}{-2\parindent}
-\captionsetup{margin=\leftmargini,%
-  width=\captionwidth,%
-  labelfont={up,bf},%
-  font={small,sl},%
-  %indention={\captionindent
-}
+
 
 \usepackage{indentfirst}
 
@@ -367,7 +360,7 @@ A la hora de combinar los árboles de decisión para construir modelos más comp
 
 
 \subsection{Algoritmos de bagging}
-Los algoritmos de bagging se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión. De esta manera, se generarán tantos árboles como muestras se hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles y en un problema de clasificación será la clase que más veces se ha repetido.
+Los algoritmos de bagging ('Bootstrap Aggregation') se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión. De esta manera, se generarán tantos árboles como muestras se hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles y en un problema de clasificación será la clase que más veces se ha repetido.
 
 Analizaremos tres algoritmos de bagging distintos: Bagging, Random Forest y Extra-Trees.
 
@@ -398,6 +391,12 @@ Por tanto, como podemos observar, cuando el número de invididuos de nuestra mue
 \end{equation*}
 
 Es decir, sabemos que, si contamos con un conjunto de datos de gran tamaño, cerca de un $37 \%$ de los individuos no se tendrán en cuenta para la creación de cada árbol (en particular).
+
+Con el concepto de Out-Of-Bag se pueden desarrollar conceptos interesantes. Uno de estos conceptos es el error OOB que se basa en la idea de la validación cruzada para medir la fiabilidad del modelo. No obstante, en lugar de separar previamente el conjunto de datos en conjunto de entrenamiento y conjunto de testeo, para cada árbol, los individuos que se utilizarán para el test serán aquellos individuos out-of-bag del árbol en cuestión. Además, una propiedad muy buena del error OOB es que converge. De esta manera, podemos asegurar que los modelos de bagging no se sobreajustan.
+
+No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separar el conjunto de datos en dos, nosotros seguiremos evaluando la precisión del modelo mediante validación cruzada. El motivo es el que ya comentamos en la introducción del trabajo: nos interesa aplicar una validación 'Out Of Time' y el error OOB no respeta esta validación pues, evidentemente, los individuos out-of-bag son aleatorios.
+
+%QUEDA PENDIENTE ENUNCIAR EL TEOREMA EXACTO (¿Y DEMOSTRARLO?).
 
 \subsubsection{Ejemplo}
 \textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la subsección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
@@ -502,7 +501,7 @@ err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_m(x_i))}{\sum_{i=1}^{n} w_i}
 \end{equation*}
 
 \noindent
-es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas nos encontramos con que el denominador puede ser distinto de 1. No obstante, nosotros siempre estandarizaremos los errores antes de empezar de nuevo con el bucle por lo que nuestro denominador siempre será 1:
+es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas nos encontramos con que el denominador puede ser distinto de 1. No obstante, nosotros siempre estandarizaremos los pesos antes de empezar de nuevo con el bucle por lo que nuestro denominador siempre será 1:
 
 \begin{equation*}
 err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
@@ -782,7 +781,20 @@ G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
 
 Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba pensado para dos clases, a una se le asocia el valor -1 y a la otra el valor +1. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, G(x) = - 1; en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, G(x) = 1. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
 
-Por último, comentar que este algoritmo es conocido como 'Discrete AdaBoost'. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación y en el caso de tener dos grupos. No obstante, 3 años más tarde se expuso (\textit{Friedman et al.}) el algoritmo 'Real Adaboost', que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos.
+Por último, comentar que este algoritmo es conocido como 'Discrete AdaBoost'. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso (\textit{Friedman et al.}) el algoritmo 'Real Adaboost', que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos. Esta problemática tiene fácil solución en ambos casos.
+
+En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase k se calcula:
+\begin{equation*}
+\sum_{m / G_m(x) = k} \alpha_m
+\end{equation*}
+
+\noindent
+y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
+%Esto se puede desarrollar mucho mejor y más formal comentando lo de los J pares del artículo de Friedman et al.
+
+En el caso de un problema de regresión, habrá que modificar alguna cosa más. %¿Cómo calculamos el error cometido ahora? ¿Y los \alpha_m? La respuesta es la media ponderada(por los \alpha_m supongo) de los árboles.
+
+%Ahora el error cometido se mide a través de una Loss Function (VER EN DUCKER).
 
 
 
