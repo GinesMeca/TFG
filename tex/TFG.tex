@@ -276,7 +276,7 @@ Por un lado, la técnica más simple consiste en establecer una profundidad máx
 Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la división del nodo y se calcula el índice Gini del mismo(proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues de esta manera se mantiene una mayor pureza.
 
 
-\subsection{Valor o clase asignada a cada nodo hoja}
+\subsection{Valor o clase asignada a cada nodo hoja} \label{sec:2.4}
 Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen M regiones diferentes denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como Y al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de Y) asociadas a cada región $R_m$. De este modo:
 \begin{equation*}
 Y(x) = \sum^M_{m = 1} c_{m}I(x \in R_m) \, \, \, \forall x \in D
@@ -781,6 +781,10 @@ G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
 
 Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba pensado para dos clases, a una se le asocia el valor -1 y a la otra el valor +1. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, G(x) = - 1; en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, G(x) = 1. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
 
+\bigskip \bigskip \bigskip \bigskip \bigskip
+
+\textbf{\underline{Consideraciones finales AdaBoost:}}
+
 Por último, comentar que este algoritmo es conocido como 'Discrete AdaBoost'. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso (\textit{Friedman et al.}) el algoritmo 'Real Adaboost', que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos. Esta problemática tiene fácil solución en ambos casos.
 
 En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase k se calcula:
@@ -792,9 +796,127 @@ En el caso de tener más de dos grupos, la única modificación a realizar se en
 y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
 %Esto se puede desarrollar mucho mejor y más formal comentando lo de los J pares del artículo de Friedman et al.
 
-En el caso de un problema de regresión, habrá que modificar alguna cosa más. %¿Cómo calculamos el error cometido ahora? ¿Y los \alpha_m? La respuesta es la media ponderada(por los \alpha_m supongo) de los árboles.
+En el caso de un problema de regresión, habrá que modificar alguna cosa más. Resumiendo,  habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente, y, no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una "función de pérdida"$\,$ o, en inglés, "Loss Function" (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre 0 y 1, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y será de la forma:
+\begin{equation*}
+L_i^{(m)} = L \left[ |y^{(m)}(x_i) - y_i| \right] \, \, \, \, \forall i \in \{ 1, \dots, n \}
+\end{equation*}
 
-%Ahora el error cometido se mide a través de una Loss Function (VER EN DUCKER).
+\noindent
+donde $y^{(m)}(x_i)$ hace referencia al valor devuelto por el m-ésimo árbol al introducir los valores del individuo i-ésimo e $y_i$ es el valor de la variable dependiente observada del individuo i-ésimo.
+
+De esta manera, se definen diferentes candidatas a loss function. Destacan:
+\begin{equation*}
+\begin{array}{cr|cr}
+L_i^{(m)} = \frac{|y^{(m)}(x_i) - y_i|}{D} & (lineal) & L_i^{(m)} = \frac{|y^{(m)}(x_i) - y_i|^2}{D^2} & (cuadrada) 
+\end{array}
+\end{equation*}
+\begin{equation*}
+L_i^{(m)} = 1 - \exp \left[ \frac{-|y^{(m)}(x_i) - y_i|}{D} \right] \, \, \, (exponencial)
+\end{equation*}
+
+Una vez elegida la función a emplear, se calcula el error ponderado del tocón realizando la media de las $L_i^{(m)}$'s:
+\begin{equation*}
+L^{(m)} = \frac{1}{n}\sum_{i=1}^n L_i^{(m)}
+\end{equation*}
+
+De esta manera, ya podemos definir el $\alpha_m$ en el caso de regresión de manera análoga a lo explicado anteriormente:
+\begin{equation*}
+\alpha_m = \log \left( \frac{1 - L^{(m)}}{L^{(m)}} \right)
+\end{equation*}
+
+Así, una vez solucionado el problema de cómo medir el error, el resto del procedimiento es análogo al de clasificación y la respuesta final del algoritmo será:
+\begin{equation*}
+G(x) = \sum_{m=1}^M \alpha_m G_m(x)
+\end{equation*}
+
+
+
+
+
+\subsubsection{Gradient Boosting}
+
+Otro algoritmo de boosting es Gradient Boosting. Su funcionamiento sigue la misma idea que todos los métodos de esta rama: reducir el error de predicción paso a paso. Mientras AdaBoost actualiza los errores para tenerlos en cuenta en la construcción de nuevos árboles, Gradient Boosting genera árboles de decisión que minimizan el valor de una función basada en los residuos. La predicción final se irá construyendo paso a paso. Se partirá de una predicción inicial que se irá actualizando conforme se vayan generando nuevos árboles de decisión.
+
+Con el fin de explicarlo todo correctamente, dividiremos este apartado en dos: Gradient Boosting para regresión y Gradient Boosting para clasificación.
+
+\bigskip \bigskip \bigskip
+
+\textbf{\underline{Regresión}}
+
+\bigskip
+
+El algoritmo para el caso de regresión es el siguiente:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.6\textwidth]{GB_01}
+\caption{The Elements of Statistical Learning}
+\label{fig:GB_01}
+\end{figure}
+
+Pese a que pueda parecer algo complejo, no es difícil de comprender y aún menos difícil es su puesta en práctica. Veámoslo paso a paso.
+
+En primer lugar, para iniciar el algoritmo debemos tener una matriz de datos $X$ y un vector $y$ (matriz de variables independientes y vector de la variable dependiente a predecir) y, al igual que en las notas finales de AdaBoost, establecer una Loss Function $L(y_i, f(x_i))$, donde $y_i$ es el elemento i-ésimo de $y$ y $f(x_i)$ es la predicción de la fila i-ésima de $X$. Ya hemos visto que existen diferentes funciones que pueden ser candidatas a Loss Function, por ello el algoritmo viene definido para una $L(y_i, f(x_i))$ cualquiera. No obstante, en Gradient Boosting se suele hacer uso de:
+\begin{equation*}
+L(y_i, f(x_i)) = \frac{1}{2}(y_i - f(x_i))^2
+\end{equation*}
+
+La elección de esta Loss Function se debe a que va a ser necesario derivarla con el fin de obtener el valor óptimo de respuesta de cada nodo hoja. Así, al derivarla respecto de $f(x)$:
+\begin{equation*}
+\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} = -(y_i -f(x_i))
+\end{equation*}
+
+Es decir, la expresión resultante no es más que el residuo de la predicción.
+
+Visto esto, veamos cómo funciona el algoritmo con la Loss Function especificada. Como podemos observar en \ref{fig:GB_01}, el primer paso consiste en determinar un valor fijo que representará la "primera predicción"; es decir, aquella que luego modificaremos en función de los residuos:
+\begin{equation*}
+f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma)
+\end{equation*}
+
+\noindent
+sustituyendo por la función que hemos fijado:
+\begin{equation*}
+f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \frac{1}{2}\sum_{i=1}^N (y_i - \gamma)^2 
+\end{equation*}
+
+Ya vimos en \ref{sec:2.4} que el valor que minimizaba este valor es la media, por tanto:
+\begin{equation*}
+f_0(x) = \frac{1}{N} \sum_{i=1}^N y_i
+\end{equation*}
+
+En el paso 2, se construye un bucle. Cada iteración de este bucle genera un nuevo árbol que añadirá información a la última predicción realizada. Primero, se calcula el residuo de la última predicción de cada uno de los individuos(la (m-1)-ésima) mediante la derivada que ya hemos especificado anteriormente:
+\begin{equation*}
+r_{im} = - \left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f = f_{m-1}} = y_i -f_{m-1}(x_i)
+\end{equation*}
+
+\noindent
+Los dos apartados siguientes hacen referencia a los nodos hoja del nuevo árbol generado. Este árbol tendrá como objetivo realizar una predicción de los $r_{im}$ en función de los $x_i$. Es decir, lo que se estará prediciendo ahora serán los residuos. Así, se denota por $R_{jm}$ los diferentes nodos hoja del árbol j-ésimo y cada uno de ellos llevará asignado el valor de respuesta $\gamma_{jm}$. De nuevo, el $\gamma$ que minimizará dicha expresión será la media de los residuos de los individuos pertenecientes a $R_{jm}$. Para terminar con el bucle, se define cuál es la m-ésima actualización de la predicción:
+\begin{equation*}
+f_m(x) = f_{m-1}(x) + \sum_{j = 1}^{J_m}\gamma_{jm} I(x \in R_{jm})
+\end{equation*}
+
+\noindent
+es decir, se le añade el residuo predicho a la última predicción calculada.
+
+Por último, el algoritmo devuelve como respuesta la respuesta de $f_M(x)$.
+
+Antes de pasar al caso de clasificación, se hará especial hincapié en un par de observaciones. Por un lado, hemos observado que el algoritmo da una "predicción inicial" que se corresponde con la media de los $y_i's$ y, posteriormente, va modificando esta predicción paso a paso sumándole residuos predichos hasta acercarse al valor real. Para evitar el sobreajuste, se establece una tasa de aprendizaje que no aparece en el algoritmo descrito y que modifica la definición de las $f_m's$ de la siguiente manera:
+\begin{equation*}
+f_m(x) = f_{m-1}(x) + \nu \sum_{j = 1}^{J_m}\gamma_{jm} I(x \in R_{jm})
+\end{equation*}
+
+\noindent
+donde $\nu \in (0, 1)$ es esta tasa de aprendizaje comentada y hace que las modificaciones que se van realizando sean menores. Por ello, Gradient Boosting se suele aplicar con un $M$ grande, pues en la práctica se comprueba que es más fiable utilizar modelos que realicen muchos pasos de pequeñas modificaciones, pues tienden a sobreajustarse menos.
+
+Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo la hipótesis de que la Loss Function escogida es la más habitual en este caso. Evidentemente, el procedimiento es análogo para cualquier función, pero en ese caso valores como $f_0(x)$ o $\gamma_{jm}$ dejarán de ser medias y tendremos que calcular los valores que minimizan las nuevas expresiones. Además, puntualizar que en este caso no sería del todo correcto definir los $r_{im}$ como residuos, ya que la forma de estos puede ser, ahora, bien diferente (ya no tiene por qué ser "valor observado - valor predicho"). Es por eso que en Gradient Boosting se denomina a estos valores como "pseudo-residuos" (\textit{pseudo-residuals} en inglés).
+
+
+
+\bigskip \bigskip \bigskip
+
+\textbf{\underline{Clasificación: }}
+
+
 
 
 
