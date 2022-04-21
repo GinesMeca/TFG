@@ -849,7 +849,7 @@ El algoritmo para el caso de regresión es el siguiente:
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.6\textwidth]{GB_01}
+\includegraphics[width = 0.5\textwidth]{GB_01}
 \caption{The Elements of Statistical Learning}
 \label{fig:GB_01}
 \end{figure}
@@ -915,6 +915,73 @@ Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo 
 \bigskip \bigskip \bigskip
 
 \textbf{\underline{Clasificación: }}
+
+En el caso de querer utilizar Gradient Boosting para clasificación, el algoritmo será el mismo que para regresión (\ref{fig:GB_01}); no obstante, la Loss Function que emplearemos será diferente por lo que las expresiones que se obtendrán serán diferentes respecto a Gradient Boosting para regresión.
+
+El procedimiento descrito está pensado para clasificación binaria. Así, igual que en regresión la estimación que se da es la que corresponde a la variable de interés, en el caso de clasificación estamos interesados en estimar la probabilidad de pertenecer a cierta clase de manera que si la probabilidad es mayor que 0.5 se clasificará en la clase propuesta('1') y si la probabilidad es menor que 0.5 se clasificará en la clase opuesta('0'). No obstante, Gradient Boosting no aproxima esta probabilidad directamente, si no que aproxima el $log-odd-ratio$ y, posteriormente, obtiene la probabilidad deseada.
+
+Veamos en primer lugar cuál es la Loss Function escogida. Notemos que en el caso de clasificación binaria nuestro conjunto de datos se corresponderá con una muestra aleatoria simple de una población con distribución bernouilli. Es decir:
+\begin{equation*}
+f(y, p) = p^y(1-p)^{1-y}
+\end{equation*}
+
+\noindent
+y por tanto, la función de verosimilitud quedará:
+\begin{equation*}
+l(p) = l(p|y_1, y_2, \dots, y_n) = \prod_{i=1}^n f_p(y_i) = \prod_{i=1}^n p^{y_i}(1-p)^{1-y_i}
+\end{equation*}
+
+\noindent
+y su logaritmo:
+\begin{equation*}
+ln(l(p)) = ln \left( \prod_{i=1}^n f_p(y_i) \right) = ln \left( \prod_{i=1}^n p^{y_i}(1-p)^{1-y_i} \right) = \sum_{i=1}^n y_i ln(p) + (1-y_i)ln(1-p)
+\end{equation*}
+
+Ahora, notemos que cuando utilizamos esta función en el método de Máxima Verosimilitud, estamos interesados en maximizar su valor. Por el contrario, cuando trabajamos con una Loss Function, buscamos minimizarla, pues el modelo será más ajustado conforme menor sea el valor de esta función. Por tanto, si deseamos emplear el logaritmo de la función de verosimilitud como Loss Function, tendremos que multiplicarla por -1. También, como deseamos aplicar esta función individuo a individuo, podemos eliminar el sumatorio. Así, nuestra Loss Function queda:
+\begin{equation*}
+L(y_i, p) = -( y_i ln(p) + (1-y_i)ln(1-p))
+\end{equation*}
+
+No obstante, ésta es una función de $p$ y, como hemos avanzado antes, deseamos trabajar con $log-odd-ratio$. Entonces, transformamos esta expresión de manera que las $p$ pasen a ser $log-odd-ratio$:
+\begin{equation*}
+\begin{split}
+L(y_i, p) &= -(y_i ln(p) + (1-y_i)ln(1-p)) = -y_i ln(p) - ln(1-p) + y_i ln(1-p) = \\
+& = -y_i(ln(p) - ln(1-p)) - ln(1-p) = -y_i ln \left( \frac{p}{1-p} \right) - ln(1-p) = \\
+& = -y_i ln(odd-ratio) - ln(1-p)
+\end{split}
+\end{equation*}
+
+Además, se puede comprobar que $p = \frac{e^{ln(odd-ratio)}}{1 + e^{ln(odd-ratio)}}$ y así:
+\begin{equation*}
+ln(1-p) = ln \left( 1- \frac{e^{ln(odd-ratio)}}{1 + e^{ln(odd-ratio)}} \right) = ln \left( \frac{1}{1 + e^{ln(odd-ratio)}} \right) = - ln \left( 1 + e^{ln(odd-ratio)} \right)
+\end{equation*}
+
+Por tanto:
+\begin{equation*}
+L(y_i, p) = -y_i ln(odd-ratio) - ln(1-p) = -y_i ln(odd-ratio) + ln \left( 1 + e^{ln(odd-ratio)} \right)
+\end{equation*}
+
+\noindent
+y ya tenemos la Loss Function en función de $log-odd-ratio$:
+\begin{equation*}
+L(y_i, log-odd-ratio) = -y_i ln(odd-ratio) + ln \left( 1 + e^{ln(odd-ratio)} \right)
+\end{equation*}
+
+Así pues, una vez establecida la Loss Function, podemos abordar el primer paso del algoritmo. Veamos cuál es ahora el valor de la predicción inicial. Recordemos que $f_0(x)$ viene dado por:
+\begin{equation*}
+f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right)
+\end{equation*}
+
+\noindent
+por tanto debemos derivar la expresión y ver dónde alcanza el mínimo:
+\begin{equation*}
+\begin{split}
+& \frac{\partial}{\partial \gamma}\sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right) = \sum_{i=1}^N \left( -y_i + \frac{1}{1 + e^{\gamma}} e^{\gamma} \right) = \sum_{i=1}^N (-y_i + p) = 0 \, \, \Leftrightarrow  \\
+& \Leftrightarrow \, \, p = \frac{\sum_{i=1}^{N} y_i}{N} \, \, \Rightarrow  \, \, f_0(x) = \frac{\sum_{i=1}^{N} y_i}{N}
+\end{split}
+\end{equation*}
+
+Podemos observar, dado que $y_i \in \{0, 1 \} \, \forall i \in \{1, \dots, n \}$, que $f_0(x)$ es la proporción de individuos del conjunto de entrenamiento que pertenecen a la clase '1'.
 
 
 
