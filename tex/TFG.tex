@@ -375,7 +375,7 @@ El desarrollo de Bagging llevó a Breiman a definir un nuevo algoritmo 5 años m
 De esta manera, cada árbol presentará diferentes variables explicativas; lo que se traduce en árboles con variables significativas totalmente distintas, pues aquellas que lo son para un árbol puede ser que no se encuentren en el siguiente.
 
 
-\subsubsection{Extra-Trees}
+\subsubsection{Extra-Trees} \label{sec:ExtraTrees}
 El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, a la hora de realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las p variables, se probará con m valores generados aleatoriamente correspondientes a las m variables explicativas.
 
 
@@ -833,7 +833,7 @@ G(x) = \sum_{m=1}^M \alpha_m G_m(x)
 
 
 
-\subsubsection{Gradient Boosting}
+\subsubsection{Gradient Boosting} \label{sec:GB}
 
 Otro algoritmo de boosting es Gradient Boosting. Su funcionamiento sigue la misma idea que todos los métodos de esta rama: reducir el error de predicción paso a paso. Mientras AdaBoost actualiza los errores para tenerlos en cuenta en la construcción de nuevos árboles, Gradient Boosting genera árboles de decisión que minimizan el valor de una función basada en los residuos. La predicción final se irá construyendo paso a paso. Se partirá de una predicción inicial que se irá actualizando conforme se vayan generando nuevos árboles de decisión.
 
@@ -1072,7 +1072,7 @@ Una vez explicado el funcionamiento de todo el algoritmo, cabe recordar que en e
 p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 \end{equation*}
 
-Por último, faltaría abordar el caso de contar con diferentes clases. Para ello, cabe citar que el algoritmo de Gradient Boosting fue diseñado para tratar problemas de regresión. No obstante, tal y como hemos visto, escogiendo la Loss Function adecuada, podemos abordar problemas de clasificación binaria. Ahora bien, en ocasiones la clasificación no tiene por qué ser binaria, sino que podemos contar con diferentes clases. Una posible solución a este problema sería crear tantas variables como clases tenemos, de manera que si el individuo pertenece a cierta clase su valor será de 1 para la variable correspondiente y de 0 para el resto. Es decir:
+Por último, faltaría abordar el caso de contar con diferentes clases. Para ello, cabe citar que el algoritmo de Gradient Boosting fue diseñado para tratar problemas de regresión. No obstante, tal y como hemos visto, escogiendo la Loss Function adecuada, podemos abordar problemas de clasificación binaria. Ahora bien, en ocasiones la clasificación no tiene por qué ser binaria, sino que podemos contar con diferentes clases. Una posible solución a este problema sería aplicar la codificación \textit{one-hot-encoding}. Esta codificación consiste en crear tantas variables como clases tenemos, de manera que si el individuo pertenece a cierta clase su valor será de 1 para la variable correspondiente y de 0 para el resto. Es decir:
 \begin{center}
 \begin{tabular}{|l|l|}
 \hline
@@ -1099,7 +1099,7 @@ De esta manera, se aplica el algoritmo tantas veces como clases se tengan para p
 
 
 
-\subsubsection{XGBoost}
+\subsubsection{XGBoost} \label{sec:XGBoost}
 XGBoost(\textit{'eXtreme Gradient Boosting'}) es un algoritmo basado completamente en el anterior con una serie de mejoras que lo convierten en una herramienta muy potente. Fue publicado en 2014 y su repercusión fue inmediata. Actualmente, es uno de los modelos imprescindibles de dominar y su continuada aparición entre los finalistas de concursos de Machine Learning dan fe de su importancia y utilidad.
 
 Como ya avanzábamos, XGBoost utiliza la misma idea de Gradient Boosting: generar árboles de decisión que realicen predicciones secuenciales de los residuos. No obstante, presenta una serie de modificaciones entre las que destacan la manera de construir los árboles y la inclusión de parámetros de regularización. Estos parámetros son ciertos valores que se incluyen al modelo para tratar de evitar el sobreajuste. Además, XGBoost fue diseñado para trabajar con conjuntos de datos muy grandes, por lo que estos parámetros de regularización nos ayudarán, sobretodo, en caso de que el conjunto de datos no sea lo suficientemente grande.
@@ -1156,7 +1156,7 @@ A continuación se genera un árbol de decisión que clasifique los residuos. La
 \noindent
 donde $\gamma$ y $\lambda$ son parámetros de regularización. Así, la función a minimizar es el sumatorio de las Loss Function (al igual que en Gradient Boosting) junto con una serie de parámetros de regularización.
 
-Para minimizar esta función se recurre al desarrollo de Taylor de segundo orden de $L(y_i, f{^(m-1)}(x_i) + f_m(x_i))$ de manera que:
+Para minimizar esta función se recurre al desarrollo de Taylor de segundo orden de $L(y_i, f{^{(m-1)}}(x_i) + f_m(x_i))$ de manera que:
 \begin{equation*}
 \mathcal{L}^{(m)} \approx \sum_{i=1}^n \left( L(y_i, f^{(m-1)}(x_i)) + g_m(x_i)f_m(x_i) + h_m(x_i)f_m(x_i)^2 \right)  + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T \omega_j^2
 \end{equation*}
@@ -1253,6 +1253,95 @@ p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 
 \noindent
 para obtener la probabilidad deseada y clasificar.
+
+
+
+\bigskip \bigskip \bigskip
+
+\textbf{\underline{Otras optimizaciones}}
+
+Además de la particular forma que tiene XGBoost de construir los árboles, también incluye otra serie de mecanismos que hacen de él una herramienta muy potente. A continuación, trataremos de explicar, sin entrar en muchos detalles, cuáles son estos métodos que aplica.
+
+Por un lado, como ya se ha comentado, XGBoost se ideó para conjuntos de datos muy grandes. Por ello, a la hora de realizar las escisiones de los árboles, es imposible probar con todos los valores posibles de todas las variables para determinar cuáles maximizan la función $\mathcal{L}_{split}$. Así, una manera eficaz de llevar a cabo esta tarea es probar solo con los percentiles de cada variable. Por ejemplo, si tomamos los percentiles $P_{25}$, $P_{50}$ y $P_{75}$, solo tendremos que probar con 3 valores por variable y escoger el óptimo. Además, cabe citar que, en la práctica, se suelen usar alrededor de 33 percentiles. Además, estos percentiles están ponderados. Esto quiere decir que no todos los intervalos recogen el mismo número de individuos, sino que la suma de los pesos de los individuos es igual en todos los intervalos. El peso de cada individuo en la iteración m-ésima viene dado por $h_m(x_i)$ que, como ya hemos visto:
+\begin{equation*}
+h_m(x_i) = 1 \, \, \, \, \vee \, \, \, \, h_m(x_i) = p_{i, m-1}(1 - p_{i, m-1})
+\end{equation*}
+
+\noindent
+según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan como siempre y en el caso de clasificación se tendrán en cuenta los pesos. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que podemos reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
+\begin{equation*}
+\sum_{i = 1}^n \frac{1}{2} h_m(x_i) \left( f_m(x_i) - \frac{g_m(x_i)}{h_m(x_i)} \right)^2 + \Omega(f_m) + constant
+\end{equation*}
+
+\noindent
+con $\Omega(f_m)$ los términos de regularización, de manera que se puede interpretar considerando $h_m(x_i)$ el peso del individuo y el otro factor como una función de pérdida.
+
+Por otro lado, XGBoost es capaz de trabajar con conjuntos de datos con datos vacíos sin necesidad de depurarlos previamente. Cuando se construyen los árboles para predecir los residuos, a la hora de separar un nodo, si se tienen variables con datos vacíos, para cada uno de los valores que se le otorguen a la variable para analizar el valor de \textit{'Gain'} se contemplarán dos casos: que los residuos de aquellos datos vacíos se encuentren en el nodo hijo izquierdo y que se encuentren en el derecho. De esta manera, el algoritmo tendrá en cuenta más particiones pero seguirá escogiendo aquella que maximice la ganancia y, por tanto, se podrán predecir resultados sin necesidad de conocer el valor de todas las variables explicativas.
+
+Por último, también se tienen en cuenta ciertas mejoras de ámbito informático. Con la intención de optimizar el tiempo de computación, XGBoost recurre a diferentes técnicas: 
+\begin{itemize}
+\item \textbf{Paraleliza el conjunto de datos} enviando fragmentos del mismo a diferentes terminales.
+
+\item \textbf{Calcula $g_m(x_i)$ y $h_m(x_i)$ haciendo uso de la memoria RAM} para realizar las operaciones necesarias en el menor tiempo posible.
+
+\item \textbf{Realiza una compresión del conjunto de datos} ya que es más eficiente comprimirlos y descomprimirlos que leerlos directamente del disco duro. Además, en caso de disponer de más de un disco duro, separa el conjunto entre ambos por tal de ganar velocidad.
+\end{itemize}
+
+
+
+\subsubsection{LightGBM}
+
+LightGBM (del inglés: \textit{Light Gradient Boosting Machine}) es un modelo desarrollado por Microsoft que fue publicado en 2017. Su funcionamiento es similar al de XGBoost pero añadiendo una serie de matices que consiguen que el algoritmo sea muy potente y eficiente.
+
+La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{'Gain'}. Por el contrario, se podría decir que LightGBM no trabaja por capas. A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, nos encontraremos con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5\textwidth]{LGBM_01}
+\caption{Construcción de árboles en LightGBM vs XGBoost (Imagen: Medium)}
+\end{figure}
+
+Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor.
+
+
+
+\subsubsection{CatBoost}
+
+CatBoost es un modelo desarrollado por Yandex también publicado en 2017. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas de clasificación no binaria (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
+
+Como ya vimos en el apartado de clasificación de Gradient Boosting (\ref{sec:GB}), una solución ante problemas de clasificación en más de dos clases es la codificación \textit{one-hot-encoding}:
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Individuo & Clase \\ \hline
+1         & A     \\ \hline
+2         & B     \\ \hline
+3         & A     \\ \hline
+4         & C     \\ \hline
+\end{tabular}
+$\, \, \Rightarrow \, \,$
+\begin{tabular}{|l|l|l|l|}
+\hline
+Individuo & ClaseA & ClaseB & ClaseC \\ \hline
+1         & 1 & 0 & 0     \\ \hline
+2         & 0 & 1 & 0     \\ \hline
+3         & 1 & 0 & 0     \\ \hline
+4         & 0 & 0 & 1     \\ \hline
+\end{tabular}
+\end{center}
+
+Así, si quisiésemos utilizar XGBoost para un problema equivalente, dado que el modelo sólo es apto para problemas de regresión o de clasificación binaria, la manera de proceder tendría que ser equivalente a ésta.
+
+Por tanto, la principal innovación de CatBoost es que consigue codificar las variables categóricas sin necesidad de recurrir al método de \textit{one-hot-encoding}. De esta manera, reduce el número de variables y, con ello, reduce carga computacional. Además, comentar que esta modificación no es aplicada únicamente a la variable que estamos interesados en predecir. En otros modelos, cuando una variable explicativa tiene diferentes clases posibles, se deben preprocesar los datos recurriendo a la codificación \textit{one-hot-encoding}. Por ejemplo, en este trabajo ha sido realizar lo explicado para variables como 'WindGustdir' o 'WindDir9am' (\ref{sec: subsec11}).
+
+La codificación realizada por CatBoost es la siguiente
+
+
+
+
+
+
+
 
 
 
