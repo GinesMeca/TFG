@@ -1067,33 +1067,10 @@ Para finalizar con los cálculos, recordemos que hemos decidido omitir los sumat
 
 A partir de aquí el procedimiento es equivalente al visto en el caso de Gradient Boosting para regresión: se actualiza el valor de la predicción (m-1)-ésima a partir de los $\gamma_{jm}$ tal y como se puede ver en el algoritmo (\ref{fig:GB_01}) y la predicción final será la predicción M-ésima, es decir, la de la última iteración del bucle. Además, en el caso de clasificación también se incorporará una tasa de aprendizaje a la hora de calcular los $f_m$'s.
 
-Una vez explicado el funcionamiento de todo el algoritmo, cabe recordar que en este caso estamos realizando predicciones de $log-odd-ratio$; por tanto, para obtener la probabilidad deseada y clasificar en una clase o en la otra, habrá que llevar a cabo la transformación:
+Por último, cabe recordar que en este caso estamos realizando predicciones de $log-odd-ratio$; por tanto, para obtener la probabilidad deseada y clasificar en una clase o en la otra, habrá que llevar a cabo la transformación:
 \begin{equation*}
 p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 \end{equation*}
-
-Por último, faltaría abordar el caso de contar con diferentes clases. Para ello, cabe citar que el algoritmo de Gradient Boosting fue diseñado para tratar problemas de regresión. No obstante, tal y como hemos visto, escogiendo la Loss Function adecuada, podemos abordar problemas de clasificación binaria. Ahora bien, en ocasiones la clasificación no tiene por qué ser binaria, sino que podemos contar con diferentes clases. Una posible solución a este problema sería aplicar la codificación \textit{one-hot-encoding}. Esta codificación consiste en crear tantas variables como clases tenemos, de manera que si el individuo pertenece a cierta clase su valor será de 1 para la variable correspondiente y de 0 para el resto. Es decir:
-\begin{center}
-\begin{tabular}{|l|l|}
-\hline
-Individuo & Clase \\ \hline
-1         & A     \\ \hline
-2         & B     \\ \hline
-3         & A     \\ \hline
-4         & C     \\ \hline
-\end{tabular}
-$\, \, \Rightarrow \, \,$
-\begin{tabular}{|l|l|l|l|}
-\hline
-Individuo & ClaseA & ClaseB & ClaseC \\ \hline
-1         & 1 & 0 & 0     \\ \hline
-2         & 0 & 1 & 0     \\ \hline
-3         & 1 & 0 & 0     \\ \hline
-4         & 0 & 0 & 1     \\ \hline
-\end{tabular}
-\end{center}
-
-De esta manera, se aplica el algoritmo tantas veces como clases se tengan para predecir el valor de las nuevas variables generadas. Así, se consigue obtener la probabilidad de pertenecer a cada una de las clases y clasificar en la clase de mayor probabilidad.
 
 
 
@@ -1309,7 +1286,20 @@ Además de esta particularidad de LightGBM, también se aplican diferentes modif
 
 CatBoost es un modelo desarrollado por Yandex también publicado en 2017. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas de clasificación no binaria (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
 
-Como ya vimos en el apartado de clasificación de Gradient Boosting (\ref{sec:GB}), una solución ante problemas de clasificación en más de dos clases es la codificación \textit{one-hot-encoding}:
+Los algoritmos de Gradient Boosting y XGBoost son muy útiles para resolver problemas de regresión o de clasificación binaria. No obstante, en ocasiones el problema consiste en clasificar en más de dos clases (clasificación no binaria) y éstos algoritmos no presentan una solución fácil ante ello. Del mismo modo, cuando las variables vienen codificadas en dos clases diferentes, basta con asociar a una clase el 0 y a la otra clase el 1. Sin embargo, de nuevo es complicado saber cómo proceder cuando vienen codificadas en más de dos clases.
+
+Una solución ante variables categóricas no binarias es la codificación \textit{one-hot-encoding}. Si se cuenta con $m$ clases diferentes $A_1, A_2, \dots, A_m$, se trata de crear $m$ nuevas variables $V_1, V_2, \dots, V_m$ de manera que:
+\begin{equation*}
+V_j(x) = 
+\left\{
+\begin{array}{ccc}
+1 & si & x \in A_j \\
+0 & si & x \not\in A_j
+\end{array}
+\right.
+\end{equation*}
+
+Por ejemplo:
 \begin{center}
 \begin{tabular}{|l|l|}
 \hline
@@ -1330,11 +1320,11 @@ Individuo & ClaseA & ClaseB & ClaseC \\ \hline
 \end{tabular}
 \end{center}
 
-Así, si quisiésemos utilizar XGBoost para un problema equivalente, dado que el modelo sólo es apto para problemas de regresión o de clasificación binaria, la manera de proceder tendría que ser equivalente a ésta.
+De esta manera, cuando en el conjunto de datos se posee una variable categórica no binaria, la solución consiste en codificarla de la manera propuesta. Por otro lado, cuando el problema consiste en llevar a cabo una clasificación no binaria, se puede aplicar tanto Gradient Boosting como XGBoost a cada una de las nuevas variables generadas por la codificación \textit{one-hot-encoding} y escoger la clase de mayor probabilidad de clasificación. No obstante, pese a ser éste un método que soluciona el problema propuesto, no resulta del todo eficiente debido a que la presencia de muchas variables de esta índole aumenta de manera significativa el número de columnas del conjunto de datos y debido al coste que supone ejecutar estos algoritmos tantas veces. Por ejemplo, en este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la codificación explicada en variables como 'WindGustdir' o 'WindDir9am' (\ref{sec: subsec11}).
 
-Por tanto, la principal innovación de CatBoost es que consigue codificar las variables categóricas sin necesidad de recurrir al método de \textit{one-hot-encoding}. De esta manera, reduce el número de variables y, con ello, reduce carga computacional. Además, comentar que esta modificación no es aplicada únicamente a la variable que estamos interesados en predecir. En otros modelos, cuando una variable explicativa tiene diferentes clases posibles, se deben preprocesar los datos recurriendo a la codificación \textit{one-hot-encoding}. Por ejemplo, en este trabajo ha sido realizar lo explicado para variables como 'WindGustdir' o 'WindDir9am' (\ref{sec: subsec11}).
+Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir al método de \textit{one-hot-encoding}. Así, se ahorra tanto en memoria como en tiempo de computación.
 
-La codificación realizada por CatBoost es la siguiente
+La codificación realizada por CatBoost para las variables explicativas es la siguiente:
 
 
 
