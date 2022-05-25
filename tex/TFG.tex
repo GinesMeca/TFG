@@ -325,11 +325,15 @@ En el caso de árboles de clasificación, la tarea se simplifica: basta con calc
 \caption{Resultados árboles de clasificación para RainTomorrow}
 \end{figure}
 
-\textit{En la tabla se ven reflejados los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
+\textit{En la tabla se ven reflejados el tiempo de ejecución de cada modelo, los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
 
-\textit{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento aumentando, conforme aumenta la profundidad, la desviación entre los conjuntos. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
+\textit{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento, aumentando la desviación entre los conjuntos conforme aumenta la profundidad máxima permitida. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
 
-\textit{El valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
+\textit{Intuitivamente, el valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
+
+\textit{Por último, notemos que el tiempo empleado en la generación de los árboles presentados es mínimo. Los modelos escogidos ($DT_3$ y $DT_5$) apenas tardan medio segundo en construirse.}
+
+
 
 
 
@@ -338,8 +342,9 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 
 \textbf{\underline{Ventajas:}}
 \begin{itemize}
-\item Se pueden emplear en problemas de regresión y de clasificación.
-\item Es un método muy intuitivo de fácil comprensión.
+\item Válidos para problemas de regresión y de clasificación.
+\item Modelo de bajo costo computacional, tarda poco tiempo en construirse.
+\item Método muy intuitivo de fácil comprensión.
 \item La manera de proceder del modelo se asemeja a cómo lo hace la mente humana: se van estableciendo condiciones que restringen, paso a paso, el conjunto total de datos hasta llegar a la solución.
 \item Se puede obtener una representación gráfica de los diferentes modelos, lo cual facilita su comprensión a nivel visual.
 \end{itemize}
@@ -399,7 +404,7 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 %QUEDA PENDIENTE ENUNCIAR EL TEOREMA EXACTO (¿Y DEMOSTRARLO?).
 
 \subsubsection{Ejemplo}
-\textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la subsección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
+\textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la sección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
 
 \textit{Al igual que en el ejemplo de CART, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
 
@@ -416,11 +421,14 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 
 \textit{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
 
+
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.9\textwidth]{ex3_1_02}
 \caption{Convergencia coeficientes Gini}
 \end{figure}
+
+\textit{Por último, notemos que algoritmos de bagging son más costosos que CART en cuanto al tiempo empleado para su construcción. Además, podemos observar una clara relación entre los diferentes modelos y el tiempo que requieren. A la hora de construir los árboles de decisión, Bagging tiene en cuenta todas las variables, Random Forest solo considera algunas de ellas y Extra-Trees, además de no usar todas las variables, evalúa las posibles escisiones de nodos en base a valores aleatorios. Estas características se ven claramente reflejadas en los tiempos de ejecución, pues los tiempos de ejecución más altos corresponden a Bagging y los más bajos se le atribuyen a Extra-Trees.}
 
 
 \subsubsection{Ventajas y desventajas}
@@ -428,13 +436,13 @@ Al igual que se ha hecho con CART, a continuación se realizará un análisis de
 
 \textbf{\underline{Ventajas:}}
 \begin{itemize}
-\item Los algoritmos de bagging son capaces de disminuir la varianza; lo que implica que las predicciones realizadas serán (casi) igual de fiables que las del conjunto de entrenamiento.
-\item Los algoritmos de bagging son más precisos que otros algoritmos más simples (como CART).
+\item  Algoritmos capaces de disminuir la varianza; lo que implica que las predicciones realizadas serán (casi) igual de fiables que las del conjunto de entrenamiento.
+\item Aumento de precisión respecto a otros algoritmos más simples (como CART).
 \end{itemize}
 
 \textbf{\underline{Desventajas:}}
 \begin{itemize}
-\item Se pierde la fácil visualización y el entendimiento de CART.
+\item Se pierde la fácil visualización y comprensión de CART.
 \end{itemize}
 
 
