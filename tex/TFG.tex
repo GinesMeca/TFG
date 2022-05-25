@@ -1330,6 +1330,43 @@ La codificación realizada por CatBoost para las variables explicativas es la si
 
 
 
+\subsubsection{Ejemplo}
+
+\textit{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos 'Rain in Australia'. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el 'overfitting'. En este caso, no será necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, en algunos casos sí se incluirá este parámetro para acelerar el proceso, dado que el tiempo de ejecución aumenta exponencialmente conforme se aumenta el número de nodos hoja permitidos de cada árbol.}
+
+\textit{Al igual que en los ejemplos anteriores, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
+
+\textit{Así, los resultados de los diferentes algoritmos son:}
+
+
+
+
+
+
+
+\subsubsection{Ventajas y desventajas}
+
+Tras la debida explicación del funcionamiento de los algoritmos de boosting, cabe realizar una lista de aquellas propiedades que los hacen preferibles respecto a otros algoritmos y aquellas que resultan desfavorables.
+
+\textbf{\underline{Ventajas:}}
+\begin{itemize}
+\item Herramientas muy potentes que ofrecen muy buenos resultados gracias a su corrección secuencial del error.
+
+\item No se sobreajustan ante grandes cantidades de datos gracias a que incluye parámetros de regularización.
+\end{itemize}
+
+\textbf{\underline{Desventajas:}}
+\begin{itemize}
+\item Modelos de complejidad muy elevada (comprensión más costosa que en CART o algoritmos de bagging)
+
+\item Sólo apto para grandes conjuntos de datos, pues la gran potencia de los algoritmos conlleva sobreajustes cuando la cantidad de datos no es suficientemente elevada.
+
+\item Dada la complejidad de los modelos, el coste computacional de su ejecución es mucho mayor que en CART o bagging.
+\end{itemize}
+
+
+
+
 
 
 
