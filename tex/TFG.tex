@@ -312,7 +312,7 @@ En conclusión, el valor asignado a cada nodo hoja será la media de las observa
 En el caso de árboles de clasificación, la tarea se simplifica: basta con calcular la proporción de individuos de cada clase en cada región y, así, el valor asignado a cada subconjunto del espacio será la clase a la que le corresponde la mayor proporción en el mismo.
 
 
-\subsection{Ejemplo}
+\subsection{Ejemplo} \label{ex:CART}
 \textit{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para así construir el árbol más fiable.}
 
 \textit{Además, con tal de analizar los resultados, utilizaremos el AUC; es decir, el área bajo la curva ROC('Area Under the Curve'), creada en base a la sensibilidad(tasa de  verdaderos positivos) y especifidad(tasa de verdaderos negativos) de las predicciones. Así, operando el AUC de la forma $2 \times AUC - 1$ obtenemos el coeficiente Gini(no confundir con el índice Gini de escisión de nodos). Cuanto más alto sea el valor de este coeficiente, mejor será nuestro clasificador.}
@@ -403,7 +403,7 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 
 %QUEDA PENDIENTE ENUNCIAR EL TEOREMA EXACTO (¿Y DEMOSTRARLO?).
 
-\subsubsection{Ejemplo}
+\subsubsection{Ejemplo} \label{ex:Bag}
 \textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la sección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
 
 \textit{Al igual que en el ejemplo de CART, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
@@ -1338,7 +1338,7 @@ La codificación realizada por CatBoost para las variables explicativas es la si
 
 
 
-\subsubsection{Ejemplo}
+\subsubsection{Ejemplo} \label{ex:Boost}
 
 \textit{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos 'Rain in Australia'. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el 'overfitting'. En este caso, no será necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, en algunos casos sí se incluirá este parámetro para acelerar el proceso, dado que el tiempo de ejecución aumenta exponencialmente conforme se aumenta el número de nodos hoja permitidos de cada árbol.}
 
@@ -1373,6 +1373,24 @@ Tras la debida explicación del funcionamiento de los algoritmos de boosting, ca
 \end{itemize}
 
 
+
+
+
+
+
+
+
+
+\newpage
+\section{Conclusión}
+Para finalizar, a lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. A continuación, haremos un breve repaso de los mismos apoyándonos en los datos obtenidos en los diferentes ejemplos.
+
+Para poder realizar una última comparación de los diferentes modelos presentados, debemos establecer un criterio de selección. En nuestro caso, el criterio será el siguiente: para cada algoritmo, escogeremos el modelo que maximice el valor del índice Gini para el conjunto de testeo y, a su vez, no supere el $5\%$ para el valor de $delta\%$. De esta manera, los algoritmos seleccionados serán los siguientes:
+\begin{description}
+\item[CART (\ref{ex:CART}):] $DT\_5$
+\item[Bagging (\ref{ex:Bag}):]$Bag\_100$, $RF\_100$ y $ET\_100$
+\item[Boosting (\ref{ex:Boost}):]
+\end{description}
 
 
 
