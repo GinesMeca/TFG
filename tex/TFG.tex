@@ -1292,11 +1292,11 @@ Además de esta particularidad de LightGBM, también se aplican diferentes modif
 
 \subsubsection{CatBoost}
 
-CatBoost es un modelo desarrollado por Yandex también publicado en 2017. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas de clasificación no binaria (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
+CatBoost es un modelo desarrollado por Yandex también publicado en 2017. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas que cuentan con un gran número de variables explicativas categóricas (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
 
-Los algoritmos de Gradient Boosting y XGBoost son muy útiles para resolver problemas de regresión o de clasificación binaria. No obstante, en ocasiones el problema consiste en clasificar en más de dos clases (clasificación no binaria) y éstos algoritmos no presentan una solución fácil ante ello. Del mismo modo, cuando las variables vienen codificadas en dos clases diferentes, basta con asociar a una clase el 0 y a la otra clase el 1. Sin embargo, de nuevo es complicado saber cómo proceder cuando vienen codificadas en más de dos clases.
+A la hora de trabajar con modelos de Machine Learning, dado que los ordenadores no son capaces de entender cadenas de texto, es necesario codificar las variables categóricas del conjunto de datos con el que se trabaja. La codificación de una variable categórica binaria es sencilla, pues basta con asignar a una clase el valor $0$ y a la otra clase el valor $1$. No obstante, cuando la variable categórica posee más de dos clases, la manera de proceder no resulta tan simple e intuitiva.
 
-Una solución ante variables categóricas no binarias es la codificación \textit{one-hot-encoding}. Si se cuenta con $m$ clases diferentes $A_1, A_2, \dots, A_m$, se trata de crear $m$ nuevas variables $V_1, V_2, \dots, V_m$ de manera que:
+Una solución a este problema es la codificación \textit{one-hot-encoding}. Si se cuenta con $m$ clases diferentes $A_1, A_2, \dots, A_m$, se trata de crear $m$ nuevas variables $V_1, V_2, \dots, V_m$ de manera que:
 \begin{equation*}
 V_j(x) = 
 \left\{
@@ -1328,11 +1328,66 @@ Individuo & ClaseA & ClaseB & ClaseC \\ \hline
 \end{tabular}
 \end{center}
 
-De esta manera, cuando en el conjunto de datos se posee una variable categórica no binaria, la solución consiste en codificarla de la manera propuesta. Por otro lado, cuando el problema consiste en llevar a cabo una clasificación no binaria, se puede aplicar tanto Gradient Boosting como XGBoost a cada una de las nuevas variables generadas por la codificación \textit{one-hot-encoding} y escoger la clase de mayor probabilidad de clasificación. No obstante, pese a ser éste un método que soluciona el problema propuesto, no resulta del todo eficiente debido a que la presencia de muchas variables de esta índole aumenta de manera significativa el número de columnas del conjunto de datos y debido al coste que supone ejecutar estos algoritmos tantas veces. Por ejemplo, en este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la codificación explicada en variables como 'WindGustdir' o 'WindDir9am' (\ref{sec: subsec11}).
+De esta manera, el problema quedaría resuelto. Cada nueva variable $V_j$ hará referencia a la propiedad de "pertenecer a la clase $A_j$" y de esta manera ya tenemos codificado el conjunto de datos correctamente para su uso. En este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la técnica utilizado para codificar variables como $'Location'$.
 
-Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir al método de \textit{one-hot-encoding}. Así, se ahorra tanto en memoria como en tiempo de computación.
+No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables de esta índole implica un aumento significativo del número de variables a considerar en nuestro conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional.
 
-La codificación realizada por CatBoost para las variables explicativas es la siguiente:
+Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir a la codificación \textit{one-hot-encoding}. Así, se consigue una ahorro de recursos que permite obtener resultados similares en un menor tiempo de ejecución.
+
+En el caso de clasificación, la codificación realizada por CatBoost se basa en codificar cada clase en función de la frecuencia de la variable dependiente. Veámoslo a través de un ejemplo; sea el conjunto de datos:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.7 \textwidth]{CatBoost_01}
+\end{figure}
+
+\noindent
+donde $'Country'$ es la variable explicativa que deseamos codificar y $'Target'$ la variable binaria a predecir. Entonces, una primera idea sería codificar $'Spain'$ teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, $'Spain'$ se codificaría como $\frac{3}{5}$. Así, volviendo a la notación de $m$ clases $A_j$, la manera de codificar cada $A_j$ sería a través de la proporción de individuos pertenecientes a $A_j$ que poseen el valor $'Target' = 1$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo $'Target'$ en función de $'Country'$ cuando a su vez $'Country'$ ha sido codificada en función de $'Target'$.
+
+Así, la manera de proceder no será exactamente la anterior, pero sí muy parecida. Para evitar el sobreajuste del modelo, bastaría con añadir parámetros de regularización y técnicas relacionadas con la validación cruzada. En primer lugar, dividiremos el conjunto de datos en dos:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.25 \textwidth]{CatBoost_02}
+\end{figure}
+
+Así, se codifican de la manera explicada las variables del primer conjunto:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5 \textwidth]{CatBoost_03}
+\end{figure}
+
+\noindent
+y las variables del segundo conjunto se codifican en función de aquellos individuos que ya se han codificado. La fórmula es la siguiente:
+\begin{equation*}
+\frac{Total\_Target\_Clase + a\times p}{Total\_Clase + a}
+\end{equation*}
+
+\noindent
+donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los individuos ya codificados que pertenecen a la clase a codificar, $p$ es el valor de codificación calculado para los individuos del primer subconjunto, $Total\_Clase$ es el valor de individuos ya codificados que pertenecen a la clase en cuestión y a es un parámetro de regularización. Es decir, en nuestro ejemplo, para codificar los individuos restantes, necesitamos fijar un $a \in [0, 1]$ (por no complicar los cálculos tomaremos $a=1$) y realizar :
+\begin{equation*}
+\frac{Total\_Target\_Clase + a \times p}{Total\_Clase + a} = \frac{(1 + 0 + 1) + \frac{2}{3}}{3 + 1} = \frac{8}{12} = \frac{2}{3}
+\end{equation*}
+
+\noindent
+y por tanto, el valor de la codificación no varía para el primer individuo:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5 \textwidth]{CatBoost_04}
+\end{figure}
+
+No obstante, para el siguiente individuo:
+\begin{equation*}
+\frac{Total\_Target\_Clase + p}{Total\_Clase + 1} = \frac{(1 + 0 + 1 + 0) + \frac{2}{3}}{4 + 1} = \frac{8}{15}
+\end{equation*}
+
+\noindent
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5 \textwidth]{CatBoost_05}
+\end{figure}
+
+Así, el proceso de codificación es tal y como se ha explicado a falta de algún mecanismo extra omitido. Alguno de estos mecanismos se refieren a la forma de separar el conjunto en dos subconjuntos (que se realiza mediante permutaciones para otorgar mayor aleatoriedad) y la inclusión de algunos parámetros de regularización. Además, hemos explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que debemos tener en cuenta es que la $p$ (que antes hemos definido como la proporción de invididuos cuyo valor en la variable dependiente es $'1'$) ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que estamos interesados en codificar).
+
+Finalizando con la codificación, a la hora de realizar una predicción de un individuo que no pertenece al conjunto de datos de entrenamiento, tendremos que codificar las variables categóricas del mismo para poder introducirlo en el modelo. Así, las variables categóricas se transformarán de forma que
 
 
 
