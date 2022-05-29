@@ -412,19 +412,19 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.9\textwidth]{ex3_1_01}
+\includegraphics[width = \textwidth]{ex3_1_01}
 \caption{Resultados algoritmos de bagging para RainTomorrow}
 \end{figure}
 
 \noindent
-\textit{donde 'Bag' se corresponde con Bagging, 'RT' con Random Forest y 'ET' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos. Además, se aprecia un significante descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja una clara disminución de la varianza del modelo.}
+\textit{donde 'Bag' se corresponde con Bagging, 'RT' con Random Forest y 'ET' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja una clara disminución de la varianza del modelo.}
 
 \textit{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.9\textwidth]{ex3_1_02}
+\includegraphics[width = \textwidth]{ex3_1_02}
 \caption{Convergencia coeficientes Gini}
 \end{figure}
 
@@ -1283,7 +1283,7 @@ La diferencia principal reside en el modo de construir los árboles. En cada cap
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.5\textwidth]{LGBM_01}
-\caption{Construcción de árboles en LightGBM vs XGBoost (Imagen: Medium)}
+\caption{Construcción de árboles en LightGBM vs XGBoost (Fuente: Medium)}
 \end{figure}
 
 Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor.
@@ -1334,61 +1334,67 @@ No obstante, pese a haber solucionado el problema, la codificación \textit{one-
 
 Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir a la codificación \textit{one-hot-encoding}. Así, se consigue una ahorro de recursos que permite obtener resultados similares en un menor tiempo de ejecución.
 
-En el caso de clasificación, la codificación realizada por CatBoost se basa en codificar cada clase en función de la frecuencia de la variable dependiente. Veámoslo a través de un ejemplo; sea el conjunto de datos:
+En el caso de clasificación, la codificación realizada por CatBoost se basa en intentar codificar cada clase $A_j$ con el valor de $P(Y = 1 | X \in A_j)$. Dado que este valor es desconocido, un razonamiento lógico sería proceder a través de proporciones.  Veámoslo a través de un ejemplo; sea el conjunto de datos:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.7 \textwidth]{CatBoost_01}
 \end{figure}
 
 \noindent
-donde $'Country'$ es la variable explicativa que deseamos codificar y $'Target'$ la variable binaria a predecir. Entonces, una primera idea sería codificar $'Spain'$ teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, $'Spain'$ se codificaría como $\frac{3}{5}$. Así, volviendo a la notación de $m$ clases $A_j$, la manera de codificar cada $A_j$ sería a través de la proporción de individuos pertenecientes a $A_j$ que poseen el valor $'Target' = 1$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo $'Target'$ en función de $'Country'$ cuando a su vez $'Country'$ ha sido codificada en función de $'Target'$.
+donde $'Country'$ es la variable explicativa que deseamos codificar y $'Target'$ la variable binaria a predecir. Entonces, la idea es codificar $'Spain'$ teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, $'Spain'$ se codificaría como $\frac{3}{5}$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo $'Target'$ en función de $'Country'$ cuando a su vez $'Country'$ ha sido codificada en función de $'Target'$. Entonces, la manera de proceder no será exactamente la anterior, pero sí muy parecida.
 
-Así, la manera de proceder no será exactamente la anterior, pero sí muy parecida. Para evitar el sobreajuste del modelo, bastaría con añadir parámetros de regularización y técnicas relacionadas con la validación cruzada. En primer lugar, dividiremos el conjunto de datos en dos:
+Para evitar el sobreajuste del modelo, bastaría con añadir parámetros de regularización y técnicas relacionadas con la validación cruzada. En primer lugar, se codifica la variable de la manera propuesta anteriormente, a través de proporciones:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.25 \textwidth]{CatBoost_02}
 \end{figure}
 
-Así, se codifican de la manera explicada las variables del primer conjunto:
+A continuación, se separa el conjunto de datos en dos de manera que el primer subconjunto de datos mantendrá el valor asignado y el segundo subconjunto no. Es decir:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5 \textwidth]{CatBoost_03}
+\includegraphics[width = 0.25 \textwidth]{CatBoost_03}
 \end{figure}
 
-\noindent
-y las variables del segundo conjunto se codifican en función de aquellos individuos que ya se han codificado. La fórmula es la siguiente:
+Así, las variables del segundo conjunto se codificarán, secuencialmente, en función de aquellos individuos que ya han sido codificados. La fórmula es la siguiente:
 \begin{equation*}
 \frac{Total\_Target\_Clase + a\times p}{Total\_Clase + a}
 \end{equation*}
 
 \noindent
-donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los individuos ya codificados que pertenecen a la clase a codificar, $p$ es el valor de codificación calculado para los individuos del primer subconjunto, $Total\_Clase$ es el valor de individuos ya codificados que pertenecen a la clase en cuestión y a es un parámetro de regularización. Es decir, en nuestro ejemplo, para codificar los individuos restantes, necesitamos fijar un $a \in [0, 1]$ (por no complicar los cálculos tomaremos $a=1$) y realizar :
+donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los individuos ya codificados que pertenecen a la clase a codificar, $p$ es el valor de codificación calculado mediante proporción, $Total\_Clase$ es el valor de individuos ya codificados que pertenecen a la clase en cuestión y a es un parámetro de regularización. Es decir, en nuestro ejemplo, para codificar al sexto individuo, necesitamos fijar un $a$ (por ejemplo, tomaremos $a=1$) y realizar :
 \begin{equation*}
-\frac{Total\_Target\_Clase + a \times p}{Total\_Clase + a} = \frac{(1 + 0 + 1) + \frac{2}{3}}{3 + 1} = \frac{8}{12} = \frac{2}{3}
+\frac{Total\_Target\_Clase + a \times p}{Total\_Clase + a} = \frac{(1 + 0 + 1) + 0.8}{3 + 1} = 0.7
 \end{equation*}
 
 \noindent
-y por tanto, el valor de la codificación no varía para el primer individuo:
+y por tanto, el valor de la codificación para el sexto individuo queda:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5 \textwidth]{CatBoost_04}
+\includegraphics[width = 0.3 \textwidth]{CatBoost_04}
 \end{figure}
 
-No obstante, para el siguiente individuo:
+Para el octavo individuo:
 \begin{equation*}
-\frac{Total\_Target\_Clase + p}{Total\_Clase + 1} = \frac{(1 + 0 + 1 + 0) + \frac{2}{3}}{4 + 1} = \frac{8}{15}
+\frac{Total\_Target\_Clase + p}{Total\_Clase + 1} = \frac{(1 + 0 + 1 + 0) + 0.8}{4 + 1} = \frac{2.8}{5} \simeq 0.56
 \end{equation*}
 
 \noindent
+y:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5 \textwidth]{CatBoost_05}
+\includegraphics[width = 0.3 \textwidth]{CatBoost_05}
 \end{figure}
 
-Así, el proceso de codificación es tal y como se ha explicado a falta de algún mecanismo extra omitido. Alguno de estos mecanismos se refieren a la forma de separar el conjunto en dos subconjuntos (que se realiza mediante permutaciones para otorgar mayor aleatoriedad) y la inclusión de algunos parámetros de regularización. Además, hemos explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que debemos tener en cuenta es que la $p$ (que antes hemos definido como la proporción de invididuos cuyo valor en la variable dependiente es $'1'$) ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que estamos interesados en codificar).
+Con el fin de ajustarnos con la mayor exactitud posible al funcionamiento real del modelo, mencionar el hecho de que CatBoost realiza permutaciones del conjunto de datos antes de dividirlo en dos y realiza este proceso varias veces para exhibir finalmente una media del valor obtenido. Además, hemos explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que debemos tener en cuenta es que la $p$ (que antes hemos definido como la proporción de invididuos cuyo valor en la variable dependiente es $'1'$) ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que estamos interesados en codificar).
 
 Finalizando con la codificación, a la hora de realizar una predicción de un individuo que no pertenece al conjunto de datos de entrenamiento, tendremos que codificar las variables categóricas del mismo para poder introducirlo en el modelo. Así, las variables categóricas se transformarán de forma que
 
+Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito informático para ciertas optimizaciones. También, cabe destacar que este modelo construye árboles de decisión simétricos:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.7 \textwidth]{CatBoost_06}
+\caption{Árboles simétricos. Fuente: Data Science One question at a time}
+\end{figure}
 
 
 
@@ -1400,6 +1406,20 @@ Finalizando con la codificación, a la hora de realizar una predicción de un in
 \textit{Al igual que en los ejemplos anteriores, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
 
 \textit{Así, los resultados de los diferentes algoritmos son:}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = \textwidth]{ex_boost_01}
+\end{figure}
+
+\textit{Como podemos observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $0.7$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones; y debemos tener en cuenta el coste computacional que esto conlleva.}
+
+\textit{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting tendremos que preocuparnos por ver que no estamos cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.6\textwidth]{ex_boost_02}
+\end{figure}
 
 
 
