@@ -85,7 +85,7 @@ Universidad de Alicante \\
 \end{center}
 \end{minipage}
 }
-\date{Junio 2022}
+\date{Julio 2022}
 
 \usepackage{pdfpages}
 
@@ -100,7 +100,18 @@ Universidad de Alicante \\
 
 \section*{Resumen}
 
-\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning derivados de los árboles de decisión.}
+\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning que derivan de los árboles de decisión, confeccionando un mapa conceptual de modelos de manera que podamos clasificarlos en cuanto a aspectos teóricos y reconocer sus principales características. Los árboles de decisión son algoritmos capaces de realizar predicciones mediante la comprobación de ciertas condiciones de las variables explicativas. Mediante diferentes tipos de combinaciones, se llegan a dos grandes familias de modelos más complejos: algoritmos de bagging y algoritmos de boosting. Estos modelos de mayor complejidad son capaces de conseguir un significativo aumento de precisión, especialmente cuando se enfrentan a grandes cantidades de datos. Por ello, son muy utilizados e imprescindibles actualmente para trabajar en Big Data.}
+
+\emph{Para poder profundizar y realizar un correcto análisis de los modelos más complejos, en la primera parte se ha estudiado el proceso de construcción de árboles de decisión. En particular, se ha analizado el algoritmo CART, que es el más utilizado. A lo largo de esta sección, se introducen diferentes nociones como los criterios de escisión, los criterios de parada o la asignación de valores de respuesta. No obstante, dado que esta sección ya se ha tratado en varios trabajos de años anteriores, se ha decidido no profundizar en exceso para poder invertir un mayor tiempo en aquello que resulta novedoso.}
+
+\emph{En la segunda parte del trabajo, se han estudiado los algoritmos de bagging y boosting por separado. Respecto a los algoritmos de bagging, se han explicado las ideas principales de su funcionamiento, ya que estos algoritmos también han sido tratados en cursos anteriores. En cuanto a los algoritmos de boosting, se ha realizado un detallado análisis de cada uno de ellos, explicando cuáles son las funciones y parámetros implicados así como el proceso exacto para conseguir disminuir el 
+error de predicción.}
+
+\emph{Por último, tras la explicación de cada tipo de algoritmo, se ha realizado un ejemplo práctico a fin de ilustrar aquello explicado de manera teórica. También, se han utilizado estos ejemplos para realizar una comparación general de todos los modelos explicados, señalando diferencias entre ellos y comprobando que se cumplen ciertas características previamente explicadas.}
+
+\textbf{Palabras clave:} CART, Bagging, Boosting, Machine Learning
+
+
 
 \newpage
 
@@ -108,7 +119,17 @@ Universidad de Alicante \\
 
 \section*{Abstract}
 
-\emph{}
+\emph{In this research, It has been studied the Machine Learning algorithms derived from decision trees, making a conceptual map of models so that we can classify it according to their theoretical aspects and we can recognize their main features. Decision trees are algorithms capable of making predictions checking some conditions on the independent variables set. Through different types of combinations, we obtain two families of more complex models: bagging algorithms and boosting algorithms. These models are able to increase significatively the accuracy, specially when they have to deal with large amounts of data. That's why there are very useful models and they have become essentials in Big Data technologies.}
+
+\emph{To be able to deep into details and analyze correctly the complex models introduced, in the first part of this work we have studies the decision trees building process. In particular, we have analyzed CART algorithm, the most used. Along this section, different notions are introduced, like split criterions, stop criterions or output assignment. Nevertheless, since this topic has been explained in other researches recently, we don't spend so much time on it in order to save this time to the new algorithms introduced.}
+
+\emph{In the second part of this work, we have studied bagging and boosting algorithms by separate. In regard to bagging algorithms, we have explained the main ideas related with their functioning, since this algorithms have been treated in previous years too. About boosting algorithms, we have done a complete analysis of each of them, explaining which are the functions and parameters implied as well as the exact process applied to reduce the prediction error.}
+
+\emph{At last, after each type of algorithms explanation, we have solve a practical example in order to illustrate that we have explained. Also, this examples have been used to make a general comparison of all models, showing the differences between them and checking the features explained previously.}
+
+\textbf{Key words:} CART, Bagging, Boosting, Machine Learning
+
+
 
 \newpage
 
@@ -1290,7 +1311,7 @@ Además de esta particularidad de LightGBM, también se aplican diferentes modif
 
 
 
-\subsubsection{CatBoost}
+\subsubsection{CatBoost} \label{sec:CatBoost}
 
 CatBoost es un modelo desarrollado por Yandex también publicado en 2017. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas que cuentan con un gran número de variables explicativas categóricas (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
 
@@ -1458,31 +1479,149 @@ Tras la debida explicación del funcionamiento de los algoritmos de boosting, ca
 
 \newpage
 \section{Conclusión}
-Para finalizar, a lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. A continuación, haremos un breve repaso de los mismos apoyándonos en los datos obtenidos en los diferentes ejemplos.
+A lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. A continuación, haremos un breve repaso de los mismos apoyándonos en los datos obtenidos en los diferentes ejemplos.
 
-Para poder realizar una última comparación de los diferentes modelos presentados, debemos establecer un criterio de selección. En nuestro caso, el criterio será el siguiente: para cada algoritmo, escogeremos el modelo que maximice el valor del índice Gini para el conjunto de testeo y, a su vez, no supere el $5\%$ para el valor de $delta\%$. De esta manera, los algoritmos seleccionados serán los siguientes:
-\begin{description}
-\item[CART (\ref{ex:CART}):] $DT\_5$
-\item[Bagging (\ref{ex:Bag}):]$Bag\_100$, $RF\_100$ y $ET\_100$
-\item[Boosting (\ref{ex:Boost}):]
-\end{description}
+En primer lugar, realizaremos una comparación de los mejores modelos de cada categoría. El criterio que estableceremos para la selección de modelos será el siguiente: para cada algoritmo, escogeremos el modelo que maximice el valor del índice Gini para el conjunto de testeo y que, a su vez, no supere el $5\%$ para el valor de $delta\%$. De esta manera, los modelos seleccionados serán los siguientes:
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.4 \textwidth]{Conc_01}
+\end{figure}
 
+A través de estos modelos, se pueden generar los siguientes gráficos:
+\begin{figure}[h]
+\centering
+\includegraphics[width = \textwidth]{Conc_02}
+\end{figure}
 
+En vista de los gráficos, es evidente que los modelos que obtienen las mejores predicciones son aquellos que hacen uso del boosting, siendo el modelo más eficiente el $LGBM\_50$ dado que obtiene una de las mejores precisiones en el menor tiempo registrado. No obstante, los gráficos no son del todo justos con CatBoost ya que, pese a obtener un tiempo de ejecución superior al obtenido el LightGBM o XGBoost, hay que tener en cuenta que no se ha considerado el tiempo invertido en procesar los datos y codificar las variables categóricas para el correcto funcionamiento de los dos últimos.
 
+Otros modelos a los que el gráfico deja en mal lugar son los modelos de Bagging. Según el criterio establecido, la selección de los modelos es la correcta. No obstante, dada la convergencia del error, se pueden obtener modelos cuya ejecución es mucho más rápida y cuya precisión apenas disminuye. Así, tratemos de representar la información en otro gráfico más completo.
+
+El nuevo gráfico que generaremos será:
+\begin{figure}[h]
+\centering
+\includegraphics[width = \textwidth]{Conc_03}
+\end{figure}
+
+\noindent
+en el que podemos observar la evolución de la precisión en función del número de árboles que construye el modelo. Además, el tamaño de los puntos representa el tiempo de ejecución de cada uno de los modelos. De esta manera, comprobamos visualmente que, por ejemplo, la precisión de Bagging y Random Forest cuando generan más de 100 árboles es prácticamente equivalente; sin embargo el coste de Bagging es mayor. Del mismo modo, se pueden extraer más conclusiones, como que los algoritmos GB, XGB, LGBM Y CatB alcanzan una precisión bastante parecida al realizar 1000 iteraciones pero el tiempo de ejecución de LightGBM es considerablemente menor al del resto; o que los algoritmos de bagging no sufren apenas cambios en términos de precisión a partir de los 100 árboles pero su coste sí aumenta significativamente.
+
+Por tanto, a través de este gráfico podemos hacernos una idea general del mapa de modelos generado, pues podemos hacer una comparación bastante completa de todos los modelos y a su vez decidir el número de iteraciones a realizar de un cierto modelo en función del incremento de coste y precisión.
+
+Por último, cabe observar que a lo largo del trabajo hemos tratado muchos algoritmos que han resultado ser muy útiles para problemas de regresión y de clasificación binaria. No obstante, muchos de los problemas de clasificación que se presentan no poseen únicamente dos clases posibles. Por ejemplo, si el problema fuese predecir la comunidad autónoma en la que reside un individuo dadas ciertas características del mismo, la respuesta del algoritmo no es binaria. La solución ante estos problemas de clasificación multiclase pasa por aplicar \textit{one-hot-encoding} (visto en CatBoost(\ref{sec:CatBoost})):
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Individuo & Clase \\ \hline
+1         & A     \\ \hline
+2         & B     \\ \hline
+3         & A     \\ \hline
+4         & C     \\ \hline
+\end{tabular}
+$\, \, \Rightarrow \, \,$
+\begin{tabular}{|l|l|l|l|}
+\hline
+Individuo & ClaseA & ClaseB & ClaseC \\ \hline
+1         & 1 & 0 & 0     \\ \hline
+2         & 0 & 1 & 0     \\ \hline
+3         & 1 & 0 & 0     \\ \hline
+4         & 0 & 0 & 1     \\ \hline
+\end{tabular}
+\end{center}
+
+De esta manera, se aplicará el modelo independientemente a cada nueva variable y se escogerá como respuesta final aquella que maximice la probabilidad.
+
+Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no que un individuo puede pertenecer a dos clases diferentes. Un ejemplo de esto sería el problema de clasificar una película en una determinada plataforma; pues una película puede pertenecer al género 'Adulto' y 'Comedia' simultáneamente. En este caso, la solución es la misma; se aplica \textit{one-hot-encoding} a cada variable por separado y se seleccionan aquellas cuya probabilidad supera un cierto valor fijo. Además, la librería Scikit-Learn de Python incluye en XGBoost una implementación de este último caso, cuya salida es un vector de probabilidades. 
 
 
 
 
 \newpage
 \section{Anexo} \label{sec:Anexo}
-Todo el código empleado en la elaboración de los ejemplos se encuentra en la carpeta de GitHub creada para tal fin (\url{link})
+Todo el código empleado a lo largo del trabajo se encuentra en la carpeta de GitHub creada para tal fin (\url{https://github.com/GinesMeca/TFG}). El código se ha dividido en diferentes notebooks, organizados en función de los distintos apartados del trabajo. Dentro de ellos, se puede encontrar todo el código usado en los ejemplos prácticos, así como el referente a aquellas tablas y gráficos incluidos en la memoria.
 
-En cuanto a los datos utilizados, como ya se comenta en la introducción (\ref{sec: subsec11}), han sido extraídos de Kaggle y se puede llegar a ellos a través del siguiente link: \url{https://www.kaggle.com/jsphyg/weather-dataset-rattle-package}.
-
-Además, se ha realizado un procesamiento de los mismos para su correcta utilización. Para ello, se ha seguido la siguiente estructura, la cual se encuentra disponible en la web de Kedro (\url{https://kedro.readthedocs.io/en/stable/12_faq/01_faq.html}):
+Los datos utilizados, como ya se comenta en la introducción (\ref{sec: subsec11}), han sido extraídos de Kaggle. Para acceder a ellos, basta con seguir el siguiente link: \url{https://www.kaggle.com/jsphyg/weather-dataset-rattle-package}. Además, como también comentamos en el apartado dedicado a CatBoost(\ref{sec:CatBoost}), ha sido necesario realizar un preprocesamiento de los datos para poder aplicar los diferentes algoritmos. Para ello, se ha seguido la siguiente estructura, la cual se encuentra disponible en la web de Kedro (\url{https://kedro.readthedocs.io/en/stable/12_faq/01_faq.html}) y supone una práctica común en el mundo laboral dado el interés en mantener una organización para poder acceder a versiones anteriores siempre que sea necesario:
 \begin{figure}[h]
 \centering
 \includegraphics[width = \textwidth]{Kedro}
 \caption{Figuras disponibles en el link de Kedro.}
 \end{figure}
+
+
+En cuanto al tiempo invertido a cada parte del trabajo, este se podría repartir, aproximadamente, de la siguiente manera:
+\begin{table}[ht] 
+\centering
+\begin{tabular}{lc} 
+  \hline
+ Tarea & Tiempo (horas) \\ 
+  \hline
+Recopilación de materiales &   10 \\ 
+Estudio de bibliografía &   30\\ 
+Elaboración de resultados gráficos/numéricos &  40 \\ 
+Redacción de la memoria &  70 \\
+ \hline
+Total & 150\\
+\hline
+\end{tabular}
+\caption{Tiempo aproximado de dedicación al trabajo} \label{tab{02}}
+\end{table}
+
+
+Además, para el desarrollo de ciertos apartados del trabajo ha sido necesario apoyarse en
+\begin{table}[ht] 
+\centering
+\begin{tabular}{llll} 
+  \hline
+ Asignatura & Páginas & Descripción  \\ 
+  \hline
+ &  &  \\ 
+ &  & \\ 
+ &  &  \\ 
+... & ... & ...\\ 
+\hline
+\end{tabular}
+\caption{Asignaturas relacionadas con el trabajo} \label{tab{03}}
+\end{table}
+
+
+
+
+\newpage
+\section{Bibliografía}
+\begin{thebibliography}{100}
+%ARTÍCULOS PUBLICADOS EN REVISTAS
+\bibitem{CH01} Chen, T. and Guestrin, C. (2016) XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining} \textbf{1}, 785-794.
+
+\bibitem{CH02} Chen, W., Finley, T., Liu, T.Y., Ke, G., Ma, W., Meng, Q., Wang, T. and Ye, Q. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. \textit{Proceedings of the 31st Conference on Neural Information Processing Systems}
+
+\bibitem{DO01} Dorogush, A.V., Gulin, A., Gusev, G., Prokhorenkova, L. and Vorobev, A. (2018). CatBoost: unbiased boosting with categorical features. \textit{Proceedings of the 32nd Conference on Neural Information Processing Systems}
+
+\bibitem{DR01} Drucker, H. (1997). Improving Regressors using Boosting Techniques. \textit{Proceedings of the 14th International Conference on Machine Learning}.
+
+\bibitem{FR01} Freund, Y. and Schapire, R.E. (1997). A Decision-Theoretic Generalization of On-Line Learning and a Application to Boosting. \textit{Journal of Computer and System Sciences} \textbf{55}, 119-139.
+
+\bibitem{FR02} Friedman, J., Hastie, T. and Tibshirani, R. (2000). Additive logistic regression: a statistical view of boosting. \textit{Annals of Statistics}, \textbf{28(2)}, 337-407.
+
+\bibitem{HO01} Ho, T.K. (1995). Random Decision Forests. \textit{Proceedings of 3rd International Conference on Document Analysis and Recognition} \textbf{1}, 278-282.
+
+\bibitem{LO01} Loh, W.Y. (2014). Fifty Years of Classification and Regression Trees. \textit{International Statistical Review}
+\textbf{82(3)}, 329-348.
+
+\bibitem{MO01} Morgan, J.N., Sonquist, J.A. (1963). Problems in the Analysis of Survey Data, and a proposal. \textit{Journal of the American Statistical Association} \textbf{58}, 415-434.
+
+
+
+%LIBROS
+\bibitem{FR03} Friedman, J., Hastie, T. and Tibshirani, R. (2001).
+\textit{The Elements of Statistical Learning: data mining, inference and prediction}. Springer.
+
+\bibitem{HA01} Hastie, T., James, G., Tibshirani, R. and Witten, D. (2013).
+\textit{An Introduction to Statistical Learning with Applications in R}. Springer
+
+
+
+%CAPÍTULOS DE LIBROS
+\bibitem{MO02} Moisen, G. G. (2008). Classification and regression trees. In: Jorgensen, Sven Erik; Fath, Brian D., eds. Encyclopedia of Ecology, Volume 1. Oxford, U.K.: Elsevier. p. 582-588.
+
+\end{thebibliography}
 \end{document}
