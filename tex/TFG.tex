@@ -148,7 +148,7 @@ error de predicción.}
 
 Vivimos en la era de la información. Cada segundo, millones de datos viajan entre diferentes lugares del planeta y se guardan formando enormes conjuntos de datos. Además, cada vez hay más instrumentos capaces de recoger información. Donde antes se necesitaba hacer uso de encuestas, ahora nos encontramos con dispositivos, como los teléfonos móviles, capaces de escribir texto, recoger audio y realizar fotografías y vídeos. Así, la información a nuestra alcance es infinita. Podemos conocer cuáles son los conceptos que son tendencia en los buscadores de internet, o cuáles son aquellos audiovisuales que más éxito están teniendo en las redes sociales. Del mismo modo, podemos acceder al historial de imágenes de la cámara de seguridad de nuestra vivienda o a la tabla que recoge las últimas operaciones de nuestra empresa. Es fácil obtener grandes cantidades de datos de aquello que nos interesa.
 
-Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist \cite{MO01}, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que estudiaremos en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984 \cite{BR02}. De hecho, fue el propio Leo Breiman quien, haciendo uso de CART, desarrolló años más tarde el algoritmo Random Forest \cite{BR01}. Paralelamente, la publicación de Freund y Schapire en 1997 \cite{FR01} de un nuevo método basado en boosting daría lugar a otra serie de algoritmos, donde nos encontramos algoritmos más complejos, como XGBoost, que ocuparán gran parte del trabajo.
+Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist \cite{MO01}, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que estudiaremos en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984 \cite{BR03}. De hecho, fue el propio Leo Breiman quien, haciendo uso de CART, desarrolló años más tarde algoritmos como Bagging \cite{BR01} Random Forest \cite{BR02}. Paralelamente, la publicación de Freund y Schapire en 1997 \cite{FR01} de un nuevo método basado en boosting daría lugar a otra serie de algoritmos, donde nos encontramos algoritmos más complejos, como XGBoost, que ocuparán gran parte del trabajo.
 
 Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, lograr elaborar un mapa conceptual de modelos lo más completo posible.
 
@@ -180,7 +180,7 @@ A la hora de aplicar los diferentes métodos al conjunto de datos se procederá 
 
 Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos de entrenamiento y testeo se realiza de manera aleatoria. No obstante, dado que los datos podrían interpretarse como una serie temporal, donde se recogen mediciones diarios a lo largo de 10 años, a la hora de realizar predicciones sobre las posibles variables de interés nos interesa conocer la la precisión de nuestro modelo ante datos futuros.  Así, realizar una división aleatoria del conjunto incial conllevaría que los datos de entrenamiento se encontrarían intercalados con los de testeo por lo que no sabríamos determinar la fiabilidad real del modelo, pues estas predicciones no nos aportarían ningún tipo de información acerca de la precisión del algoritmo a la hora de clasificar datos de fechas posteriores.
 
-Por tanto, el procedimiento será ligeramente distinto. Emplearemos una validación 'Out Of Time', basada en separar el conjunto de datos siguiendo un orden cronológico. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo en función de los datos que poseemos para predecir fechas futuras.
+Por tanto, el procedimiento será ligeramente distinto. Emplearemos una validación \textit{``Out Of Time''}, basada en separar el conjunto de datos siguiendo un orden cronológico. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo en función de los datos que poseemos para predecir fechas futuras.
 
 Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{Anexo}).
 
@@ -418,35 +418,37 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 
 
 
+
+
 \newpage
 \section{Métodos derivados de los árboles de decisión}
-Los árboles de decisión son una gran herramienta predictiva. Tanto los CART como muchos de los algoritmos utilizados para construir árboles de decisión se desarrollaron a lo largo de la década de los 80. No obstante, ya hemos visto que estos algoritmos no llegan a alcanzar grandes niveles de eficacia; por tanto, durante la década de los 90 se publicaron diferentes artículos con distintas técnicas que, utilizando árboles de decisión, consiguen aumentar con creces estos niveles de fiabilidad.
+Los árboles de decisión son una gran herramienta predictiva. Tanto CART como muchos de los algoritmos utilizados para construir árboles de decisión se desarrollaron a lo largo de la década de los 80. No obstante, ya hemos visto que estos algoritmos no llegan a alcanzar grandes niveles de precisión; es por eso que a partir de la década de los 90 empiezan a surgir diferentes artículos que introdujeron nuevas técnicas que, mediante distintas combinación de árboles de decisión, consiguen modelos de mayor fiabilidad y que incorporan distintas características que los convierte en modelos muy potentes.
 
-A la hora de combinar los árboles de decisión para construir modelos más complejos se pueden seguir dos caminos: bagging o boosting.
+A la hora de combinar los árboles de decisión para construir modelos más complejos se pueden seguir dos caminos: bagging o boosting; y dedicaremos esta sección al estudio de ambos.
 
 
 \subsection{Algoritmos de bagging}
-Los algoritmos de bagging ('Bootstrap Aggregation') se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión. De esta manera, se generarán tantos árboles como muestras se hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles y en un problema de clasificación será la clase que más veces se ha repetido.
+Los algoritmos de bagging (\textit{``Bootstrap Aggregation''}) se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión. De esta manera, generan tantos árboles, independientes entre sí, como muestras hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles, y en un problema de clasificación será la clase que más veces se ha repetido.
 
 Analizaremos tres algoritmos de bagging distintos: Bagging, Random Forest y Extra-Trees.
 
 
 \subsubsection{Bagging}
-Tras participar en la creación del algoritmo CART, Leo Breiman publicó, en 1996, un artículo en el que introducía un nuevo método con el fin de disminuir la varianza de CART: Bagging. Bagging es un algoritmo que toma diferentes muestras aleatorias de individuos con repetición del conjunto de datos y con cada una de ellas construye un árbol de decisión haciendo uso de todas las variables explicativas disponibles.
+Tras participar en la creación del algoritmo CART, Leo Breiman publicó, en 1996, un artículo en el que introducía un nuevo método con el fin de disminuir la varianza de CART: Bagging \cite{BR01}. Bagging es un algoritmo que toma diferentes muestras aleatorias de individuos con repetición del conjunto de datos y con cada una de ellas construye un árbol de decisión haciendo uso de todas las variables explicativas disponibles. De esta manera, se consiguen diferentes predicciones, todas ellas del mismo peso, a través de las cuales se obtiene una respuesta final mediante el cálculo de la media o mediante el conteo de clases.
 
 
 \subsubsection{Random Forest}
-El desarrollo de Bagging llevó a Breiman a definir un nuevo algoritmo 5 años más tarde. Con Random Forest, Breiman consiguió, además de disminuir la varianza, obtener información más completa de las variables explicativas. El procedimiento es muy parecido al de Bagging: nuevamente se toman diferentes muestras con repetición de los individuos y, para cada muestra, también se toma una muestra aleatoria de m variables (con $m \leq p$). Una buena elección de m podría ser: $ m = \lfloor \sqrt{p} \rfloor$.
+El desarrollo de Bagging llevó a Breiman a definir un nuevo algoritmo 5 años más tarde. Con Random Forest \cite{BR02}, Breiman consiguió, además de disminuir la varianza, obtener información más completa de las variables explicativas. El procedimiento es muy parecido al de Bagging: nuevamente, se toman diferentes muestras con repetición de los individuos y, para cada muestra, también se toma una muestra aleatoria de $m$ variables (con $m \leq p$). Una buena elección de $m$ podría ser: $ m = \lfloor \sqrt{p} \rfloor$.
 
-De esta manera, cada árbol presentará diferentes variables explicativas; lo que se traduce en árboles con variables significativas totalmente distintas, pues aquellas que lo son para un árbol puede ser que no se encuentren en el siguiente.
+Por tanto, la diferencia con Bagging es que ahora cada árbol se construirá teniendo en cuenta una muestra aleatoria de las variables explicativas. De esta manera, dado que en ocasiones tenemos variables muy correlacionadas con la variable a predecir, conseguimos que no siempre sean estas variables las que participen en el modelo y, así, participe el máximo número de variables posibles en la respuesta final.
 
 
 \subsubsection{Extra-Trees} \label{sec:ExtraTrees}
-El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, a la hora de realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las p variables, se probará con m valores generados aleatoriamente correspondientes a las m variables explicativas.
+El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y, a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, para realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las $p$ variables, se probará con $m$ valores generados aleatoriamente correspondientes a las $m$ variables explicativas escogidas al azar.
 
 
 \subsubsection{Error de Out-Of-Bag}
-Cabe dedicar un apartado para hablar de la noción del error Out-Of-Bag (OOB). Como ya hemos visto, los algoritmos de bagging toman muestras con repetición de los individuos para la construcción de cada uno de los árboles. Aquellos individuos que no participan en la creación de un árbol reciben el nombre de individuos out-of-bag. Es decir, si tenemos n individuos, la probabilidad de que un individuo no se escoja para la creación de un árbol (individuo out-of-bag) es:
+Cabe dedicar un apartado para hablar de la noción del error \textit{Out-Of-Bag} (OOB). Como ya hemos visto, los algoritmos de bagging toman muestras con repetición de los individuos para la construcción de cada uno de los árboles. Aquellos individuos que no participan en la creación de un árbol reciben el nombre de individuos \textit{out-of-bag}. Es decir, si tenemos $n$ individuos, la probabilidad de que un individuo no se escoja para la creación de un árbol (individuo \textit{out-of-bag}) es:
 \begin{equation*}
 \left( \frac{n-1}{n} \right)^n
 \end{equation*}
@@ -458,18 +460,20 @@ Por tanto, como podemos observar, cuando el número de invididuos de nuestra mue
 
 Es decir, sabemos que, si contamos con un conjunto de datos de gran tamaño, cerca de un $37 \%$ de los individuos no se tendrán en cuenta para la creación de cada árbol (en particular).
 
-Con el concepto de Out-Of-Bag se pueden desarrollar conceptos interesantes. Uno de estos conceptos es el error OOB que se basa en la idea de la validación cruzada para medir la fiabilidad del modelo. No obstante, en lugar de separar previamente el conjunto de datos en conjunto de entrenamiento y conjunto de testeo, para cada árbol, los individuos que se utilizarán para el test serán aquellos individuos out-of-bag del árbol en cuestión. Además, una propiedad muy buena del error OOB es que converge. De esta manera, podemos asegurar que los modelos de bagging no se sobreajustan.
+Con el concepto de Out-Of-Bag se pueden desarrollar conceptos interesantes. Uno de estos conceptos es el error OOB que se basa en la idea de la validación cruzada para medir la fiabilidad del modelo; pero en lugar de separar previamente el conjunto de datos en conjunto de entrenamiento y conjunto de testeo, para cada árbol, los individuos que se utilizarán para el test serán aquellos individuos out-of-bag del árbol en cuestión. Además, una propiedad muy buena del error OOB es que converge. De esta manera, podemos asegurar que los modelos de bagging no se sobreajustan.
 
-No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separar el conjunto de datos en dos, nosotros seguiremos evaluando la precisión del modelo mediante validación cruzada. El motivo es el que ya comentamos en la introducción del trabajo: nos interesa aplicar una validación 'Out Of Time' y el error OOB no respeta esta validación pues, evidentemente, los individuos out-of-bag son aleatorios.
+No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separar el conjunto de datos en dos, nosotros seguiremos evaluando la precisión del modelo mediante validación cruzada. El motivo es el que ya comentamos en la introducción \ref{subsec:Metodología} nos interesa aplicar una validación \textit{``Out Of Time''} y el error OOB no respeta esta validación pues, evidentemente, los individuos \textit{out-of-bag} son aleatorios.
+
 
 %QUEDA PENDIENTE ENUNCIAR EL TEOREMA EXACTO (¿Y DEMOSTRARLO?).
 
+
 \subsubsection{Ejemplo} \label{ex:Bag}
-\textit{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la sección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
+\emph{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la sección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
 
-\textit{Al igual que en el ejemplo de CART, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
+\emph{Al igual que en el ejemplo de CART, calcularemos el coeficiente Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
 
-\textit{Aplicando los diferentes algoritmos llegamos a: }
+\emph{Aplicando los diferentes algoritmos llegamos a: }
 
 \begin{figure}[h]
 \centering
@@ -477,10 +481,11 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 \caption{Resultados algoritmos de bagging para RainTomorrow}
 \end{figure}
 
+\newpage
 \noindent
-\textit{donde 'Bag' se corresponde con Bagging, 'RT' con Random Forest y 'ET' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja una clara disminución de la varianza del modelo.}
+\emph{donde ``Bag'' se corresponde con Bagging, ``RT'' con Random Forest y ``ET'' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja una clara disminución de la varianza del modelo.}
 
-\textit{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
+\emph{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
 
 
 \begin{figure}[h]
@@ -489,7 +494,7 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 \caption{Convergencia coeficientes Gini}
 \end{figure}
 
-\textit{Por último, notemos que algoritmos de bagging son más costosos que CART en cuanto al tiempo empleado para su construcción. Además, podemos observar una clara relación entre los diferentes modelos y el tiempo que requieren. A la hora de construir los árboles de decisión, Bagging tiene en cuenta todas las variables, Random Forest solo considera algunas de ellas y Extra-Trees, además de no usar todas las variables, evalúa las posibles escisiones de nodos en base a valores aleatorios. Estas características se ven claramente reflejadas en los tiempos de ejecución, pues los tiempos de ejecución más altos corresponden a Bagging y los más bajos se le atribuyen a Extra-Trees.}
+\emph{Por último, notemos que los algoritmos de bagging son más costosos que CART en cuanto al tiempo empleado para su construcción. Además, podemos observar una clara relación entre los diferentes modelos y el tiempo que requieren. A la hora de construir los árboles de decisión, Bagging tiene en cuenta todas las variables, Random Forest solo considera algunas de ellas y Extra-Trees, además de no usar todas las variables, evalúa las posibles escisiones de nodos en base a valores aleatorios. Estas características se ven claramente reflejadas en los tiempos de ejecución, pues los tiempos de ejecución más altos corresponden a Bagging y los más bajos se le atribuyen a Extra-Trees.}
 
 
 \subsubsection{Ventajas y desventajas}
@@ -504,22 +509,28 @@ Al igual que se ha hecho con CART, a continuación se realizará un análisis de
 \textbf{\underline{Desventajas:}}
 \begin{itemize}
 \item Se pierde la fácil visualización y comprensión de CART.
+\item Pese a la mejora en la precisión, el nivel de fiabilidad sigue siendo relativamente pobre (en el Ejemplo \ref{ex:Bag} no se alcanza el $70 \%$ de precisión).
 \end{itemize}
 
 
-\newpage
+
 \subsection{Algoritmos de boosting}
-Los algoritmos de boosting, al igual que los de bagging, generan diferentes árboles de decisión a través de los cuales se realiza la predicción final. No obstante, mientras los algoritmos de bagging generan árboles independientes y devuelven una respuesta promedio o la respuesta más votada, los algoritmos de boosting generan los árboles secuencialmente, teniendo en cuenta los resultados anteriores. De esta manera, esta clase de métodos consigue reducir el sesgo; es decir, el error cometido en los datos del conjunto de entrenamiento, ya que la forma en la que se construyen los diferentes CART permite otorgar pesos diferentes a los individuos, consiguiendo así que el nuevo árbol generado se focalice en predecir bien a aquellos individuos que presentan mayor error (o que se han clasificado erróneamente) en el árbol anterior.
+Los algoritmos de boosting, al igual que los de bagging, generan diferentes árboles de decisión a través de los cuales se realiza la predicción final. No obstante, mientras los algoritmos de bagging generan árboles independientes y devuelven una respuesta promedio o la respuesta más votada, los algoritmos de boosting generan los árboles secuencialmente, teniendo en cuenta los resultados anteriores. De esta manera, esta clase de métodos consigue un significativo descenso del sesgo ya que la forma en la que se construyen los diferentes árboles permite otorgar pesos diferentes a los individuos, consiguiendo así que el nuevo árbol generado se focalice en predecir bien a aquellos individuos que presentan mayor error (o que se han clasificado erróneamente) en el árbol anterior.
 
 A lo largo de esta subsección trataremos de abordar a fondo los principales algoritmos de boosting: AdaBoost, Gradient Boosting, XGBoost, LightGBM y CatBoost.
 
 
 \subsubsection{AdaBoost}
-Adaboost fue publicado en 1997 por Freund y Schapire. El algoritmo es el siguiente:
+Adaboost fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. Entonces, AdaBoost construye un tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un tocón que clasifique la muestra de datos correspondiente a la iteración, calcular los errores y obtener otro conjunto de datos.
+
+De esta manera, AdaBoost le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones multiplicadas por una tasa de aprendizaje. 
+
+
+El algoritmo completo es el siguiente:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.8\textwidth]{AdaBoost_01}
-\caption{The Elements of Statistical Learning}
+\includegraphics[width = 0.7\textwidth]{AdaBoost_01}
+\caption{Algoritmo de AdaBoost. Fuente: \cite{FR03}}
 \label{fig: AdaBoost_01}
 \end{figure}
 
@@ -1632,7 +1643,9 @@ Series Temporales & 7-8 & El tipo de validación que se aplica se encuentra rela
 \addcontentsline{toc}{section}{Referencias}
 \begin{thebibliography}{100}
 %ARTÍCULOS PUBLICADOS EN REVISTAS
-\bibitem{BR01} Breiman, L. (2001). Random Forests. \textit{Machine Learning} \textbf{45}, 5-32.
+\bibitem{BR01} Breiman, L. (1996). Bagging predictors. \textit{Machine Learning} \textbf{24}, 123-140.
+
+\bibitem{BR02} Breiman, L. (2001). Random Forests. \textit{Machine Learning} \textbf{45}, 5-32.
 
 \bibitem{CH01} Chen, T. and Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining} \textbf{1}, 785-794.
 
@@ -1656,7 +1669,7 @@ Series Temporales & 7-8 & El tipo de validación que se aplica se encuentra rela
 
 
 %LIBROS
-\bibitem{BR02} Breiman, L., Friedman, J.H, Olshen, R.A. and Stone, C.J. (1984).
+\bibitem{BR03} Breiman, L., Friedman, J.H, Olshen, R.A. and Stone, C.J. (1984).
 \textit{Classification And Regression Trees}. Routledge.
 
 \bibitem{FR03} Friedman, J.H, Hastie, T. and Tibshirani, R. (2001).
