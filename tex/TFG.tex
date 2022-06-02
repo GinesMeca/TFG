@@ -33,6 +33,7 @@
 \usepackage{indentfirst}
 
 \usepackage[pdftex]{color}
+\usepackage[table,xcdraw]{xcolor}
 
 \usepackage[pdftex]{graphicx}
 
@@ -147,25 +148,25 @@ error de predicción.}
 
 Vivimos en la era de la información. Cada segundo, millones de datos viajan entre diferentes lugares del planeta y se guardan formando enormes conjuntos de datos. Además, cada vez hay más instrumentos capaces de recoger información. Donde antes se necesitaba hacer uso de encuestas, ahora nos encontramos con dispositivos, como los teléfonos móviles, capaces de escribir texto, recoger audio y realizar fotografías y vídeos. Así, la información a nuestra alcance es infinita. Podemos conocer cuáles son los conceptos que son tendencia en los buscadores de internet, o cuáles son aquellos audiovisuales que más éxito están teniendo en las redes sociales. Del mismo modo, podemos acceder al historial de imágenes de la cámara de seguridad de nuestra vivienda o a la tabla que recoge las últimas operaciones de nuestra empresa. Es fácil obtener grandes cantidades de datos de aquello que nos interesa.
 
-Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que estudiaremos en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984. De hecho, fue el propio Leo Breiman quien, basándose en CART, desarrolló años más tarde el algoritmo Random Forest. Paralelamente, la publicación de Freund y Schapire en 1997 de un nuevo método basado en boosting daría lugar a otra serie de algoritmos; es aquí donde nos encontramos algoritmos más complejos, como el xgboost, que ocuparán gran parte del trabajo.
+Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist \cite{MO01}, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que estudiaremos en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984 \cite{BR02}. De hecho, fue el propio Leo Breiman quien, haciendo uso de CART, desarrolló años más tarde el algoritmo Random Forest \cite{BR01}. Paralelamente, la publicación de Freund y Schapire en 1997 \cite{FR01} de un nuevo método basado en boosting daría lugar a otra serie de algoritmos, donde nos encontramos algoritmos más complejos, como XGBoost, que ocuparán gran parte del trabajo.
 
-Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, elaborar un mapa conceptual de modelos lo más completo posible.
+Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, lograr elaborar un mapa conceptual de modelos lo más completo posible.
 
 
 
 \subsection{Datos: Llueve en Australia} \label{sec: subsec11}
 
-Para hacernos una idea de cómo funciona cada uno de los algoritmos detallados a lo largo del trabajo, haremos uso del conjunto de datos indicado. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente.
+Para hacernos una idea de cómo funciona cada uno de los algoritmos explicados a lo largo del trabajo, haremos uso del conjunto de datos ``Rain in Australia'', de Kaggle. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.4\textwidth]{Intro_01}
 	\caption{Encabezado del dataset}
 \end{figure}
 
-En total, se tiene 23 columnas que recogen información de 145460 días.
+En resumen, se tienen 23 columnas que recogen información de un total de 145460 días. En los diferentes ejemplos, se tratará de realizar predicciones de la variable ``Rain Tomorrow''.
 
 
-\subsection{Metodología}
+\subsection{Metodología} \label{subsec:Metodología}
 
 A la hora de aplicar los diferentes métodos al conjunto de datos se procederá mediante validación cruzada. Es decir:
 
@@ -174,16 +175,14 @@ A la hora de aplicar los diferentes métodos al conjunto de datos se procederá 
 \item Se separa, al azar, el conjunto de datos inicial en dos: datos de entrenamiento y datos de testeo.
 \item Se entrena el modelo con los datos de entrenamiento.
 \item Se aplica el modelo entrenado a los datos de testeo.
-\item Se comprueba la veracidad de las predicciones realizadas.
+\item Se comprueba la precisión de las predicciones realizadas.
 \end{enumerate}
 
-Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos de entrenamiento y testeo se realiza de manera aleatoria. No obstante, dada la naturaleza de los datos, procederemos de otra manera.
+Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos de entrenamiento y testeo se realiza de manera aleatoria. No obstante, dado que los datos podrían interpretarse como una serie temporal, donde se recogen mediciones diarios a lo largo de 10 años, a la hora de realizar predicciones sobre las posibles variables de interés nos interesa conocer la la precisión de nuestro modelo ante datos futuros.  Así, realizar una división aleatoria del conjunto incial conllevaría que los datos de entrenamiento se encontrarían intercalados con los de testeo por lo que no sabríamos determinar la fiabilidad real del modelo, pues estas predicciones no nos aportarían ningún tipo de información acerca de la precisión del algoritmo a la hora de clasificar datos de fechas posteriores.
 
-Separando el conjunto de datos de manera aleatoria nos encontraremos con que los datos de testeo se encontrarán intercalados con los de entrenamiento. Esto puede ocasionar que la predicción de testeo a realizar se encuentre entre dos datos utilizados al entrenar el modelo. Este método no es erróneo, pero no nos da ninguna información acerca de cómo se desenvuelve el algoritmo a la hora de clasificar datos de fechas posteriores.
+Por tanto, el procedimiento será ligeramente distinto. Emplearemos una validación 'Out Of Time', basada en separar el conjunto de datos siguiendo un orden cronológico. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo en función de los datos que poseemos para predecir fechas futuras.
 
-Entonces, el procedimiento será ligeramente distinto, emplearemos la validación 'Out Of Time'. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo de manera que al introducir las fechas actuales, no registradas, y de las cuales no sabemos que ocurrirá unos días o semanas más tarde en función de los datos que poseemos sobre fechas posteriores.
-
-Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{sec:Anexo}).
+Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{Anexo}).
 
 
 
@@ -194,23 +193,23 @@ Además, los cálculos se realizarán en el lenguaje de programación Python. To
 \section{Árboles de decisión CART}
 \subsection{Preliminares}
 
-Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada su simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. Se trata de un algoritmo que divide sucesivamente el conjunto inicial de datos en diferentes subconjuntos a través de diversas condiciones relacionadas con sus variables explicativas. Por ejemplo:
+Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada su simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. Se trata de un algoritmo que divide sucesivamente el conjunto de datos inicial en diferentes subconjuntos a través de diversas condiciones aplicadas a sus variables explicativas. Por ejemplo:
 
-\textbf{Ejemplo 2.1: } \textit{Se pretende estudiar la variable 'RainTomorrow' del conjunto de datos dado en función de las variables explicativas 'Cloud3pm' y 'Humidity3pm'(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, escogiendo únicamente las variables explicativas indicadas, el esquema que seguirá nuestro árbol de clasificación será el siguiente: }
+\textbf{Ejemplo 2.1: } \label{Ej:2.1} \emph{Se pretende estudiar la variable ``RainTomorrow'' del conjunto de datos dado en función de las variables explicativas ``Cloud3pm'' y ``Humidity3pm''(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, escogiendo únicamente las variables explicativas indicadas, el esquema que seguirá nuestro árbol de clasificación será el siguiente: }
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.7\textwidth]{ex2_1_01}
-	\caption{Ejemplo 2.1. Árbol de decisión}
+	\caption{Árbol de decisión del Ejemplo \ref{Ej:2.1}}
 	\label{fig:Ejemplo 2.1}
 \end{figure}
 
-Como se puede observar, el algoritmo es muy intuitivo: se introduce un individuo y se le aplica la primera condición; si la respuesta es afirmativa se sigue el camino de la izquierda y si es negativa el de la derecha. Mediante este proceso, se va comprobando si sus variables explicativas cumplen las diferentes condiciones que se plantean hasta llegar a un grupo que deja de dividirse, que será su predicción.
+Como se puede observar, el algoritmo es muy intuitivo: se introduce un individuo y se le aplica la primera condición; si la respuesta es afirmativa se sigue el camino de la izquierda y si es negativa el de la derecha. Mediante este proceso, se va comprobando si sus variables explicativas cumplen las diferentes condiciones que se plantean hasta alcanzar un grupo al que no se le aplican condiciones, el cual determinará su predicción.
 
 Por otro lado, es fácil ver que las condiciones del algoritmo se corresponden con particiones del espacio. Como en el ejemplo anterior se han elegido únicamente dos variables explicativas, se puede hacer una representación de los individuos sobre $\mathbb{R}^{2}$ y determinar sobre él las diferentes regiones de predicción.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.5\textwidth]{ex2_1_02}
-	\caption{Partición del espacio del Ejemplo 2.1}
+	\caption{Partición del espacio del Ejemplo \ref{Ej:2.1}}
 	\label{fig:Ejemplo 2.1.2}
 \end{figure}
 
@@ -219,7 +218,7 @@ Por otro lado, es fácil ver que las condiciones del algoritmo se corresponden c
 
 A continuación, se introducirán una serie de términos básicos para poder hacer referencias correctas a los conceptos presentados. Por un lado, nos encontramos con las siguientes definiciones:
 \begin{description}
-\item[Nodo raíz: ]Primer nodo, que contiene a todos los individuos, a partir del cual comienzan a realizarse las divisiones.
+\item[Nodo raíz: ]Primer nodo, contiene a todos los individuos y a partir de él comienzan a realizarse las divisiones.
 \item[Nodo interno: ]Nodos intermedios que provienen de una división y desencadenan otra. Dentro de ellos, se pueden definir:
 	\begin{description}
 	\item[Nodo padre: ]Nodo anterior a un nodo interno fijado.
@@ -228,16 +227,16 @@ A continuación, se introducirán una serie de términos básicos para poder hac
 \item[Nodo hoja: ]Nodos finales que dan lugar a la predicción.
 \end{description}
 
-Se pueden identificar todos estos nodos en la figura del ejemplo 2.1 (\ref{fig:Ejemplo 2.1}). Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
+Todos estos elementos son fácilmente identificables en la figura \ref{fig:Ejemplo 2.1} del ejemplo 2.1 . Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
 
-Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: overfitting). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, mientras que al introducir nuevos individuos estas predicciones presentan grandes errores.
+Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: \textit{overfitting}). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, pero que las predicciones de nuevos individuos presenten grandes errores.
 
-Para lidiar con el sobreajuste, interesa manejar también otras dos nociones: el sesgo y la varianza. El sesgo (en inglés: bias) hace referencia a los errores cometidos en las predicciones de los individuos de nuestro conjunto de entrenamiento. Por contra, la varianza es la medida del error cometido en los individuos que no pertenecen a este conjunto; en nuestro caso, lo mediremos en los individuos del conjunto de testeo. No obstante, estos conceptos generan un problema: interesa tener valores bajos de ambos indicadores, pero disminuir el sesgo conlleva un aumento de la varianza. Así, a la hora de construir un modelo de Machine Learning, interesa estudiar que el sesgo no sea excesivamente bajo, para evitar el sobreajuste, pero también que no sea excesivamente alto para que las predicciones sean fiables.
+Para lidiar con el sobreajuste, interesa manejar otras dos nociones: el sesgo y la varianza. El sesgo (en inglés: bias) hace referencia a los errores cometidos en las predicciones de los individuos de nuestro conjunto de entrenamiento. Por contra, la varianza es la medida del error cometido en los individuos que no pertenecen a este conjunto; en nuestro caso, lo mediremos en los individuos del conjunto de testeo. No obstante, estos conceptos plantean un problema: interesa tener valores bajos de ambos indicadores, pero disminuir el sesgo conlleva un aumento de la varianza. Así, a la hora de construir un modelo de Machine Learning, interesa estudiar que el sesgo no sea excesivamente bajo, para evitar el sobreajuste, pero también que no sea excesivamente alto para que las predicciones sean fiables.
 
 
 \subsubsection{Objetos de estudio de un CART}
 
-Una vez visto cómo se realizan las predicciones al trabajar con árboles de decisión, corresponde explicar el funcionamiento del mismo. Para ello, habrá que tratar los siguientes aspectos:
+Una vez explicada, de manera intuitiva, la manera de proceder de los árboles de decisión, corresponde explicar el verdadero funcionamiento de los mismos. Para ello, habrá que tratar los siguientes aspectos:
 \begin{enumerate}
 \item Elección de variables y valores asociados a cada nodo interno.
 \item Criterio de parada de división de los nodos
@@ -245,87 +244,61 @@ Una vez visto cómo se realizan las predicciones al trabajar con árboles de dec
 \end{enumerate}
 
 
-\subsection{Elección de variables y valores asociados a cada nodo interno} \label{sec: subsec22}
+
+\subsection{Valor o clase asignada a cada nodo hoja} \label{sec:2.4}
 Sea un conjunto de datos de n individuos y p+1 variables ($n,p \in \mathbb{N}$). De este modo, sean $X_1, X_2, ... , X_p$ las variables explicativas e $y$ la variable dependiente. En el caso de nuestro conjunto de datos de ejemplo:
 \begin{table}[h]
 \centering
-\begin{tabular}{rcccc|c}
- & \multicolumn{1}{l}{$X_1$}         & $X_2$                        & ...                      & $X_{22}$ & $y$ \\ \hline
-\multicolumn{1}{l|}{$x_1$} & \multicolumn{1}{r|}{2008-12-01} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
-\multicolumn{1}{l|}{$x_2$} & \multicolumn{1}{r|}{2008-12-02} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
-\multicolumn{1}{l|}{$x_3$} & \multicolumn{1}{r|}{2008-12-03} & \multicolumn{1}{l|}{Albury} & \multicolumn{1}{l|}{...} & No        & \multicolumn{1}{l|}{No} \\ \hline
+\begin{tabular}{l|l|l|l|l|l|}
+\cline{2-6}
+                                                       & \cellcolor[HTML]{C0C0C0}$X_1$ & \cellcolor[HTML]{C0C0C0}$X_2$ & \cellcolor[HTML]{C0C0C0}$\dots$ & \cellcolor[HTML]{C0C0C0}$X_{22}$ & \cellcolor[HTML]{9B9B9B}$y$ \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{C0C0C0}$x_1$}    & 2008-12-01                    & Albury                        & $\dots$                         & No                               & No                          \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{C0C0C0}$x_2$}    & 2008-12-02                    & Albury                        & $\dots$                         & No                               & No                          \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{C0C0C0}$_3$}     & 2008-12-02                    & Albury                        & $\dots$                         & No                               & No                          \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{C0C0C0}$\vdots$} & $\vdots$                      & $\vdots$                      & $\ddots$                        & $\vdots$                         & $\vdots$                    \\ \hline
 \end{tabular}
+\caption{Datos \textit{``Rain in Australia''}}
+\label{tab:Datos}
 \end{table}
 
-Pese a las similitudes existentes entre los árboles de regresión y los de clasificación, conviene dividir este apartado en dos con tal de mostrar el funcionamiento exacto de cada uno de ellos.
-
-
-\subsubsection{Árboles de regresión}
-Se busca conocer cómo realizar las divisiones. En particular, nos centraremos en la primera división y el proceso será similar para las siguientes. Al situarnos en el nodo raíz, nos encontramos con el conjunto de datos al completo y pretendemos dividirlo en dos regiones, que denotaremos $R_1$ y $R_2$, en función de una de las variables explicativas, $X_j$, y de un valor respecto de esta, s, de manera que:
-\begin{equation*}
-R_1 (j,s) = \{ X | X_j \leq s \} \, \, \, \wedge \, \, \,  R_2 (j,s) = \{ X | X_j > s\}
-\end{equation*}
-
-Sabemos que $Y_1$ se mantendrá constante sobre $R_1$ y que $Y_2$ también será constante sobre $R_2$. De esta manera, buscamos j y s tales que:
-\begin{equation*}
-\min_{j,s}(\min_{c_1, c_2}(\sum_{x_i \in R_1}(y_i - c_1)^2 + \sum_{x_i \in R_2}(y_i - c_2)^2))
-\end{equation*}
-o lo que es lo mismo, buscamos j y s que minimicen el error cometido en la predicción de los individuos del conjunto de entrenamiento. Esta tarea se puede llevar a cabo probando todos los casos posibles y escogiendo el que minimice la expresión.
-
-
-\subsubsection{Árboles de clasificación}
-En el caso de los árboles de clasificación, la variable dependiente es una clase; es decir, como en la tabla dada al comienzo de la subsección (\ref{sec: subsec22}). Ahora, en lugar del error mínimo cuadrático, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; es decir, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define como:
-\begin{equation*}
-G_{region} = \sum_{k=1}^K p_{mk}(1 - p_{mk})
-\end{equation*}
-donde $p_{mk}$ es la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región m y K es el número total de clases. Así, fijado un m, se puede calcular el índice Gini de una determinada región. Además, se puede observar que valores de $p_{mk}$ cercanos a 0 o 1 implican que el producto $p_{mk}(1- p_{mk})$ sea muy pequeño. Por tanto, el índice Gini actúa como medidor de la pureza de una región: un índice Gini bajo significa que los diferentes $p_{mk}$ están cercanos a 0 o 1 y la región es "pura".
-
-Sabiendo esto, solo queda evaluar el índice Gini de un nodo. Esto se hace mediante una media ponderada, es decir:
-\begin{equation*}
-G_{nodo} = \frac{n_1}{n_1 + n_2}G_1 + \frac{n_2}{n_1 + n_2}G_2
-\end{equation*}
-donde  $n_1$ y $n_2$ son la cantidad de individuos de las regiones $R_1$ y $R_2$, respectivamente, y $G_1$ y $G_2$ son los índices Gini de las mismas. Así, la tarea se resume en obtener, mediante comprobación de todas las opciones posibles, la variable y el valor que minimizan el índice Gini del nodo.
-
-
-
-
-\subsection{Criterio de parada de escisión de nodos}
-Se podría pensar que la precisión de un CART aumenta conforme aumenta en profundidad, es decir, conforme aumenta en número de particiones. No obstante, como ya se ha introducido, cuantas más particiones del espacio realice el algoritmo, más se estará ajustando a los datos del conjunto de entrenamiento, lo que puede llevar a sobreajuste. Con tal de evitar este hecho, se han implementado algunos métodos de "poda" del árbol. Es evidente que podando el árbol se introduce sesgo, pues no dejamos que se adecue totalmente a los datos de entrenamiento; sin embargo, haciendo esto de manera controlada se consigue disminuir la varianza y mejorar las predicciones.
-
-Por un lado, la técnica más simple consiste en establecer una profundidad máxima. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo 2.1 (Figura \ref{fig:Ejemplo 2.1}) se ha establecido una profundidad máxima igual a 3.
-
-Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la división del nodo y se calcula el índice Gini del mismo(proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues de esta manera se mantiene una mayor pureza.
-
-
-\subsection{Valor o clase asignada a cada nodo hoja} \label{sec:2.4}
-Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen M regiones diferentes denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como Y al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de Y) asociadas a cada región $R_m$. De este modo:
+Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen $M$ regiones diferentes, denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como Y al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de Y) asociadas a cada región $R_m$. De este modo:
 \begin{equation*}
 Y(x) = \sum^M_{m = 1} c_{m}I(x \in R_m) \, \, \, \forall x \in D
 \end{equation*}
+
+\noindent
 donde D es el dominio de la función (espacio de las variables explicativas) e I es la función indicadora:
 \begin{equation*}
 I(x) = 
-\left.
+\left\{
 \begin{array}{ccc}
 1 & si & x \in R_m \\
 0 & si & x \not\in R_m 
 \end{array}
-\right\}
+\right.
 \end{equation*}
 
+La manera de establecer el valor de estas predicciones presenta ligeras diferencias en función del tipo de problema con el que tratemos (regresión o clasificación). Por tanto, lo analizaremos por separado.
 
-Así, a la hora de entrenar un modelo, se busca minimizar los errores entre y e Y. Por ejemplo, si tomamos el error mínimo cuadrático, llegamos al problema:
+
+A la hora de entrenar un modelo de regresión, se busca minimizar los errores entre y e Y. Tomando el error mínimo cuadrático, llegamos al problema:
 \begin{equation*}
 \min_{Y_i} \sum_{i=1}^n (y_i - Y_i)^2 \Rightarrow \min_{c_m} \sum_{m = 1}^M \sum_{x_i \in R_m} (y_i - c_m)^2
 \end{equation*}
-donde $Y_i = Y(x_i) \, \, \forall i=1,...n$. Si denotamos $f(c_m) = \sum_{x_i \in R_m} (y_i - c_m)^2$, observamos que alcanzar la solución óptima del problema planteado es equivalente a minimizar la función f:
+
+\noindent
+donde $Y_i = Y(x_i) \, \, \forall i=1,...n$. Si denotamos $f(c_m) = \sum_{x_i \in R_m} (y_i - c_m)^2$, observamos que alcanzar la solución óptima del problema planteado es equivalente a minimizar la función f. Derivando, obtenemos un candidato a óptimo:
 \begin{equation*}
 f'(c_m) = -2 \sum_{x_i \in R_m} (y_i - c_m) = -2 \sum_{x_i \in R_m}y_i + 2n_mc_m = 0 \Leftrightarrow c_m = \frac{1}{n_m} \sum_{x_i \in R_m}y_i
 \end{equation*}
-y
+
+\noindent
+y se comprueba que, efectivamente, es el óptimo a través de la segunda derivada:
 \begin{equation*}
 f''(c_m) = -2 \sum_{x_i \in R_m} (-1) = 2n_m > 0
 \end{equation*}
+
+\noindent
 donde $n_m$ es el conjunto de datos pertenecientes a la región $R_m$, $\forall m = 1,...M$.
 
 En conclusión, el valor asignado a cada nodo hoja será la media de las observaciones de los individuos del conjunto de entrenamiento que pertenecen a dicho nodo.
@@ -333,26 +306,93 @@ En conclusión, el valor asignado a cada nodo hoja será la media de las observa
 En el caso de árboles de clasificación, la tarea se simplifica: basta con calcular la proporción de individuos de cada clase en cada región y, así, el valor asignado a cada subconjunto del espacio será la clase a la que le corresponde la mayor proporción en el mismo.
 
 
+\subsection{Elección de variables y valores asociados a cada nodo interno} \label{sec: subsec22}
+
+Pese a las similitudes existentes entre los árboles de regresión y los de clasificación, conviene dividir este apartado en dos con tal de mostrar el funcionamiento exacto de cada uno de ellos.
+
+
+\subsubsection{Árboles de regresión}
+Se busca conocer cómo realizar las divisiones. En particular, nos centraremos en la primera división y el proceso será similar para las siguientes. Al situarnos en el nodo raíz, nos encontramos con el conjunto de datos al completo y pretendemos dividirlo en dos regiones, que denotaremos $R_1$ y $R_2$, en función de una de las variables explicativas, $X_j$, y de un valor respecto de esta, $s$, de manera que cada región contendrá a los individuos:
+\begin{equation*}
+R_1 (j,s) = \{ x_i | x_{ij} \leq s \} \, \, \, \wedge \, \, \,  R_2 (j,s) = \{ x_{i} | x_{ij} > s\}
+\end{equation*}
+
+Así, se generan dos valores de predicción constantes, uno por cada nodo hoja; es decir, se definen $c_1$ y $c_2$ tales que $c_1$ se mantendrá constante sobre $R_1$ e $c_2$ constante sobre $R_2$. Ya hemos visto que estos $c_m$ se corresponderán con la media de los individuos del nodo hoja:
+\begin{equation*}
+c_m = \frac{1}{n_m}\sum_{x_i \in R_m} y_i
+\end{equation*}
+
+\noindent
+donde $n_m$ es el número de individuos que pertenecen a dicho nodo. De esta manera, buscamos $j$ y $s$ que minimicen:
+\begin{equation*}
+\min_{j,s} \left( \sum_{x_i \in R_1}(y_i - c_1)^2 + \sum_{x_i \in R_2}(y_i - c_2)^2 \right)
+\end{equation*}
+
+\noindent
+o lo que es lo mismo, buscamos $j$ y $s$ que minimicen la suma de residuos cuadráticos (RSS, del inglés: \textit{``Residuals Sum of Squares''}) en el conjunto de entrenamiento.
+
+Así, a la hora de dividir el nodo raíz, se comprueban todas las posibles divisiones posibles y se escogen $j$ y $s$ óptimos. A continuación, se aplica el mismo proceso recursivamente para los nodos hijos generados.
+
+
+\subsubsection{Árboles de clasificación}
+En el caso de los árboles de clasificación, la variable dependiente es una clase. Es decir, nos encontramos en la situación recogida en la Tabla \ref{tab:Datos}. Ahora, en lugar de calcular el RSS, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; o lo que es lo mismo, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define de la forma:
+\begin{equation*}
+G_{region\_m} = G_m = \sum_{k=1}^K p_{mk}(1 - p_{mk})
+\end{equation*}
+
+\noindent
+donde $p_{mk}$ es la proporción de individuos del conjunto de entrenamiento de clase $k$ que se encuentran en la región $m$ y $K$ es el número total de clases. Además, se puede observar que valores de $p_{mk}$ cercanos a 0 o 1 implican que el producto $p_{mk}(1- p_{mk})$ sea muy pequeño. Por tanto, el índice Gini actúa como medidor de la pureza de una región: un índice Gini de bajo valor significa que los diferentes $p_{mk}$ están cercanos a 0 o 1 y la región es ``pura''.
+
+Sabiendo esto, solo queda evaluar el índice Gini asociado a la división de un nodo. Esto se hace mediante una media ponderada de los índices de las dos regiones generadas tras la escisión, es decir:
+\begin{equation*}
+G_{nodo} = \frac{n_1}{n_1 + n_2}G_1 + \frac{n_2}{n_1 + n_2}G_2
+\end{equation*}
+
+\noindent
+donde  $n_1$ y $n_2$ son el número de individuos de las regiones $R_1$ y $R_2$, respectivamente, y $G_1$ y $G_2$ son los índices Gini de las mismas. 
+
+Por tanto, al igual que en los árboles de regresión, la tarea se resume en obtener, mediante comprobación de todas las opciones posibles, la variable y el valor que minimizan el índice Gini del nodo y aplicar el proceso recursivamente.
+
+
+
+
+\subsection{Criterio de parada de escisión de nodos}
+Es lógico pensar que la precisión de un árbol CART aumenta conforme aumenta en profundidad. No obstante, como ya se ha introducido, cuantas más particiones del espacio realice el algoritmo, mayor será el ajuste del mismo a los datos de entrenamiento, lo que puede llevar a problemas de \textit{overfitting}. Con tal de evitar estos problemas, se han implementado algunos métodos de ``poda'' del árbol. Es evidente que podando el árbol se introduce sesgo, pues no dejamos que se ajuste totalmente a los datos; sin embargo, aplicando estos procesos de manera controlada se consigue disminuir la varianza y mejorar las predicciones.
+
+Por un lado, la técnica más simple consiste en establecer una profundidad máxima. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo \ref{Ej:2.1} se ha establecido una profundidad máxima igual a 3.
+
+Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la división del nodo y se calcula el índice Gini del mismo(proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues de esta manera se mantiene una mayor pureza.
+
+
+
+
+
 \subsection{Ejemplo} \label{ex:CART}
-\textit{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para así construir el árbol más fiable.}
+\emph{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para escoger el modelo más fiable.}
 
-\textit{Además, con tal de analizar los resultados, utilizaremos el AUC; es decir, el área bajo la curva ROC('Area Under the Curve'), creada en base a la sensibilidad(tasa de  verdaderos positivos) y especifidad(tasa de verdaderos negativos) de las predicciones. Así, operando el AUC de la forma $2 \times AUC - 1$ obtenemos el coeficiente Gini(no confundir con el índice Gini de escisión de nodos). Cuanto más alto sea el valor de este coeficiente, mejor será nuestro clasificador.}
+\emph{Con el fin de analizar los resultados y llevar a cabo esta elección, utilizaremos el AUC; es decir, el área bajo la curva ROC(``Area Under the Curve''), creada en base a la sensibilidad(tasa de  verdaderos positivos) y especifidad(tasa de verdaderos negativos) de las predicciones. Así, operando el AUC de la forma $2 \times AUC - 1$ obtenemos el coeficiente Gini(no confundir con el índice Gini de escisión de nodos). Cuanto más alto sea el valor de este coeficiente, mejor será nuestro clasificador.}
 
-\textit{Con esto, aplicando los diferentes árboles de clasificación, llegamos al siguiente resultado:}
+\emph{Con esto, aplicando los diferentes árboles de clasificación, llegamos al siguiente resultado:}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.3\textwidth]{ex2_2_01}
+\includegraphics[width = 0.5\textwidth]{ex2_2_01}
 \caption{Resultados árboles de clasificación para RainTomorrow}
 \end{figure}
 
-\textit{En la tabla se ven reflejados el tiempo de ejecución de cada modelo, los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
+\emph{En la tabla se ven reflejados el tiempo de ejecución de cada modelo, los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
 
-\textit{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento, aumentando la desviación entre los conjuntos conforme aumenta la profundidad máxima permitida. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
+\emph{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento, aumentando la desviación entre los conjuntos conforme aumenta la profundidad máxima permitida. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
 
-\textit{Intuitivamente, el valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5\textwidth]{ex2_2_02}
+\caption{Evolución de los coeficientes Gini en ambos conjuntos}
+\end{figure}
 
-\textit{Por último, notemos que el tiempo empleado en la generación de los árboles presentados es mínimo. Los modelos escogidos ($DT_3$ y $DT_5$) apenas tardan medio segundo en construirse.}
+\emph{Intuitivamente, el valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
+
+\emph{Por último, notemos que el tiempo empleado en la generación de los árboles presentados es mínimo. Los modelos escogidos ($DT_3$ y $DT_5$) apenas tardan medio segundo en construirse, resultado que es prueba de la eficiencia de esta clase de modelos.}
 
 
 
@@ -364,7 +404,7 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 \textbf{\underline{Ventajas:}}
 \begin{itemize}
 \item Válidos para problemas de regresión y de clasificación.
-\item Modelo de bajo costo computacional, tarda poco tiempo en construirse.
+\item Modelos de bajo coste computacional.
 \item Método muy intuitivo de fácil comprensión.
 \item La manera de proceder del modelo se asemeja a cómo lo hace la mente humana: se van estableciendo condiciones que restringen, paso a paso, el conjunto total de datos hasta llegar a la solución.
 \item Se puede obtener una representación gráfica de los diferentes modelos, lo cual facilita su comprensión a nivel visual.
@@ -372,7 +412,7 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 
 \textbf{\underline{Desventajas:}}
 \begin{itemize}
-\item La capacidad predictora de los árboles de decisión es inferior a la que se puede obtener mediante otros métodos. De hecho, podemos observar que la fiabilidad del modelo del ejemplo anterior en el conjunto de testeo no alcanza el $65\%$.
+\item La capacidad predictora de los árboles de decisión es inferior a la que se puede obtener mediante otros métodos. De hecho, podemos observar que la precisión del modelo del Ejemplo \ref{ex:CART} en el conjunto de testeo no alcanza el $65\%$.
 \item Se trata de un algoritmo inestable. Es decir, un ligero cambio en los datos de entrenamiento puede conllevar a la creación de un modelo totalmente distinto. %¿Por qué?
 \end{itemize}
 
@@ -1537,7 +1577,9 @@ Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no
 
 
 \newpage
-\section{Anexo} \label{sec:Anexo}
+\appendix
+\section{Detalles del desarrollo del trabajo} \label{Anexo}
+
 Todo el código empleado a lo largo del trabajo se encuentra en la carpeta de GitHub creada para tal fin (\url{https://github.com/GinesMeca/TFG}). El código se ha dividido en diferentes notebooks, organizados en función de los distintos apartados del trabajo. Dentro de ellos, se puede encontrar todo el código usado en los ejemplos prácticos, así como el referente a aquellas tablas y gráficos incluidos en la memoria.
 
 Los datos utilizados, como ya se comenta en la introducción (\ref{sec: subsec11}), han sido extraídos de Kaggle. Para acceder a ellos, basta con seguir el siguiente link: \url{https://www.kaggle.com/jsphyg/weather-dataset-rattle-package}. Además, como también comentamos en el apartado dedicado a CatBoost(\ref{sec:CatBoost}), ha sido necesario realizar un preprocesamiento de los datos para poder aplicar los diferentes algoritmos. Para ello, se ha seguido la siguiente estructura, la cual se encuentra disponible en la web de Kedro (\url{https://kedro.readthedocs.io/en/stable/12_faq/01_faq.html}) y supone una práctica común en el mundo laboral dado el interés en mantener una organización para poder acceder a versiones anteriores siempre que sea necesario:
@@ -1574,9 +1616,9 @@ Además, para el desarrollo de ciertos apartados del trabajo ha sido necesario a
   \hline
  Asignatura & Páginas & Descripción  \\ 
   \hline
- &  &  \\ 
- &  & \\ 
- &  &  \\ 
+Series Temporales & 7-8 & El tipo de validación que se aplica se encuentra relacionada  \\ 
+ &  &  con la que se explicó en la presentación: \\ 
+ &  & \textit{Model Assesment and Selection} \\ 
 ... & ... & ...\\ 
 \hline
 \end{tabular}
@@ -1587,10 +1629,12 @@ Además, para el desarrollo de ciertos apartados del trabajo ha sido necesario a
 
 
 \newpage
-\section{Bibliografía}
+\addcontentsline{toc}{section}{Referencias}
 \begin{thebibliography}{100}
 %ARTÍCULOS PUBLICADOS EN REVISTAS
-\bibitem{CH01} Chen, T. and Guestrin, C. (2016) XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining} \textbf{1}, 785-794.
+\bibitem{BR01} Breiman, L. (2001). Random Forests. \textit{Machine Learning} \textbf{45}, 5-32.
+
+\bibitem{CH01} Chen, T. and Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining} \textbf{1}, 785-794.
 
 \bibitem{CH02} Chen, W., Finley, T., Liu, T.Y., Ke, G., Ma, W., Meng, Q., Wang, T. and Ye, Q. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. \textit{Proceedings of the 31st Conference on Neural Information Processing Systems}
 
@@ -1612,7 +1656,10 @@ Además, para el desarrollo de ciertos apartados del trabajo ha sido necesario a
 
 
 %LIBROS
-\bibitem{FR03} Friedman, J., Hastie, T. and Tibshirani, R. (2001).
+\bibitem{BR02} Breiman, L., Friedman, J.H, Olshen, R.A. and Stone, C.J. (1984).
+\textit{Classification And Regression Trees}. Routledge.
+
+\bibitem{FR03} Friedman, J.H, Hastie, T. and Tibshirani, R. (2001).
 \textit{The Elements of Statistical Learning: data mining, inference and prediction}. Springer.
 
 \bibitem{HA01} Hastie, T., James, G., Tibshirani, R. and Witten, D. (2013).
