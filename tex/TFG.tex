@@ -521,7 +521,7 @@ Los algoritmos de boosting, al igual que los de bagging, generan diferentes árb
 A lo largo de esta subsección trataremos de abordar a fondo los principales algoritmos de boosting: AdaBoost, Gradient Boosting, XGBoost, LightGBM y CatBoost.
 
 
-\subsubsection{AdaBoost}
+\subsubsection{AdaBoost} \label{sec:AdaBoost}
 Adaboost (\textit{``Adaptative Boosting''}) fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. Entonces, AdaBoost construye un tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un tocón que clasifique la muestra de datos correspondiente a la iteración, calcular los errores y obtener otro conjunto de datos.
 
 De esta manera, AdaBoost le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones. 
@@ -531,7 +531,7 @@ A continuación, formalizaremos este proceso. El algoritmo es el siguiente:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.7\textwidth]{AdaBoost_01}
-\caption{Algoritmo de AdaBoost. Fuente: \cite{FR03}}
+\caption{Algoritmo de AdaBoost. Fuente: \cite{FR04}}
 \label{fig: AdaBoost_01}
 \end{figure}
 
@@ -882,7 +882,7 @@ En el caso de tener más de dos grupos, la única modificación a realizar se en
 y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
 %Esto se puede desarrollar mucho mejor y más formal comentando lo de los J pares del artículo de Friedman et al.
 
-En el caso de un problema de regresión, la solución no es tan inmediata. Resumiendo, habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una ``función de pérdida'' o, en inglés, \textit{``Loss Function''} (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre $0$ y $1$, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y será de la forma:
+En el caso de un problema de regresión, la solución no es tan inmediata. Resumiendo, habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una ``función de pérdida'' o, en inglés, \textit{``Loss Function''} (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre $0$ y $1$, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y su objetivo es dar una medida del error. Vendrá dada de la siguiente forma:
 \begin{equation*}
 L_i^{(m)} = L \left[ |y^{(m)}(x_i) - y_i| \right] \, \, \, \, \forall i \in \{ 1, \dots, n \}
 \end{equation*}
@@ -921,9 +921,20 @@ G(x) = \sum_{m=1}^M \alpha_m G_m(x)
 
 \subsubsection{Gradient Boosting} \label{sec:GB}
 
-Otro algoritmo de boosting es Gradient Boosting. Su funcionamiento sigue la misma idea que todos los métodos de esta rama: reducir el error de predicción paso a paso. Mientras AdaBoost actualiza los errores para tenerlos en cuenta en la construcción de nuevos árboles, Gradient Boosting genera árboles de decisión que minimizan el valor de una función basada en los residuos. La predicción final se irá construyendo paso a paso. Se partirá de una predicción inicial que se irá actualizando conforme se vayan generando nuevos árboles de decisión.
+Siguiendo la línea de AdaBoost, en 2001 se publica un nuevo algoritmo: Gradient Boosting \cite{FR03}. De nuevo, se trata de un método que, mediante la construcción secuencial de árboles, consigue identificar cuáles son aquellos individuos cuyos errores asociados son mayores y trata de mejorar las predicciones de los mismos. Al igual que AdaBoost, el primer paso consiste en determinar una predicción inicial. No obstante, mientras AdaBoost prosigue a través de actualizaciones de los pesos y de la generación de nuevos conjuntos de datos, Gradient Boosting construye árboles cuya tarea es predecir el residuo cometido. Así, la respuesta final viene dada por la predicción inicial más estos residuos predichos; de manera que se parte de una predicción inicial con un error alto que se va reduciendo iteración a iteración.
 
-Con el fin de explicarlo todo correctamente, dividiremos este apartado en dos: Gradient Boosting para regresión y Gradient Boosting para clasificación.
+Además, Gradient Boosting requiere de una Loss Function a través de la cual obtiene los residuos y el valor asociado a cada nodo hoja de los árboles predictores de residuos. Como ya se introdujo en AdaBoost (\ref{sec:AdaBoost}), el objetivo de la Loss Function es evaluar el error cometido entre la predicción realizada y el valor observado. Por ello, interesa minimizarla para así minimizar el error cometido.
+
+El algoritmo es el siguiente:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.6\textwidth]{GB_01}
+\caption{Algoritmo de Gradient Boosting. Fuente: \cite{FR04}}
+\label{fig:GB_01}
+\end{figure}
+
+El algoritmo es el mismo tanto para el caso de regresión como para el de clasificación. La diferencia entre estos dos casos reside únicamente en la elección de la Loss Function a emplear. A continuación, analizaremos estos dos casos por separado.
 
 \bigskip \bigskip \bigskip
 
@@ -931,52 +942,42 @@ Con el fin de explicarlo todo correctamente, dividiremos este apartado en dos: G
 
 \bigskip
 
-El algoritmo para el caso de regresión es el siguiente:
-
-\begin{figure}[h]
-\centering
-\includegraphics[width = 0.5\textwidth]{GB_01}
-\caption{The Elements of Statistical Learning}
-\label{fig:GB_01}
-\end{figure}
-
-Pese a que pueda parecer algo complejo, no es difícil de comprender y aún menos difícil es su puesta en práctica. Veámoslo paso a paso.
-
-En primer lugar, para iniciar el algoritmo debemos tener una matriz de datos $X$ y un vector $y$ (matriz de variables independientes y vector de la variable dependiente a predecir) y, al igual que en las notas finales de AdaBoost, establecer una Loss Function $L(y_i, f(x_i))$, donde $y_i$ es el elemento i-ésimo de $y$ y $f(x_i)$ es la predicción de la fila i-ésima de $X$. Ya hemos visto que existen diferentes funciones que pueden ser candidatas a Loss Function, por ello el algoritmo viene definido para una $L(y_i, f(x_i))$ cualquiera. No obstante, en Gradient Boosting se suele hacer uso de:
+En primer lugar, para iniciar el algoritmo se debe contar con una matriz de datos $X$ (matriz de variables explicativas), un vector $y$ (vector de la variable dependiente a predecir) y se debe establecer una Loss Function $L(y_i, f(x_i))$, donde $y_i$ es el elemento $i$-ésimo de $y$ y $f(x_i)$ es la predicción de la fila $i$-ésima de $X$. Ya hemos visto que existen diferentes funciones que pueden ser candidatas a Loss Function, por ello el algoritmo viene definido para una $L(y_i, f(x_i))$ cualquiera. No obstante, en Gradient Boosting se suele hacer uso de:
 \begin{equation*}
 L(y_i, f(x_i)) = \frac{1}{2}(y_i - f(x_i))^2
 \end{equation*}
 
-La elección de esta Loss Function se debe a que va a ser necesario derivarla con el fin de obtener el valor óptimo de respuesta de cada nodo hoja. Así, al derivarla respecto de $f(x)$:
+La elección de esta Loss Function se debe a que va a ser necesario derivarla. Así, derivando respecto de $f(x)$:
 \begin{equation*}
 \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} = -(y_i -f(x_i))
 \end{equation*}
+\noindent
+la expresión resultante no es más que el residuo de la predicción.
 
-Es decir, la expresión resultante no es más que el residuo de la predicción.
-
-Visto esto, veamos cómo funciona el algoritmo con la Loss Function especificada. Como podemos observar en \ref{fig:GB_01}, el primer paso consiste en determinar un valor fijo que representará la "primera predicción"; es decir, aquella que luego modificaremos en función de los residuos:
+Una vez establecida la Loss Function a emplear, veamos cómo funciona el algoritmo al sustituirla. Como podemos observar en la Figura \ref{fig:GB_01}, el primer paso consiste en determinar un valor fijo que representará la ``primera predicción''; es decir, aquella que luego modificaremos en función de los residuos:
 \begin{equation*}
 f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma)
 \end{equation*}
 
 \noindent
-sustituyendo por la función que hemos fijado:
+que sustituyendo por la función que hemos fijado queda:
 \begin{equation*}
 f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \frac{1}{2}\sum_{i=1}^N (y_i - \gamma)^2 
 \end{equation*}
 
-Ya vimos en \ref{sec:2.4} que el valor que minimizaba este valor es la media, por tanto:
+Ya vimos en la sección \ref{sec:2.4} que el valor que minimiza este valor es la media, por tanto:
 \begin{equation*}
 f_0(x) = \frac{1}{N} \sum_{i=1}^N y_i
 \end{equation*}
 
-En el paso 2, se construye un bucle. Cada iteración de este bucle genera un nuevo árbol que añadirá información a la última predicción realizada. Primero, se calcula el residuo de la última predicción de cada uno de los individuos(la (m-1)-ésima) mediante la derivada que ya hemos especificado anteriormente:
+En el paso 2, se construye un bucle. Cada iteración de este bucle genera un nuevo árbol que añadirá información a la última predicción realizada. Primero, se calcula el residuo de la última predicción de cada uno de los individuos(la $(m-1)$-ésima) mediante la derivada que ya hemos especificado anteriormente:
 \begin{equation*}
 r_{im} = - \left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f = f_{m-1}} = y_i -f_{m-1}(x_i)
 \end{equation*}
 
-\noindent
-Los dos apartados siguientes hacen referencia a los nodos hoja del nuevo árbol generado. Este árbol tendrá como objetivo realizar una predicción de los $r_{im}$ en función de los $x_i$. Es decir, lo que se estará prediciendo ahora serán los residuos. Así, se denota por $R_{jm}$ los diferentes nodos hoja del árbol j-ésimo y cada uno de ellos llevará asignado el valor de respuesta $\gamma_{jm}$. De nuevo, el $\gamma$ que minimizará dicha expresión será la media de los residuos de los individuos pertenecientes a $R_{jm}$. Para terminar con el bucle, se define cuál es la m-ésima actualización de la predicción:
+Los dos apartados siguientes hacen referencia a los nodos hoja del nuevo árbol generado. Este árbol tendrá como objetivo realizar una predicción de los $r_{im}$ en función de los $x_i$. Es decir, lo que se estará prediciendo ahora serán los residuos. Así, se denota por $R_{jm}$ a los diferentes nodos hoja del árbol $m$-ésimo y cada uno de ellos llevará asignado el valor de respuesta $\gamma_{jm}$. De nuevo, el $\gamma$ que minimizará dicha expresión será la media de los residuos de los individuos pertenecientes a $R_{jm}$. 
+
+Para terminar con el bucle, se define cuál es la $m$-ésima actualización de la predicción:
 \begin{equation*}
 f_m(x) = f_{m-1}(x) + \sum_{j = 1}^{J_m}\gamma_{jm} I(x \in R_{jm})
 \end{equation*}
@@ -986,15 +987,15 @@ es decir, se le añade el residuo predicho a la última predicción calculada.
 
 Por último, el algoritmo devuelve como respuesta la respuesta de $f_M(x)$.
 
-Antes de pasar al caso de clasificación, se hará especial hincapié en un par de observaciones. Por un lado, hemos observado que el algoritmo da una "predicción inicial" que se corresponde con la media de los $y_i's$ y, posteriormente, va modificando esta predicción paso a paso sumándole residuos predichos hasta acercarse al valor real. Para evitar el sobreajuste, se establece una tasa de aprendizaje que no aparece en el algoritmo descrito y que modifica la definición de las $f_m's$ de la siguiente manera:
+Antes de pasar al caso de clasificación, se hará especial hincapié en un par de observaciones. Por un lado, el algoritmo establece una ``predicción inicial'' que se corresponde con la media de los $y_i's$ y, actualiza esta predicción iteración a iteración haciendo uso de los residuos. No obstante, este proceso implica que los modelos se sobreajustarían con facilidad en un número bajo de iteraciones. Así, para evitar el sobreajuste, se establece una tasa de aprendizaje que no aparece en el algoritmo descrito y que modifica la definición de las $f_m's$ de la siguiente manera:
 \begin{equation*}
 f_m(x) = f_{m-1}(x) + \nu \sum_{j = 1}^{J_m}\gamma_{jm} I(x \in R_{jm})
 \end{equation*}
 
 \noindent
-donde $\nu \in (0, 1)$ es esta tasa de aprendizaje comentada y hace que las modificaciones que se van realizando sean menores. Por ello, Gradient Boosting se suele aplicar con un $M$ grande, pues en la práctica se comprueba que es más fiable utilizar modelos que realicen muchos pasos de pequeñas modificaciones, pues tienden a sobreajustarse menos.
+donde $\nu \in (0, 1)$ es esta tasa de aprendizaje comentada y hace que las modificaciones que se van realizando sean menores. Por ello, Gradient Boosting se suele aplicar con un $M$ grande, pues en la práctica se comprueba que es más fiable utilizar modelos que realicen muchos pasos de pequeñas modificaciones en lugar de pocos pasos de grandes modificacionesz, pues tienden a sobreajustarse menos.
 
-Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo la hipótesis de que la Loss Function escogida es la más habitual en este caso. Evidentemente, el procedimiento es análogo para cualquier función, pero en ese caso valores como $f_0(x)$ o $\gamma_{jm}$ dejarán de ser medias y tendremos que calcular los valores que minimizan las nuevas expresiones. Además, puntualizar que en este caso no sería del todo correcto definir los $r_{im}$ como residuos, ya que la forma de estos puede ser, ahora, bien diferente (ya no tiene por qué ser "valor observado - valor predicho"). Es por eso que en Gradient Boosting se denomina a estos valores como "pseudo-residuos" (\textit{pseudo-residuals} en inglés).
+Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo la hipótesis de que la Loss Function escogida es la más habitual en este caso. Evidentemente, el procedimiento es análogo para cualquier función, pero en ese caso valores como $f_0(x)$ o $\gamma_{jm}$ dejarán de ser medias y tendremos que calcular los valores que minimizan las nuevas expresiones. Además, puntualizar que en este caso no sería del todo correcto definir los $r_{im}$ como residuos, ya que la forma de estos puede ser, ahora, muy diferente (ya no tiene por qué ser ``valor observado - valor predicho''). Es por eso que en Gradient Boosting se denomina a estos valores como ``pseudo-residuos'' (\textit{pseudo-residuals} en inglés).
 
 
 
@@ -1002,9 +1003,12 @@ Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo 
 
 \textbf{\underline{Clasificación: }}
 
-En el caso de querer utilizar Gradient Boosting para clasificación, el algoritmo será el mismo que para regresión (\ref{fig:GB_01}); no obstante, la Loss Function que emplearemos será diferente por lo que las expresiones que se obtendrán serán diferentes respecto a Gradient Boosting para regresión.
+Como avanzábamos, el caso de clasificación volverá a basarse en el algoritmo de la Figura \ref{fig:GB_01}; pero hará uso de una Loss Function diferente a la de regresión.
 
-El procedimiento descrito está pensado para clasificación binaria. Así, igual que en regresión la estimación que se da es la que corresponde a la variable de interés, en el caso de clasificación estamos interesados en estimar la probabilidad de pertenecer a cierta clase de manera que si la probabilidad es mayor que 0.5 se clasificará en la clase propuesta('1') y si la probabilidad es menor que 0.5 se clasificará en la clase opuesta('0'). No obstante, Gradient Boosting no aproxima esta probabilidad directamente, si no que aproxima el $log-odd-ratio$ y, posteriormente, obtiene la probabilidad deseada.
+El procedimiento descrito está pensado para clasificación binaria. Así, igual que en regresión la estimación que se da es la que corresponde a la variable de interés, en el caso de clasificación estamos interesados en estimar la probabilidad de pertenecer a cierta clase de manera que si la probabilidad es mayor que 0.5 se clasificará en la clase propuesta (``1'') y si la probabilidad es menor que 0.5 se clasificará en la clase opuesta (``0''). No obstante, Gradient Boosting no aproxima esta probabilidad directamente, si no que aproxima el log-odd-ratio y, posteriormente, obtiene la probabilidad deseada:
+\begin{equation*}
+odd-ratio = \frac{p}{1-p}
+\end{equation*}
 
 Veamos en primer lugar cuál es la Loss Function escogida. Notemos que en el caso de clasificación binaria nuestro conjunto de datos se corresponderá con una muestra aleatoria simple de una población con distribución bernoulli. Es decir:
 \begin{equation*}
@@ -1018,17 +1022,17 @@ l(p) = l(p|y_1, y_2, \dots, y_n) = \prod_{i=1}^n f_p(y_i) = \prod_{i=1}^n p^{y_i
 \end{equation*}
 
 \noindent
-y su logaritmo:
+y la función de soporte:
 \begin{equation*}
 ln(l(p)) = ln \left( \prod_{i=1}^n f_p(y_i) \right) = ln \left( \prod_{i=1}^n p^{y_i}(1-p)^{1-y_i} \right) = \sum_{i=1}^n y_i ln(p) + (1-y_i)ln(1-p)
 \end{equation*}
 
-Ahora, notemos que cuando utilizamos esta función en el método de Máxima Verosimilitud, estamos interesados en maximizar su valor. Por el contrario, cuando trabajamos con una Loss Function, buscamos minimizarla, pues el modelo será más ajustado conforme menor sea el valor de esta función. Por tanto, si deseamos emplear el logaritmo de la función de verosimilitud como Loss Function, tendremos que multiplicarla por -1. También, como deseamos aplicar esta función individuo a individuo, podemos eliminar el sumatorio. Así, nuestra Loss Function queda:
+Ahora, notemos que cuando utilizamos esta función en el método de Máxima Verosimilitud, estamos interesados en maximizar su valor. Por el contrario, cuando trabajamos con una Loss Function, buscamos minimizarla, pues el modelo será más ajustado conforme menor sea el valor de esta función. Por tanto, si deseamos emplear la funció  de soporte como Loss Function, tendremos que multiplicarla por -1. También, como deseamos aplicar esta función individuo a individuo, podemos eliminar el sumatorio. Así, la Loss Function que emplearemos queda:
 \begin{equation*}
 L(y_i, p_i) = -( y_i ln(p_i) + (1-y_i)ln(1-p_i))
 \end{equation*}
 
-No obstante, ésta es una función de $p_i$ y, como hemos avanzado antes, deseamos trabajar con $log-odd-ratio$. Entonces, transformamos esta expresión de manera que las $p_i$ pasen a ser $log-odd-ratio$ (a partir de ahora, por simplificar, $log-odd_i$):
+No obstante, ésta es una función de $p_i$ y, como hemos avanzado antes, deseamos trabajar con log-odd-ratio. Entonces, transformamos esta expresión de manera que las $p_i$ pasen a ser log-odd-ratio (a partir de ahora, por simplificar, $ln(odd_i)$):
 \begin{equation*}
 \begin{split}
 L(y_i, p_i) &= -(y_i ln(p_i) + (1-y_i)ln(1-p_i)) = -y_i ln(p_i) - ln(1-p_i) + y_i ln(1-p_i) = \\
@@ -1048,7 +1052,7 @@ L(y_i, p_i) = -y_i ln(odd_i) - ln(1-p_i) = -y_i ln(odd_i) + ln \left( 1 + e^{ln(
 \end{equation*}
 
 \noindent
-y ya tenemos la Loss Function en función de $log-odd_i$:
+y ya tenemos la Loss Function en función de $ln(odd_i)$:
 \begin{equation*}
 L(y_i, ln(odd_i)) = -y_i ln(odd_i) + ln \left( 1 + e^{ln(odd_i)} \right)
 \end{equation*}
@@ -1067,16 +1071,14 @@ por tanto debemos derivar la expresión y ver dónde alcanza el mínimo:
 \end{split}
 \end{equation*}
 
-Podemos observar, dado que $y_i \in \{0, 1 \} \, \forall i \in \{1, \dots, n \}$, que la predicción inicial es la proporción de individuos del conjunto de entrenamiento que pertenecen a la clase '1'. No obstante, dado que queremos trabajar en términos de $log-odd_i$, debemos escribir esta probabilidad en la forma correspondiente. De esta manera:
+Podemos observar, dado que $y_i \in \{0, 1 \} \, \forall i \in \{1, \dots, n \}$, que la predicción inicial es la proporción de individuos del conjunto de entrenamiento que pertenecen a la clase ``1''. No obstante, dado que queremos trabajar en términos de $ln(odd_i)$, debemos escribir esta probabilidad en la forma correspondiente. De esta manera:
 \begin{equation*}
 f_0(x) = \frac{p}{1-p} = \frac{\frac{\sum_{i=1}^{N} y_i}{N}}{1 - \frac{\sum_{i=1}^{N} y_i}{N}} = \frac{\sum_{i=1}^{N} y_i}{N -\sum_{i=1}^{N} y_i}
 \end{equation*}
 
-Por tanto, $f_0(x)$, al igual que en el caso de regresión, será un valor fijo. Ahora, a través de predicciones secuenciales de los "pseudo-residuos", debemos afinar esta predicción.
+Ahora, a través de predicciones secuenciales de los ``pseudo-residuos'', debemos afinar esta predicción inicial. De acuerdo con lo anterior, el siguiente paso consiste en el bucle que nos calculará en cada iteración (supongamos la iteración $m$-ésima): los ``pseudo-residuos'' de la predicción $f_{m-1}(x)$, un árbol de decisión que clasifique estos residuos, los valores de respuesta de los nodos hoja del árbol generado y la nueva predicción $f_m(x)$.
 
-De acuerdo con lo anterior, el siguiente paso consiste en el bucle que nos calculará en cada iteración (supongamos la iteración m-ésima): los "pseudo-residuos" de la predicción $f_{m-1}(x)$, un árbol de decisión que clasifique estos residuos, los valores de respuesta de los nodos hoja del árbol generado y la nueva predicción $f_m(x)$.
-
-Los "pseudo-residuos" los calcularemos al igual que en el apartado anterior teniendo en cuenta que la Loss Function escogida ahora es diferente. Se tiene:
+Los ``pseudo-residuos'' los calcularemos al igual que en el apartado anterior teniendo en cuenta que la Loss Function escogida ahora es diferente. Se tiene:
 \begin{equation*}
 \begin{split}
 r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{m-1}} = - \left[ \frac{\partial L(y_i, ln(odd_i))}{\partial ln(odd_i)} \right]_{ln(odd_i)=f_{m-1}} = \\
@@ -1085,15 +1087,15 @@ r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{
 \end{split}
 \end{equation*}
 
-Notemos que $f_{m-1}(x_i)$ es, realmente, la última predicción realizada de $log-odd_i$. Por tanto, $r_{im}$ podría escribirse como:
+Notemos que $f_{m-1}(x_i)$ es, realmente, la última predicción realizada de $ln(odd_i)$. Por tanto, $r_{im}$ podría escribirse como:
 \begin{equation*}
 r_{im} = y_i - p_{i, m-1}
 \end{equation*}
 
 \noindent
-donde $p_{i, m-1}$ es la predicción (m-1)-ésima de $p_i$. Es decir, $r_{im}$ es $y_i$ menos la última predicción realizada del mismo. Así, tiene sentido que este valor sea conocido como "pseudo-residuo".
+donde $p_{i, m-1}$ es la predicción $(m-1)$-ésima de $p_i$. Es decir, $r_{im}$ es $y_i$ menos la última predicción realizada del mismo. Así, tiene sentido que este valor sea conocido como ``pseudo-residuo''.
 
-A continuación, se construye un árbol de decisión que realice una predicción de los $r_{im}$'s en función de las variables independientes y denotamos sus nodos hoja por $R_{jm}$ con $j \in \{1, \dots, J_m \}$, donde $J_m$ es el número total de nodos hoja del m-ésimo árbol. Dado j, la predicción de los individuos pertenecientes a $R_{jm}$ vendrá dada por:
+A continuación, se construye un árbol de decisión que realice una predicción de los $r_{im}$'s en función de las variables independientes y denotamos sus nodos hoja por $R_{jm}$ con $j \in \{1, \dots, J_m \}$, donde $J_m$ es el número total de nodos hoja del $m$-ésimo árbol. Dado $j$, la predicción de los individuos pertenecientes a $R_{jm}$ vendrá dada por:
 \begin{equation*}
 \gamma_{jm} = arg\min_{\gamma} \sum_{x_i \in R_{jm}} L(y_i, f_{m-1}(x_i) + \gamma)
 \end{equation*}
@@ -1112,7 +1114,7 @@ y derivamos respecto de $\gamma$ e igualamos a cero puesto que es lo que buscamo
 \end{split}
 \end{equation*}
 
-Por tanto, como tenemos que $L(y_i, ln(odd_i)) = -y_iln(odd_i) + ln(1 + e^{f_{ln(odd_i)}})$, las derivadas respecto de $ln(odd_i)$ quedarán:
+Por tanto, como tenemos que $L(y_i, ln(odd_i)) = -y_iln(odd_i) + ln(1 + e^{ln(odd_i)})$, las derivadas respecto de $ln(odd_i)$ quedarán:
 \begin{equation*}
 \frac{d}{d(ln(odd_i))}L(y_i, ln(odd_i)) = y_i - \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}}
 \end{equation*}
@@ -1131,7 +1133,7 @@ En resumen:
 \gamma = \frac{y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}}{\frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})^2}}
 \end{equation*}
 
-Notemos que la expresión del numerador es equivalente a la que hemos dado para los "pseudo-residuos" ($r_{im}$). Por tanto, el numerador se puede escribir como:
+Notemos que la expresión del numerador es equivalente a la que hemos dado para los ``pseudo-residuos'' $r_{im}$. Por tanto, el numerador se puede escribir como:
 \begin{equation*}
 y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}} = y_i - p_{i, m-1}
 \end{equation*}
@@ -1151,9 +1153,9 @@ Para finalizar con los cálculos, recordemos que hemos decidido omitir los sumat
 \gamma_{jm} = \frac{\displaystyle \sum_{x_i \in R_{jm}} y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}}{\displaystyle \sum_{x_i \in R_{jm}} \frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})^2}} = \frac{\displaystyle \sum_{x_i \in R_{jm}} y_i - p_{i, m-1}}{\displaystyle \sum_{x_i \in R_{jm}} p_{i, m-1}(1 - p_{i, m-1})}
 \end{equation*}
 
-A partir de aquí el procedimiento es equivalente al visto en el caso de Gradient Boosting para regresión: se actualiza el valor de la predicción (m-1)-ésima a partir de los $\gamma_{jm}$ tal y como se puede ver en el algoritmo (\ref{fig:GB_01}) y la predicción final será la predicción M-ésima, es decir, la de la última iteración del bucle. Además, en el caso de clasificación también se incorporará una tasa de aprendizaje a la hora de calcular los $f_m$'s.
+A partir de aquí el procedimiento es equivalente al visto en el caso de Gradient Boosting para regresión: se actualiza el valor de la predicción $(m-1)$-ésima a partir de los $\gamma_{jm}$ tal y como se puede ver en el algoritmo (Figura \ref{fig:GB_01}) y la predicción final será la predicción $M$-ésima, es decir, la correspondiente a la última iteración del bucle. Además, en el caso de clasificación también se incorporará una tasa de aprendizaje a la hora de calcular los $f_m$'s.
 
-Por último, cabe recordar que en este caso estamos realizando predicciones de $log-odd-ratio$; por tanto, para obtener la probabilidad deseada y clasificar en una clase o en la otra, habrá que llevar a cabo la transformación:
+Por último, cabe recordar que en este caso estamos realizando predicciones de log-odd-ratio; por tanto, para obtener la probabilidad deseada y clasificar en una clase o en la otra, habrá que llevar a cabo la transformación:
 \begin{equation*}
 p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 \end{equation*}
@@ -1636,7 +1638,10 @@ Además, para el desarrollo de ciertos apartados del trabajo ha sido necesario a
 Series Temporales & 7-8 & El tipo de validación que se aplica se encuentra relacionada  \\ 
  &  &  con la que se explicó en la presentación: \\ 
  &  & \textit{Model Assesment and Selection} \\ 
-... & ... & ...\\ 
+Análisis de Datos I & 24-31 & Se debe dominar el concepto de peso. \\
+Análisis de Datos II & 35-39 & Modelo logit y odd-ratio.\\ 
+Análisis de Datos I & General & Relación general con diferentes aspectos tratados. \\
+Análisis de Datos II & General & Relación general con diferentes aspectos tratados. \\
 \hline
 \end{tabular}
 \caption{Asignaturas relacionadas con el trabajo} \label{tab{03}}
@@ -1665,6 +1670,8 @@ Series Temporales & 7-8 & El tipo de validación que se aplica se encuentra rela
 
 \bibitem{FR02} Friedman, J., Hastie, T. and Tibshirani, R. (2000). Additive logistic regression: a statistical view of boosting. \textit{Annals of Statistics}, \textbf{28(2)}, 337-407.
 
+\bibitem{FR03} Friedman, J. (2001). Greedy function approximation: A gradient boosting machine. \textit{Annals of Statistics}, \textbf{29(5)}, 1189-1232.
+
 \bibitem{HO01} Ho, T.K. (1995). Random Decision Forests. \textit{Proceedings of 3rd International Conference on Document Analysis and Recognition} \textbf{1}, 278-282.
 
 \bibitem{LO01} Loh, W.Y. (2014). Fifty Years of Classification and Regression Trees. \textit{International Statistical Review}
@@ -1678,7 +1685,7 @@ Series Temporales & 7-8 & El tipo de validación que se aplica se encuentra rela
 \bibitem{BR03} Breiman, L., Friedman, J.H, Olshen, R.A. and Stone, C.J. (1984).
 \textit{Classification And Regression Trees}. Routledge.
 
-\bibitem{FR03} Friedman, J.H, Hastie, T. and Tibshirani, R. (2001).
+\bibitem{FR04} Friedman, J.H, Hastie, T. and Tibshirani, R. (2001).
 \textit{The Elements of Statistical Learning: data mining, inference and prediction}. Springer.
 
 \bibitem{HA01} Hastie, T., James, G., Tibshirani, R. and Witten, D. (2013).
