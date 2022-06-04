@@ -34,6 +34,7 @@
 
 \usepackage[pdftex]{color}
 \usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
 
 \usepackage[pdftex]{graphicx}
 
@@ -120,13 +121,13 @@ error de predicción.}
 
 \section*{Abstract}
 
-\emph{In this research, It has been studied the Machine Learning algorithms derived from decision trees, making a conceptual map of models so that we can classify it according to their theoretical aspects and we can recognize their main features. Decision trees are algorithms capable of making predictions checking some conditions on the independent variables set. Through different types of combinations, we obtain two families of more complex models: bagging algorithms and boosting algorithms. These models are able to increase significatively the accuracy, specially when they have to deal with large amounts of data. That's why there are very useful models and they have become essentials in Big Data technologies.}
+\emph{In this research, It has been studied the set of Machine Learning algorithms derived from decision trees, making a conceptual map of models so that we can classify it according to their theoretical aspects and we can recognize their main features. Decision trees are algorithms capable of making predictions checking some conditions on the independent variables set. Through different types of combinations, we obtain two families of more complex models: bagging algorithms and boosting algorithms. These models are able to increase significatively the accuracy, specially when they have to deal with large amounts of data. That's why they are very useful models and they have become essential in Big Data technologies.}
 
-\emph{To be able to deep into details and analyze correctly the complex models introduced, in the first part of this work we have studies the decision trees building process. In particular, we have analyzed CART algorithm, the most used. Along this section, different notions are introduced, like split criterions, stop criterions or output assignment. Nevertheless, since this topic has been explained in other researches recently, we don't spend so much time on it in order to save this time to the new algorithms introduced.}
+\emph{In order to study in more detail and analyze correctly the complex models introduced, in the first part of this work we have studied the decision trees building process. In particular, it has been analyzed the most popular algorithm: CART. Along this section, different notions like split criterions, stop criterions or output assignment are introduced. Nevertheless, since this topic has been explained in previous researches we have not focused on it, in order to spend more time on the new algorithms introduced.}
 
-\emph{In the second part of this work, we have studied bagging and boosting algorithms by separate. In regard to bagging algorithms, we have explained the main ideas related with their functioning, since this algorithms have been treated in previous years too. About boosting algorithms, we have done a complete analysis of each of them, explaining which are the functions and parameters implied as well as the exact process applied to reduce the prediction error.}
+\emph{In the second part of this work, we have studied bagging and boosting algorithms by separate. In regard to bagging algorithms, we have explained the main ideas related to their functioning, since these algorithms have been treated in former works too. Referring to boosting algorithms, we have done a complete analysis of each of them, explaining which are the functions and parameters implied as well as the exact process applied to reduce the prediction error.}
 
-\emph{At last, after each type of algorithms explanation, we have solve a practical example in order to illustrate that we have explained. Also, this examples have been used to make a general comparison of all models, showing the differences between them and checking the features explained previously.}
+\emph{Finally, after each type of algorithms explanation, we have solve a practical example in order to illustrate what we have explained. Furthermore, these examples have been used to make a general comparison of all models, showing the differences between them and checking the features explained previously.}
 
 \textbf{Key words:} CART, Bagging, Boosting, Machine Learning
 
@@ -311,7 +312,7 @@ En el caso de árboles de clasificación, la tarea se simplifica: basta con calc
 Pese a las similitudes existentes entre los árboles de regresión y los de clasificación, conviene dividir este apartado en dos con tal de mostrar el funcionamiento exacto de cada uno de ellos.
 
 
-\subsubsection{Árboles de regresión}
+\subsubsection*{Árboles de regresión}
 Se busca conocer cómo realizar las divisiones. En particular, nos centraremos en la primera división y el proceso será similar para las siguientes. Al situarnos en el nodo raíz, nos encontramos con el conjunto de datos al completo y pretendemos dividirlo en dos regiones, que denotaremos $R_1$ y $R_2$, en función de una de las variables explicativas, $X_j$, y de un valor respecto de esta, $s$, de manera que cada región contendrá a los individuos:
 \begin{equation*}
 R_1 (j,s) = \{ x_i | x_{ij} \leq s \} \, \, \, \wedge \, \, \,  R_2 (j,s) = \{ x_{i} | x_{ij} > s\}
@@ -334,7 +335,7 @@ o lo que es lo mismo, buscamos $j$ y $s$ que minimicen la suma de residuos cuadr
 Así, a la hora de dividir el nodo raíz, se comprueban todas las posibles divisiones posibles y se escogen $j$ y $s$ óptimos. A continuación, se aplica el mismo proceso recursivamente para los nodos hijos generados.
 
 
-\subsubsection{Árboles de clasificación}
+\subsubsection*{Árboles de clasificación}
 En el caso de los árboles de clasificación, la variable dependiente es una clase. Es decir, nos encontramos en la situación recogida en la Tabla \ref{tab:Datos}. Ahora, en lugar de calcular el RSS, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; o lo que es lo mismo, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define de la forma:
 \begin{equation*}
 G_{region\_m} = G_m = \sum_{k=1}^K p_{mk}(1 - p_{mk})
@@ -521,12 +522,12 @@ A lo largo de esta subsección trataremos de abordar a fondo los principales alg
 
 
 \subsubsection{AdaBoost}
-Adaboost fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. Entonces, AdaBoost construye un tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un tocón que clasifique la muestra de datos correspondiente a la iteración, calcular los errores y obtener otro conjunto de datos.
+Adaboost (\textit{``Adaptative Boosting''}) fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. Entonces, AdaBoost construye un tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un tocón que clasifique la muestra de datos correspondiente a la iteración, calcular los errores y obtener otro conjunto de datos.
 
-De esta manera, AdaBoost le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones multiplicadas por una tasa de aprendizaje. 
+De esta manera, AdaBoost le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones. 
 
 
-El algoritmo completo es el siguiente:
+A continuación, formalizaremos este proceso. El algoritmo es el siguiente:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.7\textwidth]{AdaBoost_01}
@@ -534,9 +535,7 @@ El algoritmo completo es el siguiente:
 \label{fig: AdaBoost_01}
 \end{figure}
 
-A continuación, procederemos a explicarlo con detalle.
-
-Partimos de una matriz de datos X compuesta por n individuos a los que se les miden p variables. Además, disponemos de la variables dependiente, que denotaremos por y. Además, como ya avanzábamos, AdaBoost construye los árboles secuencialmente modificando los pesos de los individuos en cada iteración; por tanto, también habrá que tener en cuenta la matriz de pesos. Es decir:
+Partimos de una matriz de datos X compuesta por n individuos y el valor que toman para p variables. Además, disponemos de la variables dependiente, que denotaremos por y. Como ya avanzábamos, AdaBoost construye los árboles secuencialmente modificando los pesos de los individuos en cada iteración; por tanto, también habrá que tener en cuenta la matriz de pesos. Es decir:
 \begin{equation*}
 X =
 \begin{pmatrix}
@@ -572,16 +571,16 @@ Como podemos ver en la figura \ref{fig: AdaBoost_01}, el primer paso consiste en
 w_i = \frac{1}{n} \, \, \, \forall i \in \{1, \dots, n \}
 \end{equation*}
 
-A continuación, siguiendo el esquema de la figura \ref{fig: AdaBoost_01}, se crea un árbol de decisión. Una particularidad de AdaBoost es que, en lugar de árboles al uso, construye tocones; es decir, algoritmos que solo contienen dos nodos hoja. De esta manera, cada tocón construido (denotados por $G_m$) realiza una única división del espacio, obteniendo dos subconjuntos. Además, es evidente que en cada tocón únicamente se verá involucrada una variable.
+A continuación, siguiendo el esquema de la figura \ref{fig: AdaBoost_01}, se crea un árbol de decisión de dos nodos hoja, un tocón. De esta manera, cada tocón construido (denotados por $G_m$) realiza una única división del espacio, obteniendo dos subconjuntos. Además, es evidente que en cada tocón únicamente se verá involucrada una variable.
 
-Una vez construido el tocón, siguiendo los métodos explicados en la subsección \ref{sec: subsec22}, definimos:
+Una vez construido el tocón, definimos:
 
 \begin{equation*}
 err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_m(x_i))}{\sum_{i=1}^{n} w_i} 
 \end{equation*}
 
 \noindent
-es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas nos encontramos con que el denominador puede ser distinto de 1. No obstante, nosotros siempre estandarizaremos los pesos antes de empezar de nuevo con el bucle por lo que nuestro denominador siempre será 1:
+es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma total de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas nos encontramos con que el denominador puede ser distinto de 1. No obstante, nosotros siempre estandarizaremos los pesos antes de empezar de nuevo con el bucle, por lo que podemos considerar el denominador igual a 1:
 
 \begin{equation*}
 err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
@@ -593,11 +592,11 @@ A continuación, siguiendo el apartado 3b de la figura \ref{fig: AdaBoost_01}, d
 \alpha _m = \log \left( \frac{1 - err_m}{err_m} \right)
 \end{equation*}
 
-Teniendo en cuenta que $err_m \in [0, 1]$, podemos dibujar la gráfica de la función $\alpha_m$:
+%Teniendo en cuenta que $err_m \in [0, 1]$, podemos dibujar la gráfica de la función $\alpha_m$:
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.8\textwidth]{AdaBoost_02}
+\includegraphics[width = 0.5\textwidth]{AdaBoost_02}
 \caption{Gráfico de $\alpha_m$}
 \label{fig: AdaBoost_02}
 \end{figure}
@@ -611,7 +610,7 @@ Para cerrar la segunda parte del algoritmo, nos queda analizar la expresión:
 \end{equation*}
 
 \noindent
-que se encarga de modificar los pesos para el paso siguiente. Para ilustrarla más fácilmente, definimos:
+que se encarga de modificar los pesos para el paso siguiente. Definimos:
 
 \begin{equation*}
 P_m = 
@@ -624,7 +623,7 @@ w_1^m & 0 & \dots & 0 \\
 \end{equation*}
 
 \noindent
-donde $w_i^m$ es el peso del individuo i en la iteración m-ésima. Así, la expresión (d) viene a decir:
+donde $w_i^m$ es el peso del individuo $i$ en la iteración $m$-ésima. Así, la expresión (d) viene a decir:
 
 \begin{equation*}
 w_i^{m+1} =
@@ -636,19 +635,20 @@ w_i^m e^{\alpha_m} & si & y_i \neq G_m(x_i) \\
 \right.
 \end{equation*}
 
-Notemos que, en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m >> 0$), habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $\alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen. Por otro lado, en caso de que $G_m(x)$ tenga una eficacia del $50\%$, $\alpha_m = 0$, el modelo no tendrá importancia y, dado que la probabilidad de acertar o no es la misma, no tiene sentido modificar los pesos. Por último, en el caso de obtener un modelo $G_m(x)$ que haga un pésimo trabajo de clasificación (eficacia menor que el $50\%$), $\alpha_m << 0$, podríamos interpretar que el modelo está trabajando a la inversa y que hay que considerar las clasificaciones contrarias que éste nos da. Por tanto, en este caso, interesa disminuir el peso de los mal clasificados por el modelo, lo que es equivalente a aumentar el peso de los bien clasificados, ya que los que el modelo clasifique correctamente serán los que nosotros consideraremos como erróneos dada la eficacia del modelo.
+Notemos que en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m \ggg 0$) habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $\alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen. Por otro lado, en caso de que $G_m(x)$ tenga una eficacia del $50\%$, $\alpha_m = 0$, el modelo no tendrá importancia y, dado que la probabilidad de acertar o no es la misma, no tiene sentido modificar los pesos. Por último, en el caso de obtener un modelo $G_m(x)$ que haga un pésimo trabajo de clasificación (eficacia menor que el $50\%$), $\alpha_m \lll 0$, podríamos interpretar que el modelo está trabajando a la inversa y que hay que considerar las clasificaciones contrarias que éste nos da. Por tanto, en este caso, interesa disminuir el peso de los mal clasificados por el modelo, lo que es equivalente a aumentar el peso de los bien clasificados, ya que los que el modelo clasifique correctamente serán los que nosotros consideraremos como erróneos dada la eficacia del modelo.
 
-Para finalizar con el bucle, queda hacer especial hincapié en un par de conceptos. Si m=1, el proceso explicado no genera ninguna complicación: todos los individuos tienen el mismo peso, se genera un árbol de solo dos nodos hoja, se realiza el cálculo de $err_1$ y $alpha_1$ y se calcula $P_2$(matriz de pesos a utilizar en m=2). No obstante, para m > 1 $P_m \neq I$; es decir, los individuos tendrán pesos diferentes. Esto se tiene que ver reflejado a la hora de generar $G_m(x)$. El índice Gini de una región, involucrado en el criterio de escisión de nodos \ref{sec: subsec22}, es el siguiente:
+Para finalizar con el bucle, queda hacer especial hincapié en un par de conceptos. Si $m=1$, el proceso explicado no genera ninguna complicación: todos los individuos tienen el mismo peso, se genera un árbol de solo dos nodos hoja, se realiza el cálculo de $err_1$ y $\alpha_1$ y se calcula $P_2$(matriz de pesos a utilizar en m=2). No obstante, para $m > 1$, $P_m \neq I$; es decir, los individuos tendrán pesos diferentes. Esto se tiene que ver reflejado a la hora de generar $G_m(x)$. El índice Gini de una región, involucrado en el criterio de escisión de nodos (\ref{sec: subsec22}), es el siguiente:
 
 \begin{equation*}
 G_{region} = \sum_{k=1}^K p_{rk}(1 - p_{rk}) = 1 - \sum_{k=1}^K p_{rk}^2
 \end{equation*}
 
 \noindent
-donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase k que se encuentran en la región r y K era el número total de clases (en la expresión original de \ref{sec: subsec22}, r viene denotado por m, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento, por lo que tendremos que encontrar una manera de conseguir que estos pesos sean considerados.
+donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase $k$ que se encuentran en la región $r$ y $K$ era el número total de clases (en la expresión original de la sección \ref{sec: subsec22}, $r$ viene denotado por $m$, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento, por lo que tendremos que encontrar una manera de conseguir que estos pesos sean considerados.
 
 La solución más fácil, y la que se encuentra implementada en Python, es la siguiente: estandarizamos los pesos, es decir, dividimos el peso de cada individuo por la suma total de pesos, y consideramos el resultado como las frecuencias relativas de cada individuo. Así, podemos conseguir también las frecuencias absolutas de la muestra:
-\begin{center}
+\begin{table}[h]
+\centering
 \begin{tabular}{|c|c|}
 \hline
 Individuo & w \\ \hline
@@ -676,8 +676,9 @@ Individuo & w* \\ \hline
 n & $w_n^*$ \\ \hline
 \end{tabular}
 $\Rightarrow$
-\end{center}
-\begin{center}
+\end{table}
+\begin{table}[h]
+\centering
 $\Rightarrow$
 \begin{tabular}{|c|c|c|}
 \hline
@@ -696,7 +697,9 @@ Individuo & F \\ \hline
 \vdots & \vdots \\ \hline
 n & $F_n \, \, (=1)$ \\ \hline
 \end{tabular}
-\end{center}
+\caption{Reasignación de pesos}
+\label{tab:AdaB_pesos}
+\end{table}
 
 El siguiente paso es generar n números aleatorios $(t_1, t_2, \dots, t_n)$ pertenecientes al intervalo [0, 1]. Entonces, se cumple que:
 \begin{equation*}
@@ -706,21 +709,23 @@ donde $F_0$ = 0.
 
 Entonces, la solución propuesta al problema de los pesos consiste en crear un nuevo conjunto de datos utilizando los $t_i$ generados aleatoriamente: si $t_i \in [F_{j-1}, F_{j}]$, entonces añadimos $x_j$ a nuestro nuevo conjunto. De esta manera, obtendremos un nuevo conjunto de datos de n individuos en el que los individuos mal clasificados por el árbol anterior tendrán mayor presencia (como sus pesos son más altos, los intervalos $[F_{j-1}, F_{j}]$ serán más amplios). Por último, asignamos un peso de 1/n a cada uno de los individuos del nuevo conjunto de datos y ya podemos proceder a la creación del siguiente tocón.
 
-\bigskip \bigskip \bigskip \bigskip \bigskip
+\bigskip \bigskip
 
 \textbf{\underline{Ejemplo funcionamiento del bucle:}}
 
 \textit{Supongamos que nuestro conjunto de datos se redujese a:}
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width = 0.4\textwidth]{AdaBoost_03}
+\caption{Datos para el ejemplo teórico de AdaBoost}
 \end{figure}
 
 \textit{Por tanto, creamos un árbol de decisión de una única división y obtenemos:}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5\textwidth]{AdaBoost_04}
+\includegraphics[width = 0.7\textwidth]{AdaBoost_04}
+\caption{Primer tocón del modelo}
 \end{figure}
 
 \textit{Como podemos observar, solo hay un individuo mal clasificado, el número 9. A continuación, calculamos $err_1$:}
@@ -760,14 +765,9 @@ w_i^1 & if & i \neq 9 \\
 \right.
 \end{equation*}
 \noindent
-\textit{donde los superíndices hacen referencia a la iteración en la que nos encontramos. Así, modificamos los pesos: }
-\begin{figure}[h]
+\textit{donde los superíndices hacen referencia a la iteración en la que nos encontramos. Así, modificamos los pesos y aplicando el proceso recogido en la Tabla \ref{tab:AdaB_pesos}: }
+\begin{table}[h]
 \centering
-\includegraphics[width = 0.4\textwidth]{AdaBoost_05}
-\end{figure}
-
-\textit{Ahora, toca ocuparse de la generación del nuevo conjunto de datos. Aplicando el proceso definido antes: }
-\begin{center}
 \begin{tabular}{|c|c|}
 \hline
 Individuo & w \\ \hline
@@ -813,9 +813,10 @@ Individuo & w* \\ \hline
 9 & $0.5$ \\ \hline
 \end{tabular}
 $\Rightarrow$
-\end{center}
+\end{table}
 
-\begin{center}
+\begin{table}[h]
+\centering
 $\Rightarrow$
 \begin{tabular}{|c|c|}
 \hline
@@ -831,10 +832,11 @@ Individuo & F \\ \hline
 8 & $0.5$ \\ \hline
 9 & $1$ \\ \hline
 \end{tabular}
-\end{center}
+\caption{Transformación del peso en frecuencias}
+\end{table}
 \textit{Por tanto, solo queda generar 10 números aleatorios en [0, 1] y asociarlos a los individuos en función del intervalo en el que se encuentren: }
-\begin{center}
-$\Rightarrow$
+\begin{table}[h]
+\centering
 \begin{tabular}{|c|c|}
 \hline
 t & Individuo asociado \\ \hline
@@ -849,8 +851,12 @@ t & Individuo asociado \\ \hline
 0.7743 & 9 \\ \hline
 0.8238 & 9 \\ \hline
 \end{tabular}
-\end{center}
-\textit{Por tanto, el conjunto de datos que utilizaremos para entrenar el segundo tocón será el formado por los individuos que aparecen en la última tabla. Como podemos comprobar, el individuo 9, antes mal clasificado, ahora aparece 5 veces, por lo que el algoritmo tendrá que clasificarlo bien para no asumir un error tan elevado.}
+\caption{Selección de individuos para el nuevo conjunto de datos}
+\label{tab:AdaB_selec}
+\end{table}
+\textit{Por tanto, el conjunto de datos que utilizaremos para entrenar el segundo tocón será el formado por los individuos que aparecen en la Tabla \ref{tab:AdaB_selec}. Como podemos comprobar, el individuo 9, antes mal clasificado, ahora aparece 5 veces, por lo que el algoritmo tendrá que clasificarlo bien para no asumir un error tan elevado.}
+
+\newpage
 
 \bigskip \bigskip \bigskip \bigskip \bigskip
 
@@ -859,15 +865,15 @@ Una vez terminado el bucle, nos queda analizar cómo realiza las predicciones Ad
 G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
 \end{equation*}
 
-Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba pensado para dos clases, a una se le asocia el valor -1 y a la otra el valor +1. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, G(x) = - 1; en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, G(x) = 1. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
+Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba diseñado para resolver problemas de clasificación binaria, a una clase se le asocia el valor $-1$ y a la otra el valor $+1$. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, $G(x) = - 1$; y en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, $G(x) = 1$. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $\alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
 
 \bigskip \bigskip \bigskip \bigskip \bigskip
 
 \textbf{\underline{Consideraciones finales AdaBoost:}}
 
-Por último, comentar que este algoritmo es conocido como 'Discrete AdaBoost'. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso (\textit{Friedman et al.}) el algoritmo 'Real Adaboost', que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos. Esta problemática tiene fácil solución en ambos casos.
+Por último, comentar que este algoritmo es conocido como ``Discrete AdaBoost''. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso el algoritmo ``Real Adaboost'' \cite{FR02}, que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos.
 
-En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase k se calcula:
+En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase $k$ se calcula:
 \begin{equation*}
 \sum_{m / G_m(x) = k} \alpha_m
 \end{equation*}
@@ -876,13 +882,13 @@ En el caso de tener más de dos grupos, la única modificación a realizar se en
 y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
 %Esto se puede desarrollar mucho mejor y más formal comentando lo de los J pares del artículo de Friedman et al.
 
-En el caso de un problema de regresión, habrá que modificar alguna cosa más. Resumiendo,  habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente, y, no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una "función de pérdida"$\,$ o, en inglés, "Loss Function" (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre 0 y 1, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y será de la forma:
+En el caso de un problema de regresión, la solución no es tan inmediata. Resumiendo, habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una ``función de pérdida'' o, en inglés, \textit{``Loss Function''} (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre $0$ y $1$, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y será de la forma:
 \begin{equation*}
 L_i^{(m)} = L \left[ |y^{(m)}(x_i) - y_i| \right] \, \, \, \, \forall i \in \{ 1, \dots, n \}
 \end{equation*}
 
 \noindent
-donde $y^{(m)}(x_i)$ hace referencia al valor devuelto por el m-ésimo árbol al introducir los valores del individuo i-ésimo e $y_i$ es el valor de la variable dependiente observada del individuo i-ésimo.
+donde $y^{(m)}(x_i)$ hace referencia al valor devuelto por el $m$-ésimo árbol al introducir los valores del individuo $i$-ésimo e $y_i$ es el valor de la variable dependiente en el individuo $i$-ésimo.
 
 De esta manera, se definen diferentes candidatas a loss function. Destacan:
 \begin{equation*}
