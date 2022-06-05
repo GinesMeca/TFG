@@ -478,7 +478,7 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = \textwidth]{ex3_1_01}
+\includegraphics[width = 0.8 \textwidth]{ex3_1_01}
 \caption{Resultados algoritmos de bagging para RainTomorrow}
 \end{figure}
 
@@ -491,7 +491,7 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = \textwidth]{ex3_1_02}
+\includegraphics[width = 0.8 \textwidth]{ex3_1_02}
 \caption{Convergencia coeficientes Gini}
 \end{figure}
 
@@ -530,7 +530,7 @@ De esta manera, AdaBoost le resta importancia a la predicción de aquellos indiv
 A continuación, formalizaremos este proceso. El algoritmo es el siguiente:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.7\textwidth]{AdaBoost_01}
+\includegraphics[width = 0.5\textwidth]{AdaBoost_01}
 \caption{Algoritmo de AdaBoost. Fuente: \cite{FR04}}
 \label{fig: AdaBoost_01}
 \end{figure}
@@ -592,16 +592,14 @@ A continuación, siguiendo el apartado 3b de la figura \ref{fig: AdaBoost_01}, d
 \alpha _m = \log \left( \frac{1 - err_m}{err_m} \right)
 \end{equation*}
 
-%Teniendo en cuenta que $err_m \in [0, 1]$, podemos dibujar la gráfica de la función $\alpha_m$:
+Como podemos observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de clasificación ($err_m \simeq 0$), a $\alpha_m$ le corresponderá un valor positivo. Por el contrario, un mal trabajo de clasificación ($err_m \simeq 1$) se verá traducido en un $\alpha_m$ negativo. Así, podemos entender $\alpha_m$ como un medidor de la importancia del tocón $G_m(x)$ en el modelo: un valor alto implica una buena clasificación general y, por tanto, su respuesta es importante para el resultado final y, por otro lado, un valor bajo implica una clasificación general pobre con un número considerable de errores y, por tanto, conviene que su influencia en el resultado final no sea muy elevada.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5\textwidth]{AdaBoost_02}
+\includegraphics[width = 0.4\textwidth]{AdaBoost_02}
 \caption{Gráfico de $\alpha_m$}
 \label{fig: AdaBoost_02}
 \end{figure}
-
-Como podemos observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de clasificación ($err_m \simeq 0$), a $\alpha_m$ le corresponderá un valor positivo. Por el contrario, un mal trabajo de clasificación ($err_m \simeq 1$) se verá traducido en un $\alpha_m$ negativo. Así, podemos entender $\alpha_m$ como un medidor de la importancia del tocón $G_m(x)$ en el modelo: un valor alto implica una buena clasificación general y, por tanto, su respuesta es importante para el resultado final y, por otro lado, un valor bajo implica una clasificación general pobre con un número considerable de errores y, por tanto, conviene que su influencia en el resultado final no sea muy elevada.
 
 Para cerrar la segunda parte del algoritmo, nos queda analizar la expresión:
 
@@ -709,14 +707,14 @@ donde $F_0$ = 0.
 
 Entonces, la solución propuesta al problema de los pesos consiste en crear un nuevo conjunto de datos utilizando los $t_i$ generados aleatoriamente: si $t_i \in [F_{j-1}, F_{j}]$, entonces añadimos $x_j$ a nuestro nuevo conjunto. De esta manera, obtendremos un nuevo conjunto de datos de n individuos en el que los individuos mal clasificados por el árbol anterior tendrán mayor presencia (como sus pesos son más altos, los intervalos $[F_{j-1}, F_{j}]$ serán más amplios). Por último, asignamos un peso de 1/n a cada uno de los individuos del nuevo conjunto de datos y ya podemos proceder a la creación del siguiente tocón.
 
-\bigskip \bigskip
+\bigskip
 
 \textbf{\underline{Ejemplo funcionamiento del bucle:}}
 
 \textit{Supongamos que nuestro conjunto de datos se redujese a:}
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.4\textwidth]{AdaBoost_03}
+\includegraphics[width = 0.35\textwidth]{AdaBoost_03}
 \caption{Datos para el ejemplo teórico de AdaBoost}
 \end{figure}
 
@@ -724,7 +722,7 @@ Entonces, la solución propuesta al problema de los pesos consiste en crear un n
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.7\textwidth]{AdaBoost_04}
+\includegraphics[width = 0.5\textwidth]{AdaBoost_04}
 \caption{Primer tocón del modelo}
 \end{figure}
 
@@ -834,31 +832,23 @@ Individuo & F \\ \hline
 \end{tabular}
 \caption{Transformación del peso en frecuencias}
 \end{table}
+
 \textit{Por tanto, solo queda generar 10 números aleatorios en [0, 1] y asociarlos a los individuos en función del intervalo en el que se encuentren: }
-\begin{table}[h]
+\begin{table}[H]
 \centering
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-t & Individuo asociado \\ \hline
-0.3954 & 7 \\ \hline
-0.4193 & 7 \\ \hline
-0.0144 & 0 \\ \hline
-0.5211 & 9 \\ \hline
-0.0210 & 0 \\ \hline
-0.9923 & 9 \\ \hline
-0.0953 & 1 \\ \hline
-0.5072 & 9 \\ \hline
-0.7743 & 9 \\ \hline
-0.8238 & 9 \\ \hline
+t & 0.3954 & 0.4193 & 0.0144 & 0.5211 & 0.0210 & 0.9923 & 0.0953 & 0.5072 & 0.7743 & 0.8238 \\ \hline
+Fila & 7 & 7 & 0 & 9 & 0 & 9 & 1 & 9 & 9 & 9 \\ \hline
 \end{tabular}
 \caption{Selección de individuos para el nuevo conjunto de datos}
 \label{tab:AdaB_selec}
 \end{table}
+
 \textit{Por tanto, el conjunto de datos que utilizaremos para entrenar el segundo tocón será el formado por los individuos que aparecen en la Tabla \ref{tab:AdaB_selec}. Como podemos comprobar, el individuo 9, antes mal clasificado, ahora aparece 5 veces, por lo que el algoritmo tendrá que clasificarlo bien para no asumir un error tan elevado.}
 
-\newpage
+\bigskip \bigskip
 
-\bigskip \bigskip \bigskip \bigskip \bigskip
 
 Una vez terminado el bucle, nos queda analizar cómo realiza las predicciones AdaBoost. Como podemos ver en el pseudocódigo, la solución de la función es:
 \begin{equation*}
@@ -867,19 +857,13 @@ G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
 
 Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba diseñado para resolver problemas de clasificación binaria, a una clase se le asocia el valor $-1$ y a la otra el valor $+1$. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, $G(x) = - 1$; y en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, $G(x) = 1$. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $\alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
 
-\bigskip \bigskip \bigskip \bigskip \bigskip
+\bigskip \bigskip
 
 \textbf{\underline{Consideraciones finales AdaBoost:}}
 
 Por último, comentar que este algoritmo es conocido como ``Discrete AdaBoost''. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso el algoritmo ``Real Adaboost'' \cite{FR02}, que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos.
 
-En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase $k$ se calcula:
-\begin{equation*}
-\sum_{m / G_m(x) = k} \alpha_m
-\end{equation*}
-
-\noindent
-y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
+En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase $k$ se calcula $\sum_{m / G_m(x) = k} \alpha_m$ y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
 %Esto se puede desarrollar mucho mejor y más formal comentando lo de los J pares del artículo de Friedman et al.
 
 En el caso de un problema de regresión, la solución no es tan inmediata. Resumiendo, habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una ``función de pérdida'' o, en inglés, \textit{``Loss Function''} (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre $0$ y $1$, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y su objetivo es dar una medida del error. Vendrá dada de la siguiente forma:
@@ -910,10 +894,7 @@ De esta manera, ya podemos definir el $\alpha_m$ en el caso de regresión de man
 \alpha_m = \log \left( \frac{1 - L^{(m)}}{L^{(m)}} \right)
 \end{equation*}
 
-Así, una vez solucionado el problema de cómo medir el error, el resto del procedimiento es análogo al de clasificación y la respuesta final del algoritmo será:
-\begin{equation*}
-G(x) = \sum_{m=1}^M \alpha_m G_m(x)
-\end{equation*}
+Así, una vez solucionado el problema de cómo medir el error, el resto del procedimiento es análogo al de clasificación, tomando como respuesta final: $G(x) = \sum_{m = 1} ^M \alpha_m G_m(x)$.
 
 
 
@@ -927,20 +908,19 @@ Además, Gradient Boosting requiere de una Loss Function a través de la cual ob
 
 El algoritmo es el siguiente:
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width = 0.6\textwidth]{GB_01}
+\includegraphics[width = 0.4\textwidth]{GB_01}
 \caption{Algoritmo de Gradient Boosting. Fuente: \cite{FR04}}
 \label{fig:GB_01}
 \end{figure}
 
 El algoritmo es el mismo tanto para el caso de regresión como para el de clasificación. La diferencia entre estos dos casos reside únicamente en la elección de la Loss Function a emplear. A continuación, analizaremos estos dos casos por separado.
 
-\bigskip \bigskip \bigskip
+\bigskip \bigskip 
 
 \textbf{\underline{Regresión}}
 
-\bigskip
 
 En primer lugar, para iniciar el algoritmo se debe contar con una matriz de datos $X$ (matriz de variables explicativas), un vector $y$ (vector de la variable dependiente a predecir) y se debe establecer una Loss Function $L(y_i, f(x_i))$, donde $y_i$ es el elemento $i$-ésimo de $y$ y $f(x_i)$ es la predicción de la fila $i$-ésima de $X$. Ya hemos visto que existen diferentes funciones que pueden ser candidatas a Loss Function, por ello el algoritmo viene definido para una $L(y_i, f(x_i))$ cualquiera. No obstante, en Gradient Boosting se suele hacer uso de:
 \begin{equation*}
@@ -999,7 +979,7 @@ Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo 
 
 
 
-\bigskip \bigskip \bigskip
+\bigskip \bigskip
 
 \textbf{\underline{Clasificación: }}
 
@@ -1165,19 +1145,19 @@ p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 
 
 \subsubsection{XGBoost} \label{sec:XGBoost}
-XGBoost(\textit{'eXtreme Gradient Boosting'}) es un algoritmo basado completamente en el anterior con una serie de mejoras que lo convierten en una herramienta muy potente. Fue publicado en 2014 y su repercusión fue inmediata. Actualmente, es uno de los modelos imprescindibles de dominar y su continuada aparición entre los finalistas de concursos de Machine Learning dan fe de su importancia y utilidad.
+XGBoost(\textit{'eXtreme Gradient Boosting'}) es un algoritmo que utiliza de base lo explicado en la última sección y, además, añade una serie de mejoras que lo convierten en una herramienta muy potente. Fue publicado en 2014 \cite{CH01} y su repercusión fue inmediata. Actualmente, es uno de los modelos cuyo dominio es imprescindible y su continuada aparición entre los finalistas de concursos de Machine Learning dan fe de su importancia y utilidad.
 
 Como ya avanzábamos, XGBoost utiliza la misma idea de Gradient Boosting: generar árboles de decisión que realicen predicciones secuenciales de los residuos. No obstante, presenta una serie de modificaciones entre las que destacan la manera de construir los árboles y la inclusión de parámetros de regularización. Estos parámetros son ciertos valores que se incluyen al modelo para tratar de evitar el sobreajuste. Además, XGBoost fue diseñado para trabajar con conjuntos de datos muy grandes, por lo que estos parámetros de regularización nos ayudarán, sobretodo, en caso de que el conjunto de datos no sea lo suficientemente grande.
 
 El algoritmo XGBoost es el siguiente:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5\textwidth]{XGB_01}
-\caption{XGBoost}
+\includegraphics[width = 0.6\textwidth]{XGB_01}
+\caption{Algoritmo de XGBoost. Fuente: \cite{JI01}}
 \label{fig:XGB_01}
 \end{figure}
 
-Podemos observar que el número de inputs es elevado. No obstante, ninguno es nuevo para nosotros. Tendremos que introducir un conjunto de datos de entrenamiento, una Loss Function, el número de iteraciones M (equivalente a la M del bucle de Gradient Boosting), una tasa de aprendizaje y el número máximo de nodos hoja que le vamos a permitir a cada árbol.
+Podemos observar que el número de inputs es elevado. No obstante, ninguno es nuevo para nosotros. El algoritmo requiere de un conjunto de datos de entrenamiento, una Loss Function, el número de iteraciones $M$ (equivalente a la $M$ del bucle de Gradient Boosting), una tasa de aprendizaje y el número máximo de nodos hoja que le vamos a permitir a cada árbol.
 
 A continuación, al igual que realizamos en Gradient Boosting, explicaremos el caso de regresión y el de clasificación por separado.
 
@@ -1192,18 +1172,18 @@ En el caso de regresión, la Loss Function elegida será la misma que escogimos 
 L(y_i, f(x_i)) = \frac{1}{2}(y_i - f(x_i))^2
 \end{equation*}
 
-El primer paso consistirá en definir la predicción inicial, que en el algoritmo (\ref{fig:XGB_01}) viene denotada por $f^{(0)}$. Como ya hemos visto en cálculos anteriores, esta primera predicción vendrá dada por:
+El primer paso consistirá en definir la predicción inicial, que en el algoritmo de la Figura \ref{fig:XGB_01} viene denotada por $f^{(0)}$. Como ya hemos visto en cálculos anteriores (\ref{sec:GB}), esta primera predicción vendrá dada por:
 \begin{equation*}
 f^{(0)}(x) = \frac{1}{N} \sum_{i=1}^N y_i
 \end{equation*}
 
-A continuación, interviene un bucle de M iteraciones en el que, en cada iteración, se generará un árbol que prediga los residuos respecto de la última predicción calculada. Así para la m-ésima iteración calculamos:
+A continuación, interviene un bucle de $M$ iteraciones en el que, en cada iteración, se generará un árbol que prediga los residuos respecto de la última predicción calculada. Así para la $m$-ésima iteración calculamos:
 \begin{equation*}
 g_{m}(x_i) = \left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f = f^{(m-1)}}
 \end{equation*}
 
 \noindent 
-cuyo cálculo ya fue realizado en Gradient Boosting para regresión y es:
+cuyo cálculo ya fue realizado en Gradient Boosting para regresión (\ref{sec:GB}) y es:
 \begin{equation*}
 g_{m}(x_i) = f^{(m-1)}(x_i) - y_i
 \end{equation*}
@@ -1213,20 +1193,18 @@ A continuación, calculamos:
 h_{m}(x_i) = \left[ \frac{\partial^2 L(y_i, f(x_i))}{\partial f(x_i)^2} \right]_{f = f^{(m-1)}} = 1
 \end{equation*}
 
-A continuación se genera un árbol de decisión que clasifique los residuos. La respuesta de estos árboles vendrá dada por los valores $\omega_j$ (valor asociado al j-ésimo nodo hoja) que minimicen la siguiente función:
+A continuación se genera un árbol de decisión que clasifique los residuos. La respuesta de estos árboles vendrá dada por los valores $\omega_j$ (valor asociado al $j$-ésimo nodo hoja) que minimicen la siguiente función:
 \begin{equation*}
 \mathcal{L}^{(m)} = \sum_{i=1}^n L(y_i, f^{(m-1)}(x_i) + f_m(x_i)) + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T \omega_j^2
 \end{equation*}
 
 \noindent
-donde $\gamma$ y $\lambda$ son parámetros de regularización. Así, la función a minimizar es el sumatorio de las Loss Function (al igual que en Gradient Boosting) junto con una serie de parámetros de regularización.
-
-Para minimizar esta función se recurre al desarrollo de Taylor de segundo orden de $L(y_i, f{^{(m-1)}}(x_i) + f_m(x_i))$ de manera que:
+donde $\gamma$ y $\lambda$ son parámetros de regularización. Esto es así pues queremos minimizar el error cometido por la predicción $m$-ésima, que vendrá dada por: $f^m(x_i) = f^{(m-1)}(x_i) + f_m(x_i)$, donde $f_m$ hace referencia al $m$-ésimo árbol generado. La función a minimizar es el sumatorio de las Loss Function (al igual que en Gradient Boosting) junto con una serie de parámetros de regularización. Para minimizar esta función se recurre al desarrollo de Taylor de segundo orden de $L(y_i, f{^{(m-1)}}(x_i) + f_m(x_i))$ de manera que:
 \begin{equation*}
 \mathcal{L}^{(m)} \approx \sum_{i=1}^n \left( L(y_i, f^{(m-1)}(x_i)) + g_m(x_i)f_m(x_i) + h_m(x_i)f_m(x_i)^2 \right)  + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T \omega_j^2
 \end{equation*}
 
-Ahora, teniendo en cuenta que $ \displaystyle \sum_{i=1}^n f_m(x_i) = \sum_{j = 1}^T \left( \sum_{i \in I_j} \omega_j \right)$ con $I_j = \{ i \, / \, x_i \in j \}$, podemos reescribir la expresión anterior de la forma:
+Ahora, teniendo en cuenta que $ \displaystyle \sum_{i=1}^n f_m(x_i) = \sum_{j = 1}^T \left( \sum_{i \in I_j} \omega_j \right)$ con $I_j = \{ i \, / \, x_i \in R_j \}$, podemos reescribir la expresión anterior de la forma:
 \begin{equation*}
 \mathcal{L}^{(m)} \approx \sum_{j = 1}^T \left( (\sum_{i \in I_j} g_m(x_i))\omega_j + \frac{1}{2}(\sum_{i\in I_j} h_m(x_i) + \lambda)\omega_j^2 \right) + \gamma T
 \end{equation*}
@@ -1237,47 +1215,47 @@ Así, derivando respecto de $\omega_j$ e igualando a 0 se tiene que:
 \end{equation*}
 
 \noindent
-expresión que se puede interpretar como $\frac{\sum_{i \in I_j} Residuos_i}{Num\_Residuos_i + \lambda}$. De esta manera, observamos que para nodos hoja donde encontramos muchos residuos, el efecto del parámetro $\lambda$ será mínimo y el $\omega_j$ se corresponderá, prácticamente, con la media de los valores del nodo. Esto es porque, para $N_j$ (número de residuos del j-ésimo nodo hoja) grande:
+expresión que se puede interpretar como $\frac{\sum_{i \in I_j} Residuos_i}{Num\_Residuos_j + \lambda}$. De esta manera, observamos que para nodos hoja donde encontramos muchos residuos, el efecto del parámetro $\lambda$ será mínimo y el $\omega_j$ se corresponderá, prácticamente, con la media de los valores del nodo. Esto es porque, para $N_j$ (número de residuos del $j$-ésimo nodo hoja) grande:
 \begin{equation*}
 \omega_j = \frac{\sum_{i \in I_j} Residuos_i}{N_j + \lambda} = \frac{\sum_{i \in I_j} Residuos_i}{N_j} \times \frac{N_j}{N_j + \lambda} \approx \frac{\sum_{i \in I_j} Residuos_i}{N_j}
 \end{equation*}
 
 Así, $\lambda$ actúa como parámetro de regularización ya que modifica considerablemente la respuesta de aquellos nodos hoja a los que corresponden pocos individuos; es decir, la respuesta de las observaciones aisladas.
 
-Así, ya sabemos el valor asignado a los nodos hoja de los árboles que se construyen en XGBoost. Ahora, veamos la profundidad que alcanzan estos árboles. Para ello, observamos que sustituyendo el valor $\omega_j$ en la ecuación de $\mathcal{L}^{(m)}$ se obtiene:
+Una vez visto qué valor asignar a los nodos hoja de los árboles que se construyen en XGBoost, veamos la profundidad que alcanzan estos árboles. Para ello, observamos que sustituyendo el valor $\omega_j$ en la ecuación de $\mathcal{L}^{(m)}$ se obtiene:
 \begin{equation*}
 \mathcal{L}^{*(m)} = - \frac{1}{2} \sum_{j = 1}^T \frac{\left( \sum_{i \in I_j} g_m(x_i) \right)^2}{\sum_{i \in I_j} h_m(x_i) + \lambda} + \gamma T 
 \end{equation*}
 
-Así, el criterio de escisión de nodos de los árboles se basará en esta última fórmula. Dado un nodo $I$, realizamos una división de manera que $I = I_L \cup I_R$, donde $I_L$ hace referencia al nodo hijo izquierdo e $I_R$ al derecho. Así, se define una función de ganancia (\textit{'Gain'}) que realiza un trabajo análogo al realizado por la función de impureza explicada en CART (\ref{sec: subsec22}):
+El criterio de escisión de nodos de los árboles se basará en esta última fórmula. Dado un nodo $I$, realizamos una división de manera que $I = I_L \cup I_R$, donde $I_L$ hace referencia al nodo hijo izquierdo e $I_R$ al derecho. Así, se define una función de ganancia (\textit{``Gain''}) que realiza un trabajo análogo al realizado por la función de impureza explicada en CART (\ref{sec: subsec22}):
 \begin{equation*}
 Gain_I = \frac{G_I}{H_I} = \frac{\left( \sum_{i \in I} g_m(x_i) \right)^2}{\sum_{i \in I} h_m(x_i) + \lambda}
 \end{equation*}
 
-Así, las variables y los valores escogidos como referencia para la escisión serán aquellos que maximicen la función:
+Entonces, las variables y los valores escogidos como referencia para la escisión serán aquellos que maximicen la función:
 \begin{equation*}
 \begin{split}
 \mathcal{L}_{split} &= \frac{1}{2} \left( Gain_{I_L} + Gain_{I_R} - Gain_{I} \right) - \gamma = \frac{1}{2} \left( \frac{G_{I_L}}{H_{I_L}} + \frac{G_{I_R}}{H_{I_R}} - \frac{G_I}{H_I} \right) - \gamma = \\
-&= \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} g_m(x_i) \right)^2}{\sum_{i \in I_L} h_m(x_i) + \lambda} + \frac{\left( \sum_{i \in I_R} g_m(x_i) \right)^2}{\sum_{i \in I_R} h_m(x_i) + \lambda} + \frac{\left( \sum_{i \in I} g_m(x_i) \right)^2}{\sum_{i \in I} h_m(x_i) + \lambda} \right)   - \gamma
+&= \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} g_m(x_i) \right)^2}{\sum_{i \in I_L} h_m(x_i) + \lambda} + \frac{\left( \sum_{i \in I_R} g_m(x_i) \right)^2}{\sum_{i \in I_R} h_m(x_i) + \lambda} - \frac{\left( \sum_{i \in I} g_m(x_i) \right)^2}{\sum_{i \in I} h_m(x_i) + \lambda} \right)   - \gamma
 \end{split}
 \end{equation*}
 
 \noindent
-y el criterio de escisión será dividir en caso de que $\mathcal{L}_{split} > 0$ y no dividir en caso de que $\mathcal{L}_{split} < 0$. En este criterio, se puede apreciar la función de parámetro de regularización que realiza $\gamma$, ya que cuanto mayor sea el $\gamma$, menor será la probabilidad de dividir el nodo. De esta manera, para $\gamma > > 0$, los árboles generados no serán muy profundos y se evitará el sobreajuste; y para $\gamma \simeq 0$, los árboles se generarán de manera parecida a CART, si la ganancia de los nodos hijos es mayor que la del nodo padre, se divide.
+y el criterio de escisión será dividir en caso de que $\mathcal{L}_{split} > 0$ y no dividir en caso de que $\mathcal{L}_{split} < 0$. En este criterio, se puede apreciar la función de parámetro de regularización que realiza $\gamma$, ya que cuanto mayor sea el $\gamma$, menor será la probabilidad de dividir el nodo. De esta manera, para $\gamma \ggg 0$, los árboles generados no serán muy profundos y se evitará el sobreajuste; y para $\gamma \simeq 0$, los árboles se generarán de manera parecida a CART: si la ganancia de los nodos hijos es mayor que la del nodo padre, se divide.
 
 En particular, dada la Loss Function con la que estamos trabajando:
 \begin{equation*}
-\mathcal{L}_{split} = \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I_L} 1 + \lambda} + \frac{\left( \sum_{i \in I_R} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I_R} 1 + \lambda} + \frac{\left( \sum_{i \in I} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I} 1 + \lambda} \right)   - \gamma
+\mathcal{L}_{split} = \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I_L} 1 + \lambda} + \frac{\left( \sum_{i \in I_R} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I_R} 1 + \lambda} - \frac{\left( \sum_{i \in I} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I} 1 + \lambda} \right)   - \gamma
 \end{equation*}
 
 \noindent
-que, de nuevo, se puede entender como el sumatorio de los residuos al cuadrado dividido por el número de residuos más $\gamma$.
+que, de nuevo, se puede entender como el sumatorio de los residuos al cuadrado dividido por el número de residuos menos $\gamma$.
 
-Una vez explicado como genera los árboles XGBoost, el resto del procedimiento es análogo. La predicción realizada por el árbol m-ésimo se añade a la última predicción realizada(la (m-1)-ésima) y tomamos como predicción final del modelo $f^(M)(x)$.
+Una vez explicado como genera los árboles XGBoost, el resto del procedimiento es análogo a Gradient Boosting. La predicción realizada por el árbol $m$-ésimo se añade a la última predicción realizada(la $(m-1)$-ésima) y tomamos como predicción final del modelo $f^{(M)}(x)$.
 
 
 
-\bigskip \bigskip \bigskip
+\bigskip \bigskip 
 
 \textbf{\underline{Clasificación}}
 
@@ -1299,7 +1277,7 @@ g_m(x_i) = -y_i + p_{i, m-1} \, \, \, \, \wedge \, \, \, \, h_m(x_i) = p_{i, m-1
 
 Así, para obtener el criterio de escisión de nodos seguido en la construcción de los árboles se deben sustituir estos valores en:
 \begin{equation*}
-\mathcal{L}_{split} = \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} g_m(x_i) \right)^2}{\sum_{i \in I_L} h_m(x_i) + \lambda} + \frac{\left( \sum_{i \in I_R} g_m(x_i) \right)^2}{\sum_{i \in I_R} h_m(x_i) + \lambda} + \frac{\left( \sum_{i \in I} g_m(x_i) \right)^2}{\sum_{i \in I} h_m(x_i) + \lambda} \right)   - \gamma 
+\mathcal{L}_{split} = \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} g_m(x_i) \right)^2}{\sum_{i \in I_L} h_m(x_i) + \lambda} + \frac{\left( \sum_{i \in I_R} g_m(x_i) \right)^2}{\sum_{i \in I_R} h_m(x_i) + \lambda} - \frac{\left( \sum_{i \in I} g_m(x_i) \right)^2}{\sum_{i \in I} h_m(x_i) + \lambda} \right)   - \gamma 
 \end{equation*}
 
 \noindent
@@ -1311,7 +1289,7 @@ y para obtener el valor de los $\omega_j^*$ basta con sustituir en:
 \noindent
 mientras que el resto del procedimiento es análogo.
 
-De nuevo, cabe tener en cuenta que la predicción vendrá dada en términos de $log-odd-ratio$, por lo que habrá que realizar la transformación:
+De nuevo, cabe tener en cuenta que la predicción vendrá dada en términos de log-odd-ratio, por lo que habrá que realizar la transformación:
 \begin{equation*}
 p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 \end{equation*}
@@ -1321,27 +1299,27 @@ para obtener la probabilidad deseada y clasificar.
 
 
 
-\bigskip \bigskip \bigskip
+\bigskip \bigskip
 
 \textbf{\underline{Otras optimizaciones}}
 
 Además de la particular forma que tiene XGBoost de construir los árboles, también incluye otra serie de mecanismos que hacen de él una herramienta muy potente. A continuación, trataremos de explicar, sin entrar en muchos detalles, cuáles son estos métodos que aplica.
 
-Por un lado, como ya se ha comentado, XGBoost se ideó para conjuntos de datos muy grandes. Por ello, a la hora de realizar las escisiones de los árboles, es imposible probar con todos los valores posibles de todas las variables para determinar cuáles maximizan la función $\mathcal{L}_{split}$. Así, una manera eficaz de llevar a cabo esta tarea es probar solo con los percentiles de cada variable. Por ejemplo, si tomamos los percentiles $P_{25}$, $P_{50}$ y $P_{75}$, solo tendremos que probar con 3 valores por variable y escoger el óptimo. Además, cabe citar que, en la práctica, se suelen usar alrededor de 33 percentiles. Además, estos percentiles están ponderados. Esto quiere decir que no todos los intervalos recogen el mismo número de individuos, sino que la suma de los pesos de los individuos es igual en todos los intervalos. El peso de cada individuo en la iteración m-ésima viene dado por $h_m(x_i)$ que, como ya hemos visto:
+Por un lado, como ya se ha comentado, XGBoost se ideó para conjuntos de datos muy grandes. Por ello, a la hora de realizar las escisiones de los árboles, probar con todos los valores posibles de todas las variables para determinar cuáles maximizan la función $\mathcal{L}_{split}$ conllevaría un gasto computacional inasumible. Así, una manera eficaz de llevar a cabo esta tarea es probar solo con los percentiles de cada variable. Por ejemplo, si tomamos los percentiles $P_{25}$, $P_{50}$ y $P_{75}$, solo tendremos que probar con 3 valores por variable y escoger el óptimo. Cabe citar que, en la práctica, se suelen usar alrededor de 33 percentiles. Además, estos percentiles están ponderados; esto quiere decir que no todos los intervalos recogen el mismo número de individuos, sino que la suma de los pesos de los individuos es igual en todos los intervalos. El peso de cada individuo en la iteración $m$-ésima viene dado por $h_m(x_i)$ que, como ya hemos visto:
 \begin{equation*}
 h_m(x_i) = 1 \, \, \, \, \vee \, \, \, \, h_m(x_i) = p_{i, m-1}(1 - p_{i, m-1})
 \end{equation*}
 
 \noindent
-según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan como siempre y en el caso de clasificación se tendrán en cuenta los pesos. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que podemos reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
+según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan como siempre y en el caso de clasificación se tendrán las últimas predicciones realizadas. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que podemos reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
 \begin{equation*}
-\sum_{i = 1}^n \frac{1}{2} h_m(x_i) \left( f_m(x_i) - \frac{g_m(x_i)}{h_m(x_i)} \right)^2 + \Omega(f_m) + constant
+\mathcal{L}^{(m)} = \sum_{i = 1}^n \frac{1}{2} h_m(x_i) \left( f_m(x_i) - \frac{g_m(x_i)}{h_m(x_i)} \right)^2 + \Omega(f_m) + constant
 \end{equation*}
 
 \noindent
 con $\Omega(f_m)$ los términos de regularización, de manera que se puede interpretar considerando $h_m(x_i)$ el peso del individuo y el otro factor como una función de pérdida.
 
-Por otro lado, XGBoost es capaz de trabajar con conjuntos de datos con datos vacíos sin necesidad de depurarlos previamente. Cuando se construyen los árboles para predecir los residuos, a la hora de separar un nodo, si se tienen variables con datos vacíos, para cada uno de los valores que se le otorguen a la variable para analizar el valor de \textit{'Gain'} se contemplarán dos casos: que los residuos de aquellos datos vacíos se encuentren en el nodo hijo izquierdo y que se encuentren en el derecho. De esta manera, el algoritmo tendrá en cuenta más particiones pero seguirá escogiendo aquella que maximice la ganancia y, por tanto, se podrán predecir resultados sin necesidad de conocer el valor de todas las variables explicativas.
+Por otro lado, XGBoost es capaz de trabajar con conjuntos de datos con datos vacíos sin necesidad de depurarlos previamente. Cuando se construyen los árboles para predecir los residuos, a la hora de separar un nodo, si se tienen variables con datos vacíos, para cada uno de los valores que se le otorguen a la variable para analizar el valor de \textit{``Gain''} se contemplarán dos casos: que los residuos de aquellos datos vacíos se encuentren en el nodo hijo izquierdo y que se encuentren en el derecho. De esta manera, el algoritmo tendrá en cuenta más particiones pero seguirá escogiendo aquella que maximice la ganancia y, por tanto, se podrán predecir resultados sin necesidad de conocer el valor de todas las variables explicativas.
 
 Por último, también se tienen en cuenta ciertas mejoras de ámbito informático. Con la intención de optimizar el tiempo de computación, XGBoost recurre a diferentes técnicas: 
 \begin{itemize}
@@ -1349,21 +1327,21 @@ Por último, también se tienen en cuenta ciertas mejoras de ámbito informátic
 
 \item \textbf{Calcula $g_m(x_i)$ y $h_m(x_i)$ haciendo uso de la memoria RAM} para realizar las operaciones necesarias en el menor tiempo posible.
 
-\item \textbf{Realiza una compresión del conjunto de datos} ya que es más eficiente comprimirlos y descomprimirlos que leerlos directamente del disco duro. Además, en caso de disponer de más de un disco duro, separa el conjunto entre ambos por tal de ganar velocidad.
+\item \textbf{Realiza una compresión del conjunto de datos} ya que es más eficiente comprimirlos y descomprimirlos que leerlos directamente del disco duro. Además, en caso de disponer de más de un disco duro, separa el conjunto entre los disponibles con la finalidad de ganar velocidad.
 \end{itemize}
 
 
 
 \subsubsection{LightGBM}
 
-LightGBM (del inglés: \textit{Light Gradient Boosting Machine}) es un modelo desarrollado por Microsoft que fue publicado en 2017. Su funcionamiento es similar al de XGBoost pero añadiendo una serie de matices que consiguen que el algoritmo sea muy potente y eficiente.
+LightGBM (del inglés: \textit{Light Gradient Boosting Machine}) es un modelo desarrollado por Microsoft que fue publicado en 2017 \cite{CH02}. Su funcionamiento es similar al de XGBoost pero añadiendo una serie de matices que consiguen que el algoritmo sea muy potente y eficiente.
 
-La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{'Gain'}. Por el contrario, se podría decir que LightGBM no trabaja por capas. A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, nos encontraremos con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
+La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{``Gain''}. Por el contrario, se podría decir que LightGBM no trabaja por capas. A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, nos encontraremos con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5\textwidth]{LGBM_01}
-\caption{Construcción de árboles en LightGBM vs XGBoost (Fuente: Medium)}
+\includegraphics[width = 0.4\textwidth]{LGBM_01}
+\caption{Construcción de árboles en LightGBM vs XGBoost (Fuente: \cite{MA01})}
 \end{figure}
 
 Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor.
@@ -1372,7 +1350,7 @@ Además de esta particularidad de LightGBM, también se aplican diferentes modif
 
 \subsubsection{CatBoost} \label{sec:CatBoost}
 
-CatBoost es un modelo desarrollado por Yandex también publicado en 2017. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas que cuentan con un gran número de variables explicativas categóricas (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
+CatBoost es un modelo desarrollado por Yandex también publicado en 2017 \cite{DO01}. Al igual que LightGBM, guarda gran parecido con XGBoost; no obstante, se trata de una gran alternativa frente a problemas que cuentan con un gran número de variables explicativas categóricas (de ahí su nombre: \textit{\textbf{Cat}egorical \textbf{Boost}ing}).
 
 A la hora de trabajar con modelos de Machine Learning, dado que los ordenadores no son capaces de entender cadenas de texto, es necesario codificar las variables categóricas del conjunto de datos con el que se trabaja. La codificación de una variable categórica binaria es sencilla, pues basta con asignar a una clase el valor $0$ y a la otra clase el valor $1$. No obstante, cuando la variable categórica posee más de dos clases, la manera de proceder no resulta tan simple e intuitiva.
 
@@ -1388,7 +1366,8 @@ V_j(x) =
 \end{equation*}
 
 Por ejemplo:
-\begin{center}
+\begin{table}[h]
+\centering
 \begin{tabular}{|l|l|}
 \hline
 Individuo & Clase \\ \hline
@@ -1406,33 +1385,37 @@ Individuo & ClaseA & ClaseB & ClaseC \\ \hline
 3         & 1 & 0 & 0     \\ \hline
 4         & 0 & 0 & 1     \\ \hline
 \end{tabular}
-\end{center}
+\caption{\textit{One-hot-encoding}}
+\end{table}
 
-De esta manera, el problema quedaría resuelto. Cada nueva variable $V_j$ hará referencia a la propiedad de "pertenecer a la clase $A_j$" y de esta manera ya tenemos codificado el conjunto de datos correctamente para su uso. En este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la técnica utilizado para codificar variables como $'Location'$.
+De esta manera, el problema quedaría resuelto. Cada nueva variable $V_j$ hará referencia a la propiedad de ``pertenecer a la clase $A_j$'' y el conjunto de datos ya estará correctamente codificado para su uso. En este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la técnica para codificar variables como ``Location''.
 
-No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables de esta índole implica un aumento significativo del número de variables a considerar en nuestro conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional.
+No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables categóricas implica un aumento significativo del número de variables a considerar en nuestro conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional.
 
 Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir a la codificación \textit{one-hot-encoding}. Así, se consigue una ahorro de recursos que permite obtener resultados similares en un menor tiempo de ejecución.
 
 En el caso de clasificación, la codificación realizada por CatBoost se basa en intentar codificar cada clase $A_j$ con el valor de $P(Y = 1 | X \in A_j)$. Dado que este valor es desconocido, un razonamiento lógico sería proceder a través de proporciones.  Veámoslo a través de un ejemplo; sea el conjunto de datos:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.7 \textwidth]{CatBoost_01}
+\includegraphics[width = 0.6 \textwidth]{CatBoost_01}
+\caption{Conjunto de datos del ejemplo teórico}
 \end{figure}
 
 \noindent
-donde $'Country'$ es la variable explicativa que deseamos codificar y $'Target'$ la variable binaria a predecir. Entonces, la idea es codificar $'Spain'$ teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, $'Spain'$ se codificaría como $\frac{3}{5}$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo $'Target'$ en función de $'Country'$ cuando a su vez $'Country'$ ha sido codificada en función de $'Target'$. Entonces, la manera de proceder no será exactamente la anterior, pero sí muy parecida.
+donde ``Country'' es la variable explicativa que deseamos codificar y ``Target'' la variable binaria a predecir. Entonces, la idea es codificar ``Spain'' teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, ``Spain'' se codificaría como $\frac{3}{5}$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo ``Target'' en función de ``Country'' cuando a su vez ``Country'' ha sido codificada en función de ``Target''. Entonces, la manera de proceder no será exactamente la anterior, pero sí muy parecida.
 
 Para evitar el sobreajuste del modelo, bastaría con añadir parámetros de regularización y técnicas relacionadas con la validación cruzada. En primer lugar, se codifica la variable de la manera propuesta anteriormente, a través de proporciones:
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width = 0.25 \textwidth]{CatBoost_02}
+\includegraphics[width = 0.3 \textwidth]{CatBoost_02}
+\caption{Codificación a través de proporciones}
 \end{figure}
 
 A continuación, se separa el conjunto de datos en dos de manera que el primer subconjunto de datos mantendrá el valor asignado y el segundo subconjunto no. Es decir:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.25 \textwidth]{CatBoost_03}
+\includegraphics[width = 0.3 \textwidth]{CatBoost_03}
+\caption{Separación del conjunto de datos}
 \end{figure}
 
 Así, las variables del segundo conjunto se codificarán, secuencialmente, en función de aquellos individuos que ya han sido codificados. La fórmula es la siguiente:
@@ -1448,9 +1431,10 @@ donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los ind
 
 \noindent
 y por tanto, el valor de la codificación para el sexto individuo queda:
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width = 0.3 \textwidth]{CatBoost_04}
+\caption{Codificación sexto individuo}
 \end{figure}
 
 Para el octavo individuo:
@@ -1463,17 +1447,18 @@ y:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.3 \textwidth]{CatBoost_05}
+\caption{Codificación octavo individuo}
 \end{figure}
 
-Con el fin de ajustarnos con la mayor exactitud posible al funcionamiento real del modelo, mencionar el hecho de que CatBoost realiza permutaciones del conjunto de datos antes de dividirlo en dos y realiza este proceso varias veces para exhibir finalmente una media del valor obtenido. Además, hemos explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que debemos tener en cuenta es que la $p$ (que antes hemos definido como la proporción de invididuos cuyo valor en la variable dependiente es $'1'$) ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que estamos interesados en codificar).
+Con el fin de ajustarnos con la mayor exactitud posible al funcionamiento real del modelo, mencionar el hecho de que CatBoost realiza permutaciones del conjunto de datos antes de dividirlo en dos y realiza este proceso varias veces para exhibir finalmente una media del valor obtenido. Además, hemos explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que debemos tener en cuenta es que la $p$ (que antes hemos definido como la proporción de invididuos cuyo valor en la variable dependiente es ``$1$'') ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que estamos interesados en codificar).
 
-Finalizando con la codificación, a la hora de realizar una predicción de un individuo que no pertenece al conjunto de datos de entrenamiento, tendremos que codificar las variables categóricas del mismo para poder introducirlo en el modelo. Así, las variables categóricas se transformarán de forma que
+%Finalizando con la codificación, a la hora de realizar una predicción de un individuo que no pertenece al conjunto de datos de entrenamiento, tendremos que codificar las variables categóricas del mismo para poder introducirlo en el modelo. Así, las variables categóricas se transformarán de forma que
 
 Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito informático para ciertas optimizaciones. También, cabe destacar que este modelo construye árboles de decisión simétricos:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.7 \textwidth]{CatBoost_06}
-\caption{Árboles simétricos. Fuente: Data Science One question at a time}
+\caption{Árboles simétricos. Fuente: \cite{SE01}}
 \end{figure}
 
 
@@ -1481,24 +1466,24 @@ Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito in
 
 \subsubsection{Ejemplo} \label{ex:Boost}
 
-\textit{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos 'Rain in Australia'. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el 'overfitting'. En este caso, no será necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, en algunos casos sí se incluirá este parámetro para acelerar el proceso, dado que el tiempo de ejecución aumenta exponencialmente conforme se aumenta el número de nodos hoja permitidos de cada árbol.}
+\textit{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos ``Rain in Australia''. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el ``overfitting''. En este caso, no es necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, por realizar una comparación justa con los algoritmos de bagging, fijaremos la profundidad máxima de cada árbol en 5.}
 
-\textit{Al igual que en los ejemplos anteriores, calcularemos el índice Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
-
-\textit{Así, los resultados de los diferentes algoritmos son:}
+\textit{Al igual que en los ejemplos anteriores, calcularemos el coeficiente de Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones. Así, los resultados de los diferentes algoritmos son:}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width = \textwidth]{ex_boost_01}
+\caption{Resultados modelos de boosting}
 \end{figure}
 
-\textit{Como podemos observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $0.7$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones; y debemos tener en cuenta el coste computacional que esto conlleva.}
+\textit{Como podemos observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $0.7$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
 
 \textit{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting tendremos que preocuparnos por ver que no estamos cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.6\textwidth]{ex_boost_02}
+\includegraphics[width = 0.5\textwidth]{ex_boost_02}
+\caption{Evolución del $delta\%$}
 \end{figure}
 
 
@@ -1524,7 +1509,7 @@ Tras la debida explicación del funcionamiento de los algoritmos de boosting, ca
 
 \item Sólo apto para grandes conjuntos de datos, pues la gran potencia de los algoritmos conlleva sobreajustes cuando la cantidad de datos no es suficientemente elevada.
 
-\item Dada la complejidad de los modelos, el coste computacional de su ejecución es mucho mayor que en CART o bagging.
+\item Aumento del coste computacional.
 \end{itemize}
 
 
@@ -1544,31 +1529,34 @@ En primer lugar, realizaremos una comparación de los mejores modelos de cada ca
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.4 \textwidth]{Conc_01}
+\caption{Modelos seleccionados}
 \end{figure}
 
 A través de estos modelos, se pueden generar los siguientes gráficos:
 \begin{figure}[h]
 \centering
 \includegraphics[width = \textwidth]{Conc_02}
+\caption{Comparación de precisión y tiempo de ejecución}
 \end{figure}
 
 En vista de los gráficos, es evidente que los modelos que obtienen las mejores predicciones son aquellos que hacen uso del boosting, siendo el modelo más eficiente el $LGBM\_50$ dado que obtiene una de las mejores precisiones en el menor tiempo registrado. No obstante, los gráficos no son del todo justos con CatBoost ya que, pese a obtener un tiempo de ejecución superior al obtenido el LightGBM o XGBoost, hay que tener en cuenta que no se ha considerado el tiempo invertido en procesar los datos y codificar las variables categóricas para el correcto funcionamiento de los dos últimos.
 
-Otros modelos a los que el gráfico deja en mal lugar son los modelos de Bagging. Según el criterio establecido, la selección de los modelos es la correcta. No obstante, dada la convergencia del error, se pueden obtener modelos cuya ejecución es mucho más rápida y cuya precisión apenas disminuye. Así, tratemos de representar la información en otro gráfico más completo.
+Otros modelos a los que el gráfico no hace justicia son los modelos de Bagging. Según el criterio establecido, la selección de los modelos es la correcta. No obstante, dada la convergencia del error, se pueden obtener modelos cuya ejecución es mucho más rápida y cuya precisión apenas disminuye. Así, tratemos de representar la información en otro gráfico más completo.
 
-El nuevo gráfico que generaremos será:
+El nuevo gráfico que generaremos nos mostrará la precisión de cada modelo en función del número de iteraciones y nos indicará, a través del tamaño de los puntos, el tiempo de ejecución registrado. Con tal de poder observar bien la información, dado que el coeficiente de Gini converge a partir de las 200 iteraciones, no contemplaremos las iteraciones posteriores en el gráfico:
 \begin{figure}[h]
 \centering
 \includegraphics[width = \textwidth]{Conc_03}
+\caption{Resumen de modelos}
 \end{figure}
 
-\noindent
-en el que podemos observar la evolución de la precisión en función del número de árboles que construye el modelo. Además, el tamaño de los puntos representa el tiempo de ejecución de cada uno de los modelos. De esta manera, comprobamos visualmente que, por ejemplo, la precisión de Bagging y Random Forest cuando generan más de 100 árboles es prácticamente equivalente; sin embargo el coste de Bagging es mayor. Del mismo modo, se pueden extraer más conclusiones, como que los algoritmos GB, XGB, LGBM Y CatB alcanzan una precisión bastante parecida al realizar 1000 iteraciones pero el tiempo de ejecución de LightGBM es considerablemente menor al del resto; o que los algoritmos de bagging no sufren apenas cambios en términos de precisión a partir de los 100 árboles pero su coste sí aumenta significativamente.
+De esta manera, comprobamos visualmente que, por ejemplo, la precisión de Bagging y Random Forest cuando generan más de 100 árboles es prácticamente equivalente; sin embargo el coste de Bagging es mayor. Del mismo modo, se pueden extraer más conclusiones, como que los algoritmos GB, XGB, LGBM Y CatB alcanzan una precisión bastante parecida al realizar 1000 iteraciones pero el tiempo de ejecución de LightGBM es considerablemente menor al del resto; o que los algoritmos de bagging no sufren apenas cambios en términos de precisión a partir de los 100 árboles pero su coste sí aumenta significativamente.
 
 Por tanto, a través de este gráfico podemos hacernos una idea general del mapa de modelos generado, pues podemos hacer una comparación bastante completa de todos los modelos y a su vez decidir el número de iteraciones a realizar de un cierto modelo en función del incremento de coste y precisión.
 
 Por último, cabe observar que a lo largo del trabajo hemos tratado muchos algoritmos que han resultado ser muy útiles para problemas de regresión y de clasificación binaria. No obstante, muchos de los problemas de clasificación que se presentan no poseen únicamente dos clases posibles. Por ejemplo, si el problema fuese predecir la comunidad autónoma en la que reside un individuo dadas ciertas características del mismo, la respuesta del algoritmo no es binaria. La solución ante estos problemas de clasificación multiclase pasa por aplicar \textit{one-hot-encoding} (visto en CatBoost(\ref{sec:CatBoost})):
-\begin{center}
+\begin{table}[h]
+\centering
 \begin{tabular}{|l|l|}
 \hline
 Individuo & Clase \\ \hline
@@ -1586,11 +1574,12 @@ Individuo & ClaseA & ClaseB & ClaseC \\ \hline
 3         & 1 & 0 & 0     \\ \hline
 4         & 0 & 0 & 1     \\ \hline
 \end{tabular}
-\end{center}
+\caption{\textit{One-hot-encoding}}
+\end{table}
 
 De esta manera, se aplicará el modelo independientemente a cada nueva variable y se escogerá como respuesta final aquella que maximice la probabilidad.
 
-Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no que un individuo puede pertenecer a dos clases diferentes. Un ejemplo de esto sería el problema de clasificar una película en una determinada plataforma; pues una película puede pertenecer al género 'Adulto' y 'Comedia' simultáneamente. En este caso, la solución es la misma; se aplica \textit{one-hot-encoding} a cada variable por separado y se seleccionan aquellas cuya probabilidad supera un cierto valor fijo. Además, la librería Scikit-Learn de Python incluye en XGBoost una implementación de este último caso, cuya salida es un vector de probabilidades. 
+Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no que un individuo puede pertenecer a dos clases diferentes. Un ejemplo de esto sería el problema de clasificar una película en una determinada plataforma; pues una película puede pertenecer al género ``Adulto'' y ``Comedia'' simultáneamente. En este caso, la solución es la misma; se aplica \textit{one-hot-encoding} a cada variable por separado y se seleccionan aquellas cuya probabilidad supera un cierto valor fijo. Además, la librería Scikit-Learn de Python incluye en XGBoost una implementación de este último caso, cuya salida es un vector de probabilidades. 
 
 
 
@@ -1695,6 +1684,15 @@ Análisis de Datos II & General & Relación general con diferentes aspectos trat
 
 %CAPÍTULOS DE LIBROS
 \bibitem{MO02} Moisen, G. G. (2008). Classification and regression trees. In: Jorgensen, Sven Erik; Fath, Brian D., eds. Encyclopedia of Ecology, Volume 1. Oxford, U.K.: Elsevier. p. 582-588.
+
+
+
+%PÁGINAS WEB
+\bibitem{JI01} Jin, Y., Tree Boosting With XGBoost — Why Does XGBoost Win ``Every'' Machine Learning Competition?. \url{https://medium.com/syncedreview/tree-boosting-with-xgboost-why-does-xgboost-win-every-machine-learning-competition-ca8034c0b283} (Consultado el 11 de Mayo de 2022).
+
+\bibitem{MA01} Mandot, P., What is LightGBM, How to implement it? How to fine tune the parameters?. \url{https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc} (Consultado el 12 de Mayo de 2022).
+
+\bibitem{SE01} Segura, T., ``CatBoost Algorithm'' explained in 200 words. \url{https://thaddeus-segura.com/catboost/} (Consultado el 12 de Mayo de 2022).
 
 \end{thebibliography}
 \end{document}
