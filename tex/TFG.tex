@@ -1543,14 +1543,14 @@ En vista de los gráficos, es evidente que los modelos que obtienen las mejores 
 
 Otros modelos a los que el gráfico no hace justicia son los modelos de Bagging. Según el criterio establecido, la selección de los modelos es la correcta. No obstante, dada la convergencia del error, se pueden obtener modelos cuya ejecución es mucho más rápida y cuya precisión apenas disminuye. Así, tratemos de representar la información en otro gráfico más completo.
 
-El nuevo gráfico que generaremos nos mostrará la precisión de cada modelo en función del número de iteraciones y nos indicará, a través del tamaño de los puntos, el tiempo de ejecución registrado. Con tal de poder observar bien la información, dado que el coeficiente de Gini converge a partir de las 200 iteraciones, no contemplaremos las iteraciones posteriores en el gráfico:
+El nuevo gráfico que generaremos nos mostrará la precisión de cada modelo en función del número de iteraciones y nos indicará, a través del tamaño de los puntos, el tiempo de ejecución registrado. Con tal de poder observar bien la información, dado que el coeficiente de Gini converge a partir de las 100 iteraciones, no contemplaremos las iteraciones posteriores en el gráfico:
 \begin{figure}[h]
 \centering
 \includegraphics[width = \textwidth]{Conc_03}
 \caption{Resumen de modelos}
 \end{figure}
 
-De esta manera, comprobamos visualmente que, por ejemplo, la precisión de Bagging y Random Forest cuando generan más de 100 árboles es prácticamente equivalente; sin embargo el coste de Bagging es mayor. Del mismo modo, se pueden extraer más conclusiones, como que los algoritmos GB, XGB, LGBM Y CatB alcanzan una precisión bastante parecida al realizar 1000 iteraciones pero el tiempo de ejecución de LightGBM es considerablemente menor al del resto; o que los algoritmos de bagging no sufren apenas cambios en términos de precisión a partir de los 100 árboles pero su coste sí aumenta significativamente.
+De esta manera, comprobamos visualmente que, por ejemplo, Gradient Boosting, XGBoost, LightGBM y CatBoost alcanzan un nivel de precisión muy parecido, siendo CatBoost el que antes converge y siendo Gradient Boosting el que conlleva un mayor coste computacional. Del mismo modo, observamos que AdaBoost es el que registra un mayor incremento de precisión; lo cual se corresponde con lo explicado en \ref{sec:AdaBoost} ya que las primeras iteraciones sólo recogerán las predicciones realizadas por unos pocos tocones que, en particular, son muy imprecisos.
 
 Por tanto, a través de este gráfico podemos hacernos una idea general del mapa de modelos generado, pues podemos hacer una comparación bastante completa de todos los modelos y a su vez decidir el número de iteraciones a realizar de un cierto modelo en función del incremento de coste y precisión.
 
