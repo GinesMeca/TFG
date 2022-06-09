@@ -1,0 +1,329 @@
+\documentclass[12pt,twoside]{article}
+
+% La extensión total de la memoria deberá ser de un máximo de 50 páginas (excluidos resumen, índice y posibles anexos).
+
+% Según las recomendaciones de estilo, el formato de la memoria se ajustará a lo siguiente:
+% - Formato del papel: DIN A4.
+% - Impresión a dos caras.
+% - Márgenes: superior e inferior, 2.5 cm. Márgenes laterales: páginas impares, izquierdo 4 cm y derecho 2 cm; páginas pares, izquierdo 2 cm y derecho 4 cm.
+% - Tipo de letra: Times New Roman de 12 puntos.
+% - Interlineado: 1.5 líneas.
+% - Alineación: justificación completa.
+% - Sangrado de párrafo: 0.5 cm la primera línea de cada párrafo. No se pondrá espacio entre párrafos.
+% - Las páginas deberán ir numeradas en números arábigos.
+
+% Teniendo en cuenta las indicaciones previas, definimos el estilo en LaTeX:
+
+% Indicaciones para el idioma:
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+% Adaptación de itemize y enumerate a los usos tipograficos españoles:
+\let\layoutspanish\relax
+\addto\captionsspanish{\def\tablename{Tabla}} % para que escriba "Tabla" en lugar de "Cuadro"
+\unaccentedoperators  % para que no acentúe los operadores
+
+% Área de impresión de una página:
+\usepackage[a4paper]{geometry}
+  \geometry{hmargin={2.5cm,2.5cm},height=22cm}
+
+% Formato de algunas distancias:
+\renewcommand{\baselinestretch}{1.2}    % separación entre líneas de un mismo párrafo
+\setlength{\partopsep}{0pt}
+\setlength{\itemsep}{0pt}
+\setlength{\topsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0.25\baselineskip}   % separación entre párrafos
+
+\renewcommand{\textfraction}{0.1}   % mínima fracción de la página para el texto
+\renewcommand{\topfraction}{1}      % máxima fracción de la página para objetos flotantes en la parte superior
+\renewcommand{\bottomfraction}{1}
+\renewcommand{\floatpagefraction}{1}
+
+\setcounter{totalnumber}{5}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+
+% Adaptación de las "caption" de los entorns "figure" y "table":
+\usepackage{caption}
+
+% Indentación del primer párrafo de una sección:
+\usepackage{indentfirst}
+
+% Definición del color grisclaro en la salida PDF:
+\usepackage[pdftex]{color}
+
+% Gráficos:
+\usepackage[pdftex]{graphicx}
+
+% Paquetes recomendados para la inclusión de fórmulas matemáticas:
+\usepackage{amsmath}
+\allowdisplaybreaks  % para que pueda partir fórmulas que ocupan más de una línea, necesita el paquete anterior
+\usepackage{amssymb} % para cargar algunos símbolos como \blacksquare y \square
+\usepackage{amsfonts} % para cargar algunas fuentes en estilo matemático
+\usepackage{enumerate}
+% Teoremas (se pueden definir todos los que se necesiten):
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{example}[theorem]{Ejemplo}
+\newtheorem{app}[theorem]{Aplicación}
+\newtheorem{remark}[theorem]{Observación}
+\newtheorem{agrad}[theorem]{Agradecimiento}
+\newtheorem{algo}[theorem]{Algoritmo}
+\newtheorem{axiom}[theorem]{Axioma}
+\newtheorem{case}[theorem]{Caso}
+\newtheorem{conclu}[theorem]{Conclusión}
+\newtheorem{conjectura}[theorem]{Conjetura}
+\newtheorem{notac}[theorem]{Notación}
+\newtheorem{soluc}[theorem]{Solución}
+\newtheorem{summary}[theorem]{Sumario}
+
+
+\newtheorem{proof}[theorem]{Demostración.}
+\renewenvironment{proof}{\emph{Demostración.}} {\quad \hfill $\blacksquare$ \newline} % para que aparezca un cuadrado negro al acabar la demostración
+
+
+% Definición de cabeceras y pies de página:
+
+\usepackage{fancyhdr}                     % para definir distintos tipos de cabeceras y pies de página
+
+\newcommand{\RunningAuthor}{Nombre Apellido1 Apellido2}
+\newcommand{\Author}[1]{\renewcommand{\RunningAuthor}{#1}}
+\renewcommand{\leftmark}{\RunningAuthor}
+
+\newcommand{\RunningTitle}{Trabajo de fin de grado}
+\newcommand{\Title}[1]{\renewcommand{\RunningTitle}{#1}}
+\renewcommand{\rightmark}{\RunningTitle}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\small \slshape \leftmark}    % lo que aparece en la parte izquierda de la páginas impares
+\fancyhead[RE]{\small \slshape \rightmark}   % lo que aparece en la parte derecha de las páginas pares
+\fancyhead[RO,LE]{\small \slshape \thepage}  % el número de página aparece en la parte exterior de la cabecera
+
+\renewcommand{\headrulewidth}{0.6pt}         % grueso de la línea horizontal por debajo de la cabecera de la página
+\renewcommand{\footrulewidth}{0pt}           % grueso de la línea horizontal por encima del pie de página
+                                             % en este caso está vacío
+\setlength{\headheight}{1.5\headheight}      % aumenta la altura de la cabecera en una parte y media
+
+\fancypagestyle{plain}{%                     % redefinición del estilo de página 'plain'
+  \fancyhf{}                                 % limpia todas las cabeceras y pies de página
+  \setlength{\headwidth}{\textwidth}
+  \fancyfoot[C]{\small \slshape \thepage}    % excepto el centro del pie de página
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  }
+
+% Instrucciones que se usan frecuentemente
+\newcommand{\abs}[1]{\ensuremath{|#1|}}
+
+% Datos del trabajo y autor:
+\title{Título}
+\author{Nombre Apellido1 Apellido2\\*[1em]
+\begin{minipage}{0.75\textwidth}
+\footnotesize \itshape
+\begin{center}
+Universidad de Alicante \\
+4º de Grado en Matemáticas
+\end{center}
+\end{minipage}
+}
+\date{Julio 2021}
+
+% Para incluir paginas de otro pdf (por ejemplo, la de la portada):
+\usepackage{pdfpages}
+
+
+\begin{document}
+
+% Para introducir la portada en castellano, se guardar anexo-1-portada-memoria-tfg-matematicas.pdf en el mismo directorio:
+\includepdf[pages=1]{anexo-1-portada-memoria-tfg-matematicas.pdf}
+
+
+% Después de la portada, se introducirá un resumen del Trabajo Fin de Grado (máximo 500 palabras) en una de las lenguas oficiales y en inglés, junto con las palabras clave (de 3 a 5).
+
+\section*{Resumen}
+
+
+\emph{Resumen del Trabajo Fin de Grado (máximo 500 palabras) en una de las lenguas oficiales}
+
+
+
+[...]
+
+\newpage
+
+\section*{Abstract}
+
+\emph{Resumen del Trabajo Fin de Grado (máximo 500 palabras) en inglés}
+
+[...]
+
+% A continuación, se incluirá el índice del trabajo y, seguidamente, se desarrollará la memoria.
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introducción}\label{sec:1}
+
+{\color{red}
+La introducción describe el tema de interés desde un punto de vista global explicitando el objetivo del trabajo, las definiciones necesarias y haciendo referencias a resultados previos si fuera necesario. También se puede explicar cómo se ha estructurado el trabajo.}
+
+\section{Métodos}
+
+{\color{red}
+En este apartado/s se desarrollan los métodos que se van a utilizar posteriormente o no (en el caso de que el trabajo fuese teórico o de revisión bibliográfica). Podrá tener una o varias secciones y el título no tiene porqué ser 'Métodos'.}
+
+Aprovechamos este espacio para hablar de referencias.
+
+\textbf{1. Referencias a gráficas y tablas.}
+
+Todas las tablas y figuras han de estar enumeradas. Para ello hay que poner dentro del entorno figure o table \textbackslash label y usar \textbackslash ref en el texto para explicarlo. Ejemplos:
+
+\begin{figure}[h]
+\centerline{\includegraphics[scale=0.5]{UA.jpg}}
+\caption{Logo de la UA}\label{fig:01}
+\end{figure}
+
+\begin{figure}[h]
+\centerline{\includegraphics[scale=0.5]{ciencias.jpg}}
+\caption{Logo de la UA}\label{fig:02}
+\end{figure}
+
+En la Figura \ref{fig:01} se puede ver el logo de la UA y en la Figura \ref{fig:02} el de la Facultad de Ciencias.
+
+
+\begin{table}[ht] 
+\centering
+\begin{tabular}{rrrr} 
+  \hline
+ & setosa & versicolor & virginica \\ 
+  \hline
+setosa &  50 &   0 &   0 \\ 
+  versicolor &   0 &  48 &   2 \\ 
+  virginica &   0 &   1 &  49 \\ 
+   \hline
+\end{tabular}
+\caption{Resultados de LDA} \label{tab:01}
+\end{table}
+
+La Tabla \ref{tab:01} muestra los resultados de clasificación con LDA frente a valores reales.
+
+\textbf{2. Referencias a fórmulas o resultados previos}
+
+Se pondrá label dentro del entorno de la ecuación.
+
+\begin{equation}
+\begin{array}{rcl}
+a^tx_i &<& c, \hspace{0.2cm} \tiny{i=1,...,n_1} \\
+b^ty_j &<& d, \hspace{0.2cm} \tiny{j=1,...,n_2}
+\end{array} \label{eq:1}
+\end{equation}
+
+Sean $\varepsilon_i$ y $\delta_j$, las holguras de (\ref{eq:1}).
+
+\textbf{3. Referencias a secciones, capítulos...}
+
+Se pondrá label al lado del título.
+
+Como ya se dijo en la sección \ref{sec:1} en este apartado... En la sección \ref{sec:2} veremos ... 
+
+
+\textbf{4. Referencias bibliográficas.}
+
+Todas las referencias bibliográficas que aparecen al final han de estar mencionadas en el texto. Para ello, cada \textbackslash bibitem tendrá un CÓDIGO entre llaves. Hay que usar \textbackslash cite \{CÓDIGO\} en el momento que lo citéis.
+
+En \cite{FA03} podemos ver que ... 
+Podemos encontrar otros resultados similares en \cite{AR01} y \cite{CA01}.
+
+
+\section{Resultados} 
+{\color{red}
+En el caso de trabajos que tengan una parte práctica, en este apartado/s se exponen los resultados de la aplicación de los métodos a casos concretos. Podrá tener una o varias secciones y el título no tiene porqué ser 'Resultados'.}
+\subsection{Estudio 1} \label{sec:2}
+
+\section{Conclusiones}
+{\color{red}
+Las conclusión/discusión final ha de responder de forma clara a los objetivos del trabajo a partir de los resultados obtenidos y dejar constancia del potencial o limitaciones del trabajo mostrando capacidad de espíritu crítico y autocrítico.}
+
+%-------------------------------------------------------------------------------------------------------
+\addcontentsline{toc}{section}{Referencias}
+\begin{thebibliography}{100}
+
+
+
+
+% Ejemplo de referencia de un libro:
+\bibitem{FA01} Fajardo, M.D., Goberna, M.A., Rodríguez, M.M.L. and Vicente-Pérez, J. (2020).
+\textit{Even Convexity and Optimization: Handling Strict Inequalities}. Springer.
+
+% Ejemplo de referencia de un capítulo de un libro:
+\bibitem{AR01} Aragón, F.J., Convexity in Nonlinear Optimization in Aragón, F.J., Goberna, M.A., López, M.A. and Rodríguez, M.L. (2019) pp.55-89.
+
+% Ejemplo de referencia de artículos:
+\bibitem{AL01} Alonso-González, C., Navarro-Pérez, M.A. and Soler-Escrivà, X. (2020). \textit{Flag codes from planar spreads in network coding. Finite Fields and their applications} \textbf{68}, 101745.
+
+
+% Ejemplo tesis doctorales:
+\bibitem{CA01} Campoy, R. (2018) Contributions to the Theory and Applications of Projection Algorithms. Tesis doctoral Universidad de Murcia, España.
+
+% Ejemplo páginas web:
+\bibitem{LE01} LeCun, Y., Cortes, C. and Burges, C.J.C., The MNIST database of handwritten digits. http://yann.lecun.com/exdb/mnist/ (Consultado el 25 de Junio de 2021).
+
+
+\end{thebibliography}
+
+
+%-------------------------------------------------------------------------------------------------------
+\newpage
+\appendix
+
+\section{Detalles del desarrollo del trabajo}
+{\color{red} En un anexo se incluirán siguientes tablas. 
+\begin{enumerate}
+\item  En la primera tabla se especificarán las tareas más relevantes desarrolladas y el tiempo aproximado en horas dedicado. Recordad que el TFG es una asignatura de 6 créditos, por lo que el tiempo de dedicación esperado debería ser de 150 horas. La tabla \ref{tab{02}} muestra a modo de ejemplo algunas tareas.
+\item En la segunda tabla se especificarán las asignaturas con las que el trabajo está relacionado, detallando dicha relación. La tabla \ref{tab{03}} muestra algunos ejemplos.
+\end{enumerate}
+
+\begin{table}[ht] 
+\centering
+\begin{tabular}{lc} 
+  \hline
+ Tarea & Tiempo (horas) \\ 
+  \hline
+Recopilación de materiales &   ... \\ 
+Estudio de bibliografía &   ... \\ 
+Elaboración de resultados gráficos/numéricos &  ... \\ 
+Redacción de la memoria &  ... \\
+ ... &  ... \\
+ ... &  ... \\
+ \hline
+Total & 150\\
+\hline
+\end{tabular}
+\caption{Tiempo aproximado de dedicación al trabajo} \label{tab{02}}
+\end{table}
+
+\begin{table}[ht] 
+\centering
+\begin{tabular}{llll} 
+  \hline
+ Asignatura & Páginas & Descripción  \\ 
+  \hline
+Asignatura1 & 15-17 & Apdo 2.1 se obtiene a partir de los apuntes \\ 
+Asignatura2 & ...  & El teorema 1 y su demostración es material del profesor\\ 
+Asignatura3 & 38 & Hay relación, pero no es referencia básica \\ 
+... & ... & ...\\ 
+\hline
+\end{tabular}
+\caption{Asignaturas relacionadas con el trabajo} \label{tab{03}}
+\end{table}
+
+\end{document} 
