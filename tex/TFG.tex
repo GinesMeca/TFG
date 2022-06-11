@@ -102,14 +102,14 @@ Universidad de Alicante \\
 
 \section*{Resumen}
 
-\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning que derivan de los árboles de decisión, confeccionando un mapa conceptual de modelos de manera que podamos clasificarlos en cuanto a aspectos teóricos y reconocer sus principales características. Los árboles de decisión son algoritmos capaces de realizar predicciones mediante la comprobación de ciertas condiciones de las variables explicativas. Mediante diferentes tipos de combinaciones, se llegan a dos grandes familias de modelos más complejos: algoritmos de bagging y algoritmos de boosting. Estos modelos de mayor complejidad son capaces de conseguir un significativo aumento de precisión, especialmente cuando se enfrentan a grandes cantidades de datos. Por ello, son muy utilizados e imprescindibles actualmente para trabajar en Big Data.}
+\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning que derivan de los árboles de decisión, confeccionando un mapa conceptual de modelos de manera que podamos clasificarlos en cuanto a aspectos teóricos y reconocer sus principales características. Los árboles de decisión son algoritmos capaces de aprender de variables explicativas de datos conocidos y realizar predicciones sobre datos nuevos. Mediante diferentes tipos de combinaciones, se llegan a dos grandes familias de modelos más complejos: algoritmos de bagging y algoritmos de boosting. Estos modelos de mayor complejidad son capaces de conseguir un significativo aumento de precisión, especialmente cuando se enfrentan a grandes cantidades de datos. Por ello, son muy utilizados e imprescindibles actualmente para trabajar en Big Data.}
 
 \emph{Para poder profundizar y realizar un correcto análisis de los modelos más complejos, en la primera parte se ha estudiado el proceso de construcción de árboles de decisión. En particular, se ha analizado el algoritmo CART, que es el más utilizado. A lo largo de esta sección, se introducen diferentes nociones como los criterios de escisión, los criterios de parada o la asignación de valores de respuesta. No obstante, dado que esta sección ya se ha tratado en varios trabajos de años anteriores, se ha decidido no profundizar en exceso para poder invertir un mayor tiempo en aquello que resulta novedoso.}
 
 \emph{En la segunda parte del trabajo, se han estudiado los algoritmos de bagging y boosting por separado. Respecto a los algoritmos de bagging, se han explicado las ideas principales de su funcionamiento, ya que estos algoritmos también han sido tratados en cursos anteriores. En cuanto a los algoritmos de boosting, se ha realizado un detallado análisis de cada uno de ellos, explicando cuáles son las funciones y parámetros implicados así como el proceso exacto para conseguir disminuir el 
 error de predicción.}
 
-\emph{Por último, tras la explicación de cada tipo de algoritmo, se ha realizado un ejemplo práctico a fin de ilustrar aquello explicado de manera teórica. También, se han utilizado estos ejemplos para realizar una comparación general de todos los modelos explicados, señalando diferencias entre ellos y comprobando que se cumplen ciertas características previamente explicadas.}
+\emph{Por último, tras la explicación de cada tipo de algoritmo, se ha realizado un ejemplo práctico a fin de ilustrar aquello explicado de manera teórica. También, se han utilizado estos ejemplos para realizar una comparación en términos de precisión y tiempo computacional de todos los modelos explicados, señalando diferencias entre ellos y comprobando que se cumplen ciertas características previamente explicadas.}
 
 \textbf{Palabras clave:} CART, Bagging, Boosting, Machine Learning
 
@@ -121,13 +121,13 @@ error de predicción.}
 
 \section*{Abstract}
 
-\emph{In this research, It has been studied the set of Machine Learning algorithms derived from decision trees, making a conceptual map of models so that we can classify it according to their theoretical aspects and we can recognize their main features. Decision trees are algorithms capable of making predictions checking some conditions on the independent variables set. Through different types of combinations, we obtain two families of more complex models: bagging algorithms and boosting algorithms. These models are able to increase significatively the accuracy, specially when they have to deal with large amounts of data. That's why they are very useful models and they have become essential in Big Data technologies.}
+\emph{In this research, it has been studied the set of Machine Learning algorithms derived from decision trees, making a conceptual map of models so that we can classify it according to their theoretical aspects and we can recognize their main features. Decision trees are algorithms capable of learning from known data explanatory variables and making predictions about new data. Through different types of combinations, we obtain two families of more complex models: bagging algorithms and boosting algorithms. These models are able to increase significatively the accuracy, specially when they have to deal with large amounts of data. That's why they are very useful models and they have become essential in Big Data technologies.}
 
-\emph{In order to study in more detail and analyze correctly the complex models introduced, in the first part of this work we have studied the decision trees building process. In particular, it has been analyzed the most popular algorithm: CART. Along this section, different notions like split criterions, stop criterions or output assignment are introduced. Nevertheless, since this topic has been explained in previous researches we have not focused on it, in order to spend more time on the new algorithms introduced.}
+\emph{In order to study in more detail and analyze correctly the complex models introduced, in the first part of this work it has studied the decision trees building process. In particular, it has been analyzed the most popular algorithm: CART. Along this section, different notions like split criterions, stop criterions or output assignment are introduced. Nevertheless, since this topic has been explained in previous researches we have not focused on it, in order to spend more time on the new algorithms introduced.}
 
-\emph{In the second part of this work, we have studied bagging and boosting algorithms by separate. In regard to bagging algorithms, we have explained the main ideas related to their functioning, since these algorithms have been treated in former works too. Referring to boosting algorithms, we have done a complete analysis of each of them, explaining which are the functions and parameters implied as well as the exact process applied to reduce the prediction error.}
+\emph{In the second part of this work, it has studied bagging and boosting algorithms by separate. In regard to bagging algorithms, it has been explained the main ideas related to their functioning, since these algorithms have been treated in former works too. Referring to boosting algorithms, it has been done a complete analysis of each of them, explaining which are the functions and parameters implied as well as the exact process applied to reduce the prediction error.}
 
-\emph{Finally, after each type of algorithms explanation, we have solve a practical example in order to illustrate what we have explained. Furthermore, these examples have been used to make a general comparison of all models, showing the differences between them and checking the features explained previously.}
+\emph{Finally, after each type of algorithms explanation, solve a practical example has been solved in order to illustrate what the theory explained. Furthermore, these examples have been used to make a accuracy and running time comparison of all models, showing the differences between them and checking the features explained previously.}
 
 \textbf{Key words:} CART, Bagging, Boosting, Machine Learning
 
@@ -157,14 +157,14 @@ Dado que en los últimos años varios alumnos han realizado su TFG sobre árbole
 
 \subsection{Datos: Llueve en Australia} \label{sec: subsec11}
 
-Para hacernos una idea de cómo funciona cada uno de los algoritmos explicados a lo largo del trabajo, haremos uso del conjunto de datos ``Rain in Australia'', de Kaggle. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente.
+Para hacernos una idea de cómo funciona cada uno de los algoritmos explicados a lo largo del trabajo, haremos uso del conjunto de datos ``Rain in Australia'', de Kaggle. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente. Así, el objetivo será averiguar si con los datos del día actual se puede predecir si lloverá el día siguiente utilizando los diferentes algoritmos descritos. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.4\textwidth]{Intro_01}
 	\caption{Encabezado del dataset}
 \end{figure}
 
-En resumen, se tienen 23 columnas que recogen información de un total de 145460 días. En los diferentes ejemplos, se tratará de realizar predicciones de la variable ``Rain Tomorrow''.
+En resumen, se tienen 23 columnas que recogen información de un total de 145.460 días. En los diferentes ejemplos, se tratará de realizar predicciones de la variable ``Rain Tomorrow''.
 
 
 \subsection{Metodología} \label{subsec:Metodología}
@@ -183,7 +183,7 @@ Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos
 
 Por tanto, el procedimiento será ligeramente distinto. Emplearemos una validación \textit{``Out Of Time''}, basada en separar el conjunto de datos siguiendo un orden cronológico. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo en función de los datos que poseemos para predecir fechas futuras.
 
-Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{Anexo}).
+Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{Anexo}), publicado en GitHub.
 
 
 
@@ -194,9 +194,9 @@ Además, los cálculos se realizarán en el lenguaje de programación Python. To
 \section{Árboles de decisión CART}
 \subsection{Preliminares}
 
-Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada su simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. Se trata de un algoritmo que divide sucesivamente el conjunto de datos inicial en diferentes subconjuntos a través de diversas condiciones aplicadas a sus variables explicativas. Por ejemplo:
+Los árboles de decisión son muy utilizados como método predictor (tanto de regresión como de clasificación) dada su simpleza, su efectividad y lo visual que resulta su funcionamiento a través de un gráfico, lo cual facilita su comprensión. También, se pueden utilizar como herramienta descriptiva para un entendimiento inicial de los datos de un proyecto. Se trata de un algoritmo que divide sucesivamente de manera lineal el conjunto de datos inicial en diferentes subconjuntos a través de diversas condiciones aplicadas a sus variables explicativas. Por ejemplo:
 
-\textbf{Ejemplo 2.1: } \label{Ej:2.1} \emph{Se pretende estudiar la variable ``RainTomorrow'' del conjunto de datos dado en función de las variables explicativas ``Cloud3pm'' y ``Humidity3pm''(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, escogiendo únicamente las variables explicativas indicadas, el esquema que seguirá nuestro árbol de clasificación será el siguiente: }
+\textbf{Ejemplo 2.1: } \label{Ej:2.1} \emph{Se pretende estudiar la variable ``RainTomorrow'' del conjunto de datos dado en función de las variables explicativas ``Cloud3pm'' y ``Humidity3pm''(nivel de nubosidad y de humedad a las 15.00, respectivamente) para predecir si lloverá o no al día siguiente. Así, escogiendo únicamente las variables explicativas indicadas, el esquema que ha aprendido el árbol de clasificación es el siguiente: }
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.7\textwidth]{ex2_1_01}
@@ -217,7 +217,7 @@ Por otro lado, es fácil ver que las condiciones del algoritmo se corresponden c
 
 \subsubsection{Notación y conceptos básicos}
 
-A continuación, se introducirán una serie de términos básicos para poder hacer referencias correctas a los conceptos presentados. Por un lado, nos encontramos con las siguientes definiciones:
+A continuación, se introducen una serie de términos básicos para poder hacer referencias correctas a los conceptos presentados. Por un lado, nos encontramos con las siguientes definiciones:
 \begin{description}
 \item[Nodo raíz: ]Primer nodo, contiene a todos los individuos y a partir de él comienzan a realizarse las divisiones.
 \item[Nodo interno: ]Nodos intermedios que provienen de una división y desencadenan otra. Dentro de ellos, se pueden definir:
@@ -228,7 +228,7 @@ A continuación, se introducirán una serie de términos básicos para poder hac
 \item[Nodo hoja: ]Nodos finales que dan lugar a la predicción.
 \end{description}
 
-Todos estos elementos son fácilmente identificables en la figura \ref{fig:Ejemplo 2.1} del ejemplo 2.1 . Se tienen un nodo raíz, seis nodos internos y 8 nodos hoja.
+Todos estos elementos son fácilmente identificables en la figura \ref{fig:Ejemplo 2.1} del ejemplo 2.1 . Se tiene un nodo raíz, seis nodos internos y 8 nodos hoja.
 
 Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: \textit{overfitting}). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, pero que las predicciones de nuevos individuos presenten grandes errores.
 
@@ -282,7 +282,7 @@ I(x) =
 La manera de establecer el valor de estas predicciones presenta ligeras diferencias en función del tipo de problema con el que tratemos (regresión o clasificación). Por tanto, lo analizaremos por separado.
 
 
-A la hora de entrenar un modelo de regresión, se busca minimizar los errores entre y e Y. Tomando el error mínimo cuadrático, llegamos al problema:
+A la hora de entrenar un modelo de regresión, se busca minimizar los errores entre $y$ e $Y$. Tomando el error mínimo cuadrático, llegamos al problema:
 \begin{equation*}
 \min_{Y_i} \sum_{i=1}^n (y_i - Y_i)^2 \Rightarrow \min_{c_m} \sum_{m = 1}^M \sum_{x_i \in R_m} (y_i - c_m)^2
 \end{equation*}
@@ -360,9 +360,9 @@ Por tanto, al igual que en los árboles de regresión, la tarea se resume en obt
 \subsection{Criterio de parada de escisión de nodos}
 Es lógico pensar que la precisión de un árbol CART aumenta conforme aumenta en profundidad. No obstante, como ya se ha introducido, cuantas más particiones del espacio realice el algoritmo, mayor será el ajuste del mismo a los datos de entrenamiento, lo que puede llevar a problemas de \textit{overfitting}. Con tal de evitar estos problemas, se han implementado algunos métodos de ``poda'' del árbol. Es evidente que podando el árbol se introduce sesgo, pues no dejamos que se ajuste totalmente a los datos; sin embargo, aplicando estos procesos de manera controlada se consigue disminuir la varianza y mejorar las predicciones.
 
-Por un lado, la técnica más simple consiste en establecer una profundidad máxima. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo \ref{Ej:2.1} se ha establecido una profundidad máxima igual a 3.
+Por un lado, la técnica más simple consiste en establecer una profundidad máxima del árbol, es decir, poner límite a ña cantidad de nodos hijo a desarrollar. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo \ref{Ej:2.1} se ha establecido una profundidad máxima igual a 2.
 
-Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la división del nodo y se calcula el índice Gini del mismo(proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues de esta manera se mantiene una mayor pureza.
+Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la mejor división del nodo y se calcula el índice Gini del mismo (proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues su división no mejora la pureza.
 
 
 
@@ -371,13 +371,13 @@ Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separaci�
 \subsection{Ejemplo} \label{ex:CART}
 \emph{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para escoger el modelo más fiable.}
 
-\emph{Con el fin de analizar los resultados y llevar a cabo esta elección, utilizaremos el AUC; es decir, el área bajo la curva ROC(``Area Under the Curve''), creada en base a la sensibilidad(tasa de  verdaderos positivos) y especifidad(tasa de verdaderos negativos) de las predicciones. Así, operando el AUC de la forma $2 \times AUC - 1$ obtenemos el coeficiente Gini(no confundir con el índice Gini de escisión de nodos). Cuanto más alto sea el valor de este coeficiente, mejor será nuestro clasificador.}
+\emph{Con el fin de analizar los resultados y llevar a cabo esta elección, utilizaremos el AUC; es decir, el área bajo la curva ROC (``Area Under the Curve''), creada en base a la sensibilidad (tasa de  verdaderos positivos) y especifidad (tasa de verdaderos negativos) de las predicciones. El AUC representa la probabilidad de ordenar correctamente dos individuos o datos dada la predicción. Dado que la métrica AUC se encuentra en el intervalo $[-1,1]$, se realiza la transofmrmación  $2 \times AUC - 1$ para obtener una nueva métrica en el intervalo $[0,1]$. Esta nueva métrica recibe el nombre de coeficiente Gini (no confundir con el índice Gini de escisión de nodos) y permite dar un porcenbtaje de efectividad del modelo.}
 
-\emph{Con esto, aplicando los diferentes árboles de clasificación, llegamos al siguiente resultado:}
+\emph{Con esto, aplicando los diferentes árboles de clasificación, llegamos al siguiente resultado (redondeado):}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[width = 0.5\textwidth]{ex2_2_01}
+\includegraphics[width = 0.39\textwidth]{ex2_2_01}
 \caption{Resultados árboles de clasificación para RainTomorrow}
 \end{figure}
 
@@ -405,8 +405,9 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 \textbf{\underline{Ventajas:}}
 \begin{itemize}
 \item Válidos para problemas de regresión y de clasificación.
+\item Válidos para una exploración inicial de los datos.
 \item Modelos de bajo coste computacional.
-\item Método muy intuitivo de fácil comprensión.
+\item Método muy intuitivo de fácil comprensión, sencillo de comunicar a compañeros no expertos.
 \item La manera de proceder del modelo se asemeja a cómo lo hace la mente humana: se van estableciendo condiciones que restringen, paso a paso, el conjunto total de datos hasta llegar a la solución.
 \item Se puede obtener una representación gráfica de los diferentes modelos, lo cual facilita su comprensión a nivel visual.
 \end{itemize}
@@ -415,6 +416,7 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 \begin{itemize}
 \item La capacidad predictora de los árboles de decisión es inferior a la que se puede obtener mediante otros métodos. De hecho, podemos observar que la precisión del modelo del Ejemplo \ref{ex:CART} en el conjunto de testeo no alcanza el $65\%$.
 \item Se trata de un algoritmo inestable. Es decir, un ligero cambio en los datos de entrenamiento puede conllevar a la creación de un modelo totalmente distinto. %¿Por qué?
+\item Con un árbol de decisión es ineficiente modular correlaciones lineales altas entre la variable objetivo y una variable explicativa. Modular esta alta correlación podría ser más eficiente con un modelo clásico de Regresión Lineal o Logística.
 \end{itemize}
 
 
