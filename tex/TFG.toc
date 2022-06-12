@@ -26,7 +26,9 @@
 \contentsline {subsubsection}{\numberline {3.2.4}LightGBM}{45}{subsubsection.3.2.4}%
 \contentsline {subsubsection}{\numberline {3.2.5}CatBoost}{46}{subsubsection.3.2.5}%
 \contentsline {subsubsection}{\numberline {3.2.6}Ejemplo}{50}{subsubsection.3.2.6}%
-\contentsline {subsubsection}{\numberline {3.2.7}Ventajas y desventajas}{51}{subsubsection.3.2.7}%
-\contentsline {section}{\numberline {4}Conclusión}{53}{section.4}%
-\contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{56}{appendix.Alph1}%
-\contentsline {section}{Referencias}{57}{table.caption.41}%
+\contentsline {subsubsection}{\numberline {3.2.7}Otros parámetros}{51}{subsubsection.3.2.7}%
+\contentsline {subsubsection}{\numberline {3.2.8}Ventajas y desventajas}{52}{subsubsection.3.2.8}%
+\contentsline {section}{\numberline {4}Comparación de modelos}{54}{section.4}%
+\contentsline {section}{\numberline {5}Conclusión}{56}{section.5}%
+\contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{57}{appendix.Alph1}%
+\contentsline {section}{Referencias}{58}{table.caption.40}%

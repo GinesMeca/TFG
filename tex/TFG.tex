@@ -1494,6 +1494,18 @@ Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito in
 
 
 
+\subsubsection{Otros parámetros}
+
+Los diferentes algoritmos de boosting se han desarrollado explicando la base del funcionamiento de los mismos y los principales parámetros a tener en cuenta. No obstante, la implementación de estos algoritmos contiene un gran número de parámetros que se pueden ajustar a gusto del usuario, dando lugar a modelos muy versátiles. Uno de los parámetros a tener en cuenta que incorpora XGBoost y, por extensión, LightGBM y CatBoost es conocido como \textit{early stopping}. Este parámetro permite a los algoritmos mencionados ``autoregularse'', de manera que los modelos construidos no se sobreajusten. En la práctica, se evalúa el incremento de precisión que se consigue en cada paso en el conjunto test; si este incremento no supera la cota establecida, el algoritmo terminará con el bucle. Esto es así porque se entiende que el resto de árboles conseguirán aumentar la precisión en el conjunto de entrenamiento y no en el de testeo. Sin embargo, realizar esta evaluación del incremento en cada paso supondría un coste elevado a la hora de entrenar el modelo. Es por eso que la librería propia \textit{XGBoost} de Python contiene también el parámetro \textit{early\_stopping\_rounds} a través del cual podemos controlar cada cuantas iteraciones se calculará el valor del incremento.
+
+Por otro lado, cabe observar que a lo largo del trabajo hemos tratado muchos algoritmos que han resultado ser muy útiles para problemas de regresión y de clasificación binaria. No obstante, muchos de los problemas de clasificación que se presentan no poseen únicamente dos clases posibles. Por ejemplo, si el problema fuese predecir la comunidad autónoma en la que reside un individuo dadas ciertas características del mismo, la respuesta del algoritmo no es binaria. La solución ante estos problemas de clasificación multiclase pasa por aplicar \textit{one-hot-encoding} (visto en CatBoost(\ref{sec:CatBoost})) a la variable dependiente. De esta manera, se aplicará el modelo independientemente a cada nueva variable y se escogerá como respuesta final aquella que maximice la probabilidad.
+
+Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no que un individuo puede pertenecer a dos clases diferentes. Un ejemplo de esto sería el problema de clasificar una película en una determinada plataforma; pues una película puede pertenecer al género ``Adulto'' y ``Comedia'' simultáneamente. En este caso, la solución es la misma; se aplica \textit{one-hot-encoding} a cada variable por separado y se seleccionan aquellas cuya probabilidad supera un cierto valor fijo. Además, la librería Scikit-Learn de Python incluye en XGBoost una implementación de este último caso, cuya salida es un vector de probabilidades. 
+
+
+
+
+
 
 
 \subsubsection{Ventajas y desventajas}
@@ -1522,19 +1534,15 @@ Tras la debida explicación del funcionamiento de los algoritmos de boosting, ca
 
 
 
-
-
-
-
-
 \newpage
-\section{Conclusión}
-A lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. A continuación, haremos un breve repaso de los mismos apoyándonos en los datos obtenidos en los diferentes ejemplos.
+\section{Comparación de modelos}
+
+A lo largo del trabajo, se han utilizado los diferentes algoritmos explicados para construir modelos que, a partir de los datos de un día actual, predigan si habrá precipitaciones el día próximo. En esta sección, resumiremos los resultados obtenidos en los diferentes ejemplos.
 
 En primer lugar, realizaremos una comparación de los mejores modelos de cada categoría. El criterio que estableceremos para la selección de modelos será el siguiente: para cada algoritmo, escogeremos el modelo que maximice el valor del índice Gini para el conjunto de testeo y que, a su vez, no supere el $5\%$ para el valor de $delta\%$. De esta manera, los modelos seleccionados serán los siguientes:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.4 \textwidth]{Conc_01}
+\includegraphics[width = 0.3 \textwidth]{Conc_01}
 \caption{Modelos seleccionados}
 \end{figure}
 
@@ -1552,40 +1560,32 @@ Otros modelos a los que el gráfico no hace justicia son los modelos de Bagging.
 El nuevo gráfico que generaremos nos mostrará la precisión de cada modelo en función del número de iteraciones y nos indicará, a través del tamaño de los puntos, el tiempo de ejecución registrado. Con tal de poder observar bien la información, dado que el coeficiente de Gini converge a partir de las 100 iteraciones, no contemplaremos las iteraciones posteriores en el gráfico:
 \begin{figure}[h]
 \centering
-\includegraphics[width = \textwidth]{Conc_03}
+\includegraphics[width = 0.85\textwidth]{Conc_03}
 \caption{Resumen de modelos}
 \end{figure}
 
 De esta manera, comprobamos visualmente que, por ejemplo, Gradient Boosting, XGBoost, LightGBM y CatBoost alcanzan un nivel de precisión muy parecido, siendo CatBoost el que antes converge y siendo Gradient Boosting el que conlleva un mayor coste computacional. Del mismo modo, observamos que AdaBoost es el que registra un mayor incremento de precisión; lo cual se corresponde con lo explicado en \ref{sec:AdaBoost} ya que las primeras iteraciones sólo recogerán las predicciones realizadas por unos pocos tocones que, en particular, son muy imprecisos.
 
-Por tanto, a través de este gráfico podemos hacernos una idea general del mapa de modelos generado, pues podemos hacer una comparación bastante completa de todos los modelos y a su vez decidir el número de iteraciones a realizar de un cierto modelo en función del incremento de coste y precisión.
+Por tanto, a través de este gráfico se puede obtener una información muy completa acerca del nivel de precisión alcanzable con cada modelo y del coste implicado.
 
-Por último, cabe observar que a lo largo del trabajo hemos tratado muchos algoritmos que han resultado ser muy útiles para problemas de regresión y de clasificación binaria. No obstante, muchos de los problemas de clasificación que se presentan no poseen únicamente dos clases posibles. Por ejemplo, si el problema fuese predecir la comunidad autónoma en la que reside un individuo dadas ciertas características del mismo, la respuesta del algoritmo no es binaria. La solución ante estos problemas de clasificación multiclase pasa por aplicar \textit{one-hot-encoding} (visto en CatBoost(\ref{sec:CatBoost})):
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-Individuo & Clase \\ \hline
-1         & A     \\ \hline
-2         & B     \\ \hline
-3         & A     \\ \hline
-4         & C     \\ \hline
-\end{tabular}
-$\, \, \Rightarrow \, \,$
-\begin{tabular}{|l|l|l|l|}
-\hline
-Individuo & ClaseA & ClaseB & ClaseC \\ \hline
-1         & 1 & 0 & 0     \\ \hline
-2         & 0 & 1 & 0     \\ \hline
-3         & 1 & 0 & 0     \\ \hline
-4         & 0 & 0 & 1     \\ \hline
-\end{tabular}
-\caption{\textit{One-hot-encoding}}
-\end{table}
 
-De esta manera, se aplicará el modelo independientemente a cada nueva variable y se escogerá como respuesta final aquella que maximice la probabilidad.
 
-Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no que un individuo puede pertenecer a dos clases diferentes. Un ejemplo de esto sería el problema de clasificar una película en una determinada plataforma; pues una película puede pertenecer al género ``Adulto'' y ``Comedia'' simultáneamente. En este caso, la solución es la misma; se aplica \textit{one-hot-encoding} a cada variable por separado y se seleccionan aquellas cuya probabilidad supera un cierto valor fijo. Además, la librería Scikit-Learn de Python incluye en XGBoost una implementación de este último caso, cuya salida es un vector de probabilidades. 
+
+
+
+
+
+
+
+
+\newpage
+\section{Conclusión}
+A lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. A continuación, haremos un breve repaso de los mismos apoyándonos en los datos obtenidos en los diferentes ejemplos.
+
+
+
+
+
 
 
 
