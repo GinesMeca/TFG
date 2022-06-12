@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  11 JUN 2022 19:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  12 JUN 2022 13:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -694,28 +694,29 @@ Package pdftex.def Info: ex3_1_02.png  used on input line 496.
 <AdaBoost_01.png, id=348, 649.82774pt x 394.47375pt>
 File: AdaBoost_01.png Graphic file (type png)
 <use AdaBoost_01.png>
-Package pdftex.def Info: AdaBoost_01.png  used on input line 535.
+Package pdftex.def Info: AdaBoost_01.png  used on input line 536.
 (pdftex.def)             Requested size: 227.62206pt x 138.17622pt.
-
-Underfull \vbox (badness 4752) has occurred while \output is active []
-
- [23 <./AdaBoost_01.png>] [24]
+ [23 <./AdaBoost_01.png>]
+[24]
 <AdaBoost_02.png, id=364, 387.4475pt x 265.99374pt>
 File: AdaBoost_02.png Graphic file (type png)
 <use AdaBoost_02.png>
-Package pdftex.def Info: AdaBoost_02.png  used on input line 601.
+Package pdftex.def Info: AdaBoost_02.png  used on input line 602.
 (pdftex.def)             Requested size: 182.09486pt x 125.01302pt.
  [25 <./AdaBoost_02.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [26]
-<AdaBoost_03.png, id=381, 258.9675pt x 219.219pt>
+<AdaBoost_03.png, id=379, 258.9675pt x 219.219pt>
 File: AdaBoost_03.png Graphic file (type png)
 <use AdaBoost_03.png>
 Package pdftex.def Info: AdaBoost_03.png  used on input line 719.
-(pdftex.def)             Requested size: 159.33821pt x 134.88744pt.
-<AdaBoost_04.png, id=382, 545.6385pt x 210.18526pt>
+(pdftex.def)             Requested size: 136.57462pt x 115.61685pt.
+<AdaBoost_04.png, id=380, 545.6385pt x 210.18526pt>
 File: AdaBoost_04.png Graphic file (type png)
 <use AdaBoost_04.png>
 Package pdftex.def Info: AdaBoost_04.png  used on input line 727.
@@ -740,7 +741,7 @@ Overfull \hbox (27.93076pt too wide) in paragraph at lines 841--846
 File: GB_01.png Graphic file (type png)
 <use GB_01.png>
 Package pdftex.def Info: GB_01.png  used on input line 915.
-(pdftex.def)             Requested size: 182.09486pt x 144.44043pt.
+(pdftex.def)             Requested size: 191.20169pt x 151.66682pt.
  [31 <./GB_01.png>] [32] [33] [34] [35]
 Overfull \hbox (25.92278pt too wide) detected at line 1070
 []
@@ -803,112 +804,122 @@ File: CatBoost_02.png Graphic file (type png)
 <use CatBoost_02.png>
 Package pdftex.def Info: CatBoost_02.png  used on input line 1412.
 (pdftex.def)             Requested size: 136.57462pt x 125.65993pt.
-<CatBoost_03.png, id=514, 227.04825pt x 213.1965pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [47 <./CatBoost_01.png>]
+<CatBoost_03.png, id=520, 227.04825pt x 213.1965pt>
 File: CatBoost_03.png Graphic file (type png)
 <use CatBoost_03.png>
 Package pdftex.def Info: CatBoost_03.png  used on input line 1419.
 (pdftex.def)             Requested size: 136.57462pt x 128.24094pt.
- [47 <./CatBoost_01.png> <./CatBoost_02.png>]
-<CatBoost_04.png, id=523, 227.04825pt x 218.61674pt>
+<CatBoost_04.png, id=521, 227.04825pt x 218.61674pt>
 File: CatBoost_04.png Graphic file (type png)
 <use CatBoost_04.png>
 Package pdftex.def Info: CatBoost_04.png  used on input line 1438.
 (pdftex.def)             Requested size: 136.57462pt x 131.5013pt.
- [48 <./CatBoost_03.png> <./CatBoost_04.png>]
-<CatBoost_05.png, id=532, 227.04825pt x 213.1965pt>
+ [48 <./CatBoost_02.png> <./CatBoost_03.png>]
+<CatBoost_05.png, id=530, 227.04825pt x 213.1965pt>
 File: CatBoost_05.png Graphic file (type png)
 <use CatBoost_05.png>
 Package pdftex.def Info: CatBoost_05.png  used on input line 1451.
 (pdftex.def)             Requested size: 136.57462pt x 128.24094pt.
-<CatBoost_06.png, id=533, 468.5505pt x 141.52875pt>
+<CatBoost_06.png, id=531, 468.5505pt x 141.52875pt>
 File: CatBoost_06.png Graphic file (type png)
 <use CatBoost_06.png>
 Package pdftex.def Info: CatBoost_06.png  used on input line 1462.
-(pdftex.def)             Requested size: 318.66948pt x 96.25986pt.
- [49 <./CatBoost_05.png> <./CatBoost_06.png>]
-<ex_boost_01.png, id=545, 943.72575pt x 520.344pt>
+(pdftex.def)             Requested size: 273.14923pt x 82.50783pt.
+ [49 <./CatBoost_04.png> <./CatBoost_05.png>]
+<ex_boost_01.png, id=543, 943.72575pt x 520.344pt>
 File: ex_boost_01.png Graphic file (type png)
 <use ex_boost_01.png>
 Package pdftex.def Info: ex_boost_01.png  used on input line 1477.
 (pdftex.def)             Requested size: 455.24411pt x 251.00882pt.
- [50 <./ex_boost_01.png>]
-<ex_boost_02.png, id=552, 315.579pt x 209.583pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<ex_boost_02.png, id=544, 667.89525pt x 213.1965pt>
 File: ex_boost_02.png Graphic file (type png)
 <use ex_boost_02.png>
 Package pdftex.def Info: ex_boost_02.png  used on input line 1487.
-(pdftex.def)             Requested size: 227.62206pt x 151.16826pt.
- [51 <./ex_boost_02.png>]
-<Conc_01.png, id=559, 222.23026pt x 189.70876pt>
+(pdftex.def)             Requested size: 227.62206pt x 72.65825pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[50 <./CatBoost_06.png>] [51 <./ex_boost_01.png> <./ex_boost_02.png>] [52]
+<Conc_01.png, id=563, 222.23026pt x 189.70876pt>
 File: Conc_01.png Graphic file (type png)
 <use Conc_01.png>
-Package pdftex.def Info: Conc_01.png  used on input line 1533.
+Package pdftex.def Info: Conc_01.png  used on input line 1537.
 (pdftex.def)             Requested size: 182.09486pt x 155.45218pt.
-<Conc_02.png, id=560, 1018.40475pt x 242.1045pt>
+<Conc_02.png, id=564, 1018.40475pt x 242.1045pt>
 File: Conc_02.png Graphic file (type png)
 <use Conc_02.png>
-Package pdftex.def Info: Conc_02.png  used on input line 1540.
+Package pdftex.def Info: Conc_02.png  used on input line 1544.
 (pdftex.def)             Requested size: 455.24411pt x 108.22565pt.
- [52 <./Conc_01.png> <./Conc_02.png>]
-<Conc_03.png, id=568, 722.09775pt x 363.759pt>
+
+[53 <./Conc_01.png> <./Conc_02.png>]
+<Conc_03.png, id=572, 722.09775pt x 363.759pt>
 File: Conc_03.png Graphic file (type png)
 <use Conc_03.png>
-Package pdftex.def Info: Conc_03.png  used on input line 1551.
+Package pdftex.def Info: Conc_03.png  used on input line 1555.
 (pdftex.def)             Requested size: 455.24411pt x 229.33035pt.
- [53 <./Conc_03.png>] [54]
+ [54 <./Conc_03.png>] [55]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-593.
+597.
 
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-<Kedro.png, id=587, 1025.0295pt x 358.941pt>
+<Kedro.png, id=592, 1025.0295pt x 358.941pt>
 File: Kedro.png Graphic file (type png)
 <use Kedro.png>
-Package pdftex.def Info: Kedro.png  used on input line 1598.
+Package pdftex.def Info: Kedro.png  used on input line 1602.
 (pdftex.def)             Requested size: 455.24411pt x 159.41878pt.
 
-Overfull \hbox (28.84201pt too wide) in paragraph at lines 1625--1638
+Overfull \hbox (28.84201pt too wide) in paragraph at lines 1629--1642
  [][] 
  []
 
-[55 <./Kedro.png>] [56]
-Underfull \hbox (badness 10000) in paragraph at lines 1693--1694
+[56 <./Kedro.png>] [57]
+Underfull \hbox (badness 10000) in paragraph at lines 1697--1698
 \T1/cmr/m/n/12 Ma-chi-ne Lear-ning Com-pe-ti-tion?. []$\T1/cmtt/m/n/12 https : 
 / / medium . com / syncedreview /
  []
 
 
-Overfull \hbox (167.25946pt too wide) in paragraph at lines 1693--1694
+Overfull \hbox (167.25946pt too wide) in paragraph at lines 1697--1698
 \T1/cmtt/m/n/12 tree-[]boosting-[]with-[]xgboost-[]why-[]does-[]xgboost-[]win-[
 ]every-[]machine-[]learning-[]competition-[]ca8034c0b283$[]
  []
 
 
-Underfull \hbox (badness 6173) in paragraph at lines 1695--1696
+Underfull \hbox (badness 6173) in paragraph at lines 1699--1700
 []\T1/cmr/m/n/12 Mandot, P., What is LightGBM, How to im-ple-ment it? How to fi
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1695--1696
+Underfull \hbox (badness 10000) in paragraph at lines 1699--1700
 \T1/cmr/m/n/12 ne tu-ne the pa-ra-me-ters?. []$\T1/cmtt/m/n/12 https : / / medi
 um . com / @pushkarmandot /
  []
 
 
-Overfull \hbox (274.70883pt too wide) in paragraph at lines 1695--1696
+Overfull \hbox (274.70883pt too wide) in paragraph at lines 1699--1700
 \T1/cmtt/m/n/12 https-[]medium-[]com-[]pushkarmandot-[]what-[]is-[]lightgbm-[]h
 ow-[]to-[]implement-[]it-[]how-[]to-[]fine-[]tune-[]the-[]parameters-[]60347819
 b7fc$[]
  []
 
-[57]
-Underfull \hbox (badness 10000) in paragraph at lines 1697--1698
+[58]
+Underfull \hbox (badness 10000) in paragraph at lines 1701--1702
 []\T1/cmr/m/n/12 Segura, T., ``Cat-Boost Al-go-rithm'' ex-plai-ned in 200 words
 . []$\T1/cmtt/m/n/12 https :
  []
 
-[58] (TFG.aux
+[59] (TFG.aux
 LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
 )
@@ -916,8 +927,8 @@ Package rerunfilecheck Info: File `TFG.out' has not changed.
 (rerunfilecheck)             Checksum: 624E2469B05FC12C5D42C650019E0892;5128.
  ) 
 Here is how much of TeX's memory you used:
- 14985 strings out of 478584
- 241700 string characters out of 2843458
+ 14986 strings out of 478584
+ 241707 string characters out of 2843458
  554807 words of memory out of 3000000
  32791 multiletter control sequences out of 15000+600000
  484726 words of font info for 61 fonts, out of 8000000 for 9000
@@ -948,9 +959,9 @@ amsfonts/cm/cmsy6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX
 /fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Usuario/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on TFG.pdf (58 pages, 2252517 bytes).
+Output written on TFG.pdf (59 pages, 2250362 bytes).
 PDF statistics:
- 1126 PDF objects out of 1200 (max. 8388607)
- 158 named destinations out of 1000 (max. 500000)
+ 1130 PDF objects out of 1200 (max. 8388607)
+ 159 named destinations out of 1000 (max. 500000)
  399 words of extra memory for PDF output out of 10000 (max. 10000000)
 

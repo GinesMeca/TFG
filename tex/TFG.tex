@@ -427,11 +427,11 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 \section{Métodos derivados de los árboles de decisión}
 Los árboles de decisión son una gran herramienta predictiva. Tanto CART como muchos de los algoritmos utilizados para construir árboles de decisión se desarrollaron a lo largo de la década de los 80. No obstante, ya hemos visto que estos algoritmos no llegan a alcanzar grandes niveles de precisión; es por eso que a partir de la década de los 90 empiezan a surgir diferentes artículos que introdujeron nuevas técnicas que, mediante distintas combinación de árboles de decisión, consiguen modelos de mayor fiabilidad y que incorporan distintas características que los convierte en modelos muy potentes.
 
-A la hora de combinar los árboles de decisión para construir modelos más complejos se pueden seguir dos caminos: bagging o boosting; y dedicaremos esta sección al estudio de ambos.
+A la hora de combinar los árboles de decisión para construir modelos más complejos se pueden seguir dos caminos: bagging o boosting. Dedicaremos esta sección al estudio de ambos.
 
 
 \subsection{Algoritmos de bagging}
-Los algoritmos de bagging (\textit{``Bootstrap Aggregation''}) se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión. De esta manera, generan tantos árboles, independientes entre sí, como muestras hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles, y en un problema de clasificación será la clase que más veces se ha repetido.
+Los algoritmos de bagging (\textit{``Bootstrap Aggregation''}) se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión diferentes. De esta manera, generan tantos árboles, independientes entre sí, como muestras hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles, y en un problema de clasificación será la clase que más veces se ha repetido.
 
 Analizaremos tres algoritmos de bagging distintos: Bagging, Random Forest y Extra-Trees.
 
@@ -447,7 +447,7 @@ Por tanto, la diferencia con Bagging es que ahora cada árbol se construirá ten
 
 
 \subsubsection{Extra-Trees} \label{sec:ExtraTrees}
-El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y, a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, para realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las $p$ variables, se probará con $m$ valores generados aleatoriamente correspondientes a las $m$ variables explicativas escogidas al azar.
+El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen a la aleatoriedad dentro del modelo. Utiliza como base lo descrito en Random Forest y, a la hora de realizar las escisiones de nodos en cada árbol, asigna un valor aleatorio a cada variable. Así, para realizar una partición del espacio no se debe probar con todos los valores posibles para cada una de las $p$ variables, se probará con $m$ valores generados aleatoriamente correspondientes a las $m$ variables explicativas escogidas al azar. En particular, este algoritmo puede resultar muy útil ante problemas de \textit{overfitting} extremos.
 
 
 \subsubsection{Error de Out-Of-Bag}
@@ -463,9 +463,9 @@ Por tanto, como podemos observar, cuando el número de invididuos de nuestra mue
 
 Es decir, sabemos que, si contamos con un conjunto de datos de gran tamaño, cerca de un $37 \%$ de los individuos no se tendrán en cuenta para la creación de cada árbol (en particular).
 
-Con el concepto de Out-Of-Bag se pueden desarrollar conceptos interesantes. Uno de estos conceptos es el error OOB que se basa en la idea de la validación cruzada para medir la fiabilidad del modelo; pero en lugar de separar previamente el conjunto de datos en conjunto de entrenamiento y conjunto de testeo, para cada árbol, los individuos que se utilizarán para el test serán aquellos individuos out-of-bag del árbol en cuestión. Además, una propiedad muy buena del error OOB es que converge. De esta manera, podemos asegurar que los modelos de bagging no se sobreajustan.
+Gracias al \textit{Out-Of-Bag} se pueden desarrollar conceptos interesantes. Uno de estos conceptos es el error OOB, que se basa en la idea de la validación cruzada para medir la fiabilidad del modelo. En lugar de separar previamente el conjunto de datos en conjunto de entrenamiento y conjunto de testeo, para cada árbol, los individuos que se utilizarán para el test serán aquellos individuos \textit{out-of-bag} del árbol en cuestión. Además, una propiedad muy buena del error OOB es que converge a medida que se añaden árboles al modelo. De esta manera, podemos asegurar que los modelos de bagging no se sobreajustan.
 
-No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separar el conjunto de datos en dos, nosotros seguiremos evaluando la precisión del modelo mediante validación cruzada. El motivo es el que ya comentamos en la introducción \ref{subsec:Metodología} nos interesa aplicar una validación \textit{``Out Of Time''} y el error OOB no respeta esta validación pues, evidentemente, los individuos \textit{out-of-bag} son aleatorios.
+No obstante, pese a que el error OOB es muy cómodo, dado que no hace falta separar el conjunto de datos en dos, nosotros seguiremos evaluando la precisión del modelo mediante validación cruzada. El motivo es el que ya comentamos en la introducción \ref{subsec:Metodología} nos interesa aplicar una validación \textit{``Out Of Time''} y el error OOB no respeta esta validación pues, evidentemente, los individuos \textit{out-of-bag} son aleatorios dentro del conjunto de entrenamiento.
 
 
 %QUEDA PENDIENTE ENUNCIAR EL TEOREMA EXACTO (¿Y DEMOSTRARLO?).
@@ -486,7 +486,7 @@ No obstante, pese a que el error OOB es muy cómodo dado que no hace falta separ
 
 \newpage
 \noindent
-\emph{donde ``Bag'' se corresponde con Bagging, ``RT'' con Random Forest y ``ET'' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba un índice Gini de 0.655905 en el conjunto de entrenamiento y de 0.626416 en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 0.7 en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto, en delta$\%$, lo cual refleja una clara disminución de la varianza del modelo.}
+\emph{donde ``Bag'' se corresponde con Bagging, ``RT'' con Random Forest y ``ET'' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba una precisión en Gini del 66$\%$ en el conjunto de entrenamiento y del 63$\%$ en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 70$\%$ en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto porcentual, en delta, lo cual refleja una clara disminución de la varianza del modelo.}
 
 \emph{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
 
@@ -507,6 +507,7 @@ Al igual que se ha hecho con CART, a continuación se realizará un análisis de
 \begin{itemize}
 \item  Algoritmos capaces de disminuir la varianza; lo que implica que las predicciones realizadas serán (casi) igual de fiables que las del conjunto de entrenamiento.
 \item Aumento de precisión respecto a otros algoritmos más simples (como CART).
+\item Al tratarse de modelos ``democráticos'', son buenas alternativas estables en problemas con datos ruidosos, con bajas correlaciones o con datos faltantes.
 \end{itemize}
 
 \textbf{\underline{Desventajas:}}
@@ -524,9 +525,9 @@ A lo largo de esta subsección trataremos de abordar a fondo los principales alg
 
 
 \subsubsection{AdaBoost} \label{sec:AdaBoost}
-Adaboost (\textit{``Adaptative Boosting''}) fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. Entonces, AdaBoost construye un tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un tocón que clasifique la muestra de datos correspondiente a la iteración, calcular los errores y obtener otro conjunto de datos.
+Adaboost (\textit{``Adaptative Boosting''}) fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. En la práctica, AdaBoost construye un primer tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial, en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un nuevos tocones que clasifiquen la muestra de datos correspondiente a la iteración, calculando los errores pertinentes y los sucesivos conjuntos de datos.
 
-De esta manera, AdaBoost le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones. 
+De esta manera, AdaBoost construye una cadena de árboles donde se le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones. 
 
 
 A continuación, formalizaremos este proceso. El algoritmo es el siguiente:
@@ -568,12 +569,12 @@ w_1 & 0 & \dots & 0 \\
 \end{pmatrix}
 \end{equation*}
 
-Como podemos ver en la figura \ref{fig: AdaBoost_01}, el primer paso consiste en asignar el mismo peso a todos los individuos; ya que no se ha realizado ningún árbol previo y, por tanto, nos interesa calcular buenas predicciones del máximo número de individuos posibles. Así, en primer lugar:
+Como podemos ver en la Figura \ref{fig: AdaBoost_01}, el primer paso consiste en asignar el mismo peso a todos los individuos; ya que no se ha realizado ningún árbol previo y, por tanto, nos interesa calcular buenas predicciones del máximo número de individuos posibles. Así, en primer lugar:
 \begin{equation*}
 w_i = \frac{1}{n} \, \, \, \forall i \in \{1, \dots, n \}
 \end{equation*}
 
-A continuación, siguiendo el esquema de la figura \ref{fig: AdaBoost_01}, se crea un árbol de decisión de dos nodos hoja, un tocón. De esta manera, cada tocón construido (denotados por $G_m$) realiza una única división del espacio, obteniendo dos subconjuntos. Además, es evidente que en cada tocón únicamente se verá involucrada una variable.
+A continuación, siguiendo el esquema de la Figura \ref{fig: AdaBoost_01}, se crea un árbol de decisión de dos nodos hoja, un tocón. De esta manera, cada tocón construido (denotados por $G_m$) realiza una única división del espacio, obteniendo dos subconjuntos. Además, es evidente que en cada tocón únicamente se verá involucrada una variable.
 
 Una vez construido el tocón, definimos:
 
@@ -588,7 +589,7 @@ es decir, la suma de los pesos de los individuos mal clasificados en el numerado
 err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
 \end{equation*}
 
-A continuación, siguiendo el apartado 3b de la figura \ref{fig: AdaBoost_01}, definimos:
+A continuación, siguiendo el apartado 2b de la Figura \ref{fig: AdaBoost_01}, definimos:
 
 \begin{equation*}
 \alpha _m = \log \left( \frac{1 - err_m}{err_m} \right)
@@ -646,7 +647,7 @@ G_{region} = \sum_{k=1}^K p_{rk}(1 - p_{rk}) = 1 - \sum_{k=1}^K p_{rk}^2
 \noindent
 donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase $k$ que se encuentran en la región $r$ y $K$ era el número total de clases (en la expresión original de la sección \ref{sec: subsec22}, $r$ viene denotado por $m$, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento, por lo que tendremos que encontrar una manera de conseguir que estos pesos sean considerados.
 
-La solución más fácil, y la que se encuentra implementada en Python, es la siguiente: estandarizamos los pesos, es decir, dividimos el peso de cada individuo por la suma total de pesos, y consideramos el resultado como las frecuencias relativas de cada individuo. Así, podemos conseguir también las frecuencias absolutas de la muestra:
+La solución más fácil, y la que se encuentra implementada en la librería \emph{Scikit-learn} de Python, es la siguiente: estandarizamos los pesos, es decir, dividimos el peso de cada individuo por la suma total de pesos, y consideramos el resultado como las frecuencias relativas de cada individuo. Así, podemos conseguir también las frecuencias absolutas de la muestra:
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|}
@@ -709,14 +710,13 @@ donde $F_0$ = 0.
 
 Entonces, la solución propuesta al problema de los pesos consiste en crear un nuevo conjunto de datos utilizando los $t_i$ generados aleatoriamente: si $t_i \in [F_{j-1}, F_{j}]$, entonces añadimos $x_j$ a nuestro nuevo conjunto. De esta manera, obtendremos un nuevo conjunto de datos de n individuos en el que los individuos mal clasificados por el árbol anterior tendrán mayor presencia (como sus pesos son más altos, los intervalos $[F_{j-1}, F_{j}]$ serán más amplios). Por último, asignamos un peso de 1/n a cada uno de los individuos del nuevo conjunto de datos y ya podemos proceder a la creación del siguiente tocón.
 
-\bigskip
 
 \textbf{\underline{Ejemplo funcionamiento del bucle:}}
 
 \textit{Supongamos que nuestro conjunto de datos se redujese a:}
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.35\textwidth]{AdaBoost_03}
+\includegraphics[width = 0.3\textwidth]{AdaBoost_03}
 \caption{Datos para el ejemplo teórico de AdaBoost}
 \end{figure}
 
@@ -859,7 +859,7 @@ G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
 
 Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba diseñado para resolver problemas de clasificación binaria, a una clase se le asocia el valor $-1$ y a la otra el valor $+1$. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, $G(x) = - 1$; y en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, $G(x) = 1$. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $\alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
 
-\bigskip \bigskip
+\bigskip
 
 \textbf{\underline{Consideraciones finales AdaBoost:}}
 
@@ -904,15 +904,15 @@ Así, una vez solucionado el problema de cómo medir el error, el resto del proc
 
 \subsubsection{Gradient Boosting} \label{sec:GB}
 
-Siguiendo la línea de AdaBoost, en 2001 se publica un nuevo algoritmo: Gradient Boosting \cite{FR03}. De nuevo, se trata de un método que, mediante la construcción secuencial de árboles, consigue identificar cuáles son aquellos individuos cuyos errores asociados son mayores y trata de mejorar las predicciones de los mismos. Al igual que AdaBoost, el primer paso consiste en determinar una predicción inicial. No obstante, mientras AdaBoost prosigue a través de actualizaciones de los pesos y de la generación de nuevos conjuntos de datos, Gradient Boosting construye árboles cuya tarea es predecir el residuo cometido. Así, la respuesta final viene dada por la predicción inicial más estos residuos predichos; de manera que se parte de una predicción inicial con un error alto que se va reduciendo iteración a iteración.
+Siguiendo la línea de AdaBoost, en 2001 se publica un nuevo algoritmo: Gradient Boosting \cite{FR03}. De nuevo, se trata de un método que, mediante la construcción secuencial de árboles, consigue identificar cuáles son aquellos individuos cuyos errores asociados son mayores y trata de mejorar las predicciones de los mismos. Al igual que AdaBoost, el primer paso consiste en determinar una predicción inicial. No obstante, mientras AdaBoost prosigue a través de actualizaciones de los pesos y de la generación de nuevos conjuntos de datos, Gradient Boosting construye una secuencia de árboles en la que cada árbol aspira a corregir el error cometido por los árboles anteriores. Así, la respuesta final viene dada por la predicción inicial más la suma del resto de árboles que tratan de cuantificar los sucesivos errores. De esta forma, se parte de una predicción inicial con un error alto que se va reduciendo iteración a iteración.
 
 Además, Gradient Boosting requiere de una Loss Function a través de la cual obtiene los residuos y el valor asociado a cada nodo hoja de los árboles predictores de residuos. Como ya se introdujo en AdaBoost (\ref{sec:AdaBoost}), el objetivo de la Loss Function es evaluar el error cometido entre la predicción realizada y el valor observado. Por ello, interesa minimizarla para así minimizar el error cometido.
 
-El algoritmo es el siguiente:
+%El algoritmo es el siguiente:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.4\textwidth]{GB_01}
+\includegraphics[width = 0.42\textwidth]{GB_01}
 \caption{Algoritmo de Gradient Boosting. Fuente: \cite{FR04}}
 \label{fig:GB_01}
 \end{figure}
@@ -975,7 +975,7 @@ f_m(x) = f_{m-1}(x) + \nu \sum_{j = 1}^{J_m}\gamma_{jm} I(x \in R_{jm})
 \end{equation*}
 
 \noindent
-donde $\nu \in (0, 1)$ es esta tasa de aprendizaje comentada y hace que las modificaciones que se van realizando sean menores. Por ello, Gradient Boosting se suele aplicar con un $M$ grande, pues en la práctica se comprueba que es más fiable utilizar modelos que realicen muchos pasos de pequeñas modificaciones en lugar de pocos pasos de grandes modificacionesz, pues tienden a sobreajustarse menos.
+donde $\nu \in (0, 1)$ es esta tasa de aprendizaje comentada y hace que las modificaciones que se van realizando sean menores. Por ello, Gradient Boosting se suele aplicar con un $M$ grande, pues en la práctica se comprueba que es más fiable utilizar modelos que realicen muchos pasos de pequeñas modificaciones en lugar de pocos pasos de grandes modificaciones, pues tienden a sobreajustarse menos.
 
 Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo la hipótesis de que la Loss Function escogida es la más habitual en este caso. Evidentemente, el procedimiento es análogo para cualquier función, pero en ese caso valores como $f_0(x)$ o $\gamma_{jm}$ dejarán de ser medias y tendremos que calcular los valores que minimizan las nuevas expresiones. Además, puntualizar que en este caso no sería del todo correcto definir los $r_{im}$ como residuos, ya que la forma de estos puede ser, ahora, muy diferente (ya no tiene por qué ser ``valor observado - valor predicho''). Es por eso que en Gradient Boosting se denomina a estos valores como ``pseudo-residuos'' (\textit{pseudo-residuals} en inglés).
 
@@ -1165,7 +1165,7 @@ A continuación, al igual que realizamos en Gradient Boosting, explicaremos el c
 
 
 
-\bigskip \bigskip \bigskip
+\bigskip \bigskip
 
 \textbf{\underline{Regresión}}
 
@@ -1222,7 +1222,7 @@ expresión que se puede interpretar como $\frac{\sum_{i \in I_j} Residuos_i}{Num
 \omega_j = \frac{\sum_{i \in I_j} Residuos_i}{N_j + \lambda} = \frac{\sum_{i \in I_j} Residuos_i}{N_j} \times \frac{N_j}{N_j + \lambda} \approx \frac{\sum_{i \in I_j} Residuos_i}{N_j}
 \end{equation*}
 
-Así, $\lambda$ actúa como parámetro de regularización ya que modifica considerablemente la respuesta de aquellos nodos hoja a los que corresponden pocos individuos; es decir, la respuesta de las observaciones aisladas.
+Así, $\lambda$ actúa como parámetro de regularización ya que modifica considerablemente la respuesta de aquellos nodos hoja a los que corresponden pocos individuos; es decir, la respuesta de las observaciones aisladas. Aumentar $\lambda$ implica disminuir los pesos y aumentar su coste en la Loss Function. En resumen, escogiendo un $\lambda \ggg 1$ se reduce el \textit{overfitting}.
 
 Una vez visto qué valor asignar a los nodos hoja de los árboles que se construyen en XGBoost, veamos la profundidad que alcanzan estos árboles. Para ello, observamos que sustituyendo el valor $\omega_j$ en la ecuación de $\mathcal{L}^{(m)}$ se obtiene:
 \begin{equation*}
@@ -1257,7 +1257,7 @@ Una vez explicado como genera los árboles XGBoost, el resto del procedimiento e
 
 
 
-\bigskip \bigskip 
+\bigskip
 
 \textbf{\underline{Clasificación}}
 
@@ -1301,7 +1301,7 @@ para obtener la probabilidad deseada y clasificar.
 
 
 
-\bigskip \bigskip
+\bigskip
 
 \textbf{\underline{Otras optimizaciones}}
 
@@ -1313,7 +1313,7 @@ h_m(x_i) = 1 \, \, \, \, \vee \, \, \, \, h_m(x_i) = p_{i, m-1}(1 - p_{i, m-1})
 \end{equation*}
 
 \noindent
-según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan como siempre y en el caso de clasificación se tendrán las últimas predicciones realizadas. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que podemos reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
+según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan de forma habitual y en el caso de clasificación se tendrán las últimas predicciones realizadas. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que podemos reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
 \begin{equation*}
 \mathcal{L}^{(m)} = \sum_{i = 1}^n \frac{1}{2} h_m(x_i) \left( f_m(x_i) - \frac{g_m(x_i)}{h_m(x_i)} \right)^2 + \Omega(f_m) + constant
 \end{equation*}
@@ -1321,9 +1321,9 @@ según se trate de un problema de regresión o de clasificación, respectivament
 \noindent
 con $\Omega(f_m)$ los términos de regularización, de manera que se puede interpretar considerando $h_m(x_i)$ el peso del individuo y el otro factor como una función de pérdida.
 
-Por otro lado, XGBoost es capaz de trabajar con conjuntos de datos con datos vacíos sin necesidad de depurarlos previamente. Cuando se construyen los árboles para predecir los residuos, a la hora de separar un nodo, si se tienen variables con datos vacíos, para cada uno de los valores que se le otorguen a la variable para analizar el valor de \textit{``Gain''} se contemplarán dos casos: que los residuos de aquellos datos vacíos se encuentren en el nodo hijo izquierdo y que se encuentren en el derecho. De esta manera, el algoritmo tendrá en cuenta más particiones pero seguirá escogiendo aquella que maximice la ganancia y, por tanto, se podrán predecir resultados sin necesidad de conocer el valor de todas las variables explicativas.
+Por otro lado, XGBoost es capaz de trabajar con conjuntos de datos con datos ausentes (o \textit{``Null values''}) sin necesidad de depurarlos previamente. Cuando se construyen los árboles para predecir los residuos, a la hora de separar un nodo, si se tienen variables con datos vacíos, para cada uno de los valores que se le otorguen a la variable para analizar el valor de \textit{``Gain''} se contemplarán dos casos: que los residuos de aquellos datos vacíos se encuentren en el nodo hijo izquierdo y que se encuentren en el derecho. De esta manera, el algoritmo tendrá en cuenta más particiones pero seguirá escogiendo aquella que maximice la ganancia y, por tanto, se podrán predecir resultados sin necesidad de conocer el valor de todas las variables explicativas.
 
-Por último, también se tienen en cuenta ciertas mejoras de ámbito informático. Con la intención de optimizar el tiempo de computación, XGBoost recurre a diferentes técnicas: 
+Por último, también se tienen en cuenta ciertas mejoras desde el punto de vista de la implementación. Con la intención de optimizar el tiempo de computación, XGBoost recurre a diferentes técnicas: 
 \begin{itemize}
 \item \textbf{Paraleliza el conjunto de datos} enviando fragmentos del mismo a diferentes terminales.
 
@@ -1392,7 +1392,7 @@ Individuo & ClaseA & ClaseB & ClaseC \\ \hline
 
 De esta manera, el problema quedaría resuelto. Cada nueva variable $V_j$ hará referencia a la propiedad de ``pertenecer a la clase $A_j$'' y el conjunto de datos ya estará correctamente codificado para su uso. En este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la técnica para codificar variables como ``Location''.
 
-No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables categóricas implica un aumento significativo del número de variables a considerar en nuestro conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional.
+No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables categóricas implica un aumento significativo del número de variables a considerar en nuestro conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional. También, podría provocar problemas de multicolinealidad en algoritmos clásicos como el de Regresión Lineal.
 
 Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir a la codificación \textit{one-hot-encoding}. Así, se consigue una ahorro de recursos que permite obtener resultados similares en un menor tiempo de ejecución.
 
@@ -1459,7 +1459,7 @@ Con el fin de ajustarnos con la mayor exactitud posible al funcionamiento real d
 Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito informático para ciertas optimizaciones. También, cabe destacar que este modelo construye árboles de decisión simétricos:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.7 \textwidth]{CatBoost_06}
+\includegraphics[width = 0.6 \textwidth]{CatBoost_06}
 \caption{Árboles simétricos. Fuente: \cite{SE01}}
 \end{figure}
 
@@ -1468,9 +1468,9 @@ Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito in
 
 \subsubsection{Ejemplo} \label{ex:Boost}
 
-\textit{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos ``Rain in Australia''. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el ``overfitting''. En este caso, no es necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, por realizar una comparación justa con los algoritmos de bagging, fijaremos la profundidad máxima de cada árbol en 5.}
+\emph{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos ``Rain in Australia''. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el ``overfitting''. En este caso, no es necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, por realizar una comparación justa con los algoritmos de bagging, fijaremos la profundidad máxima de cada árbol en 5.}
 
-\textit{Al igual que en los ejemplos anteriores, calcularemos el coeficiente de Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones. Así, los resultados de los diferentes algoritmos son:}
+\emph{Al igual que en los ejemplos anteriores, utilizaremos la métrica de Gini para realizar las comparaciones. Los resultados son los siguientes:}
 
 \begin{figure}[h]
 \centering
@@ -1478,15 +1478,17 @@ Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito in
 \caption{Resultados modelos de boosting}
 \end{figure}
 
-\textit{Como podemos observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $0.7$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
+\emph{Como podemos observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $70\%$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
 
-\textit{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting tendremos que preocuparnos por ver que no estamos cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
+\emph{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting tendremos que preocuparnos por ver que no estamos cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.5\textwidth]{ex_boost_02}
-\caption{Evolución del $delta\%$}
+\caption{Evolución del $delta\%$ y del tiempo de ejecución}
 \end{figure}
+
+\emph{También, atendiendo a los tiempos de ejecución, se puede observar la eficiencia de LightGBM ya que donde algunos algoritmos tardan entre 1 y 10 minutos en entrenarse, LGBM apenas necesita 5 segundos.}
 
 
 
@@ -1512,6 +1514,8 @@ Tras la debida explicación del funcionamiento de los algoritmos de boosting, ca
 \item Sólo apto para grandes conjuntos de datos, pues la gran potencia de los algoritmos conlleva sobreajustes cuando la cantidad de datos no es suficientemente elevada.
 
 \item Aumento del coste computacional.
+
+\item Modelos menos robustos ante datos ruidosos que los basados en bagging debido a la alta optimización.
 \end{itemize}
 
 

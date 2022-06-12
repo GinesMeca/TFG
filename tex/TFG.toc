@@ -27,6 +27,6 @@
 \contentsline {subsubsection}{\numberline {3.2.5}CatBoost}{46}{subsubsection.3.2.5}%
 \contentsline {subsubsection}{\numberline {3.2.6}Ejemplo}{50}{subsubsection.3.2.6}%
 \contentsline {subsubsection}{\numberline {3.2.7}Ventajas y desventajas}{51}{subsubsection.3.2.7}%
-\contentsline {section}{\numberline {4}Conclusión}{52}{section.4}%
-\contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{55}{appendix.Alph1}%
-\contentsline {section}{Referencias}{56}{table.caption.41}%
+\contentsline {section}{\numberline {4}Conclusión}{53}{section.4}%
+\contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{56}{appendix.Alph1}%
+\contentsline {section}{Referencias}{57}{table.caption.41}%
