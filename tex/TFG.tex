@@ -1040,35 +1040,28 @@ y ya tenemos la Loss Function en función de $ln(odd_i)$:
 L(y_i, ln(odd_i)) = -y_i ln(odd_i) + ln \left( 1 + e^{ln(odd_i)} \right)
 \end{equation*}
 
-Así pues, una vez establecida la Loss Function, podemos abordar el primer paso del algoritmo. Veamos cuál es ahora el valor de la predicción inicial. Recordemos que $f_0(x)$ viene dado por:
-\begin{equation*}
-f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right)
-\end{equation*}
+Así pues, una vez establecida la Loss Function, se deben seguir los mismos pasos que en el caso de regresión pero sustituyendo por la nueva función. Como el procedimiento es, en la gran mayoría, análogo, se suprimirá parte de los desarrollos, disponibles en el Anexo (\ref{Anexo2}). 
 
-\noindent
-por tanto debemos derivar la expresión y ver dónde alcanza el mínimo:
-\begin{equation*}
-\begin{split}
-& \frac{\partial}{\partial \gamma}\sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right) = \sum_{i=1}^N \left( -y_i + \frac{1}{1 + e^{\gamma}} e^{\gamma} \right) = \sum_{i=1}^N (-y_i + p) = 0 \, \, \Leftrightarrow  \\
-& \Leftrightarrow \, \, p = \frac{\sum_{i=1}^{N} y_i}{N} 
-\end{split}
-\end{equation*}
+Ahora, la predicción inicial vendrá dada por:
+\begin{equation}
+\label{eqn:1}
+f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right) = \frac{\sum_{i=1}^{N} y_i}{N} 
+\end{equation}
 
 Podemos observar, dado que $y_i \in \{0, 1 \} \, \forall i \in \{1, \dots, n \}$, que la predicción inicial es la proporción de individuos del conjunto de entrenamiento que pertenecen a la clase ``1''. No obstante, dado que queremos trabajar en términos de $ln(odd_i)$, debemos escribir esta probabilidad en la forma correspondiente. De esta manera:
 \begin{equation*}
 f_0(x) = \frac{p}{1-p} = \frac{\frac{\sum_{i=1}^{N} y_i}{N}}{1 - \frac{\sum_{i=1}^{N} y_i}{N}} = \frac{\sum_{i=1}^{N} y_i}{N -\sum_{i=1}^{N} y_i}
 \end{equation*}
 
-Ahora, a través de predicciones secuenciales de los ``pseudo-residuos'', debemos afinar esta predicción inicial. De acuerdo con lo anterior, el siguiente paso consiste en el bucle que nos calculará en cada iteración (supongamos la iteración $m$-ésima): los ``pseudo-residuos'' de la predicción $f_{m-1}(x)$, un árbol de decisión que clasifique estos residuos, los valores de respuesta de los nodos hoja del árbol generado y la nueva predicción $f_m(x)$.
+Ahora, se debe afinar esta predicción inicial a través de predicciones secuenciales de los ``pseudo-residuos''. De acuerdo con lo anterior, el siguiente paso consiste en el bucle que calculará en cada iteración (supongamos la iteración $m$-ésima): los ``pseudo-residuos'' de la predicción $f_{m-1}(x)$, un árbol de decisión que clasifique estos residuos, los valores de respuesta de los nodos hoja del árbol generado y la nueva predicción $f_m(x)$.
 
-Los ``pseudo-residuos'' los calcularemos al igual que en el apartado anterior teniendo en cuenta que la Loss Function escogida ahora es diferente. Se tiene:
-\begin{equation*}
+Los ``pseudo-residuos'' vendrán dados por:
+\begin{equation}
+\label{eqn:2}
 \begin{split}
-r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{m-1}} = - \left[ \frac{\partial L(y_i, ln(odd_i))}{\partial ln(odd_i)} \right]_{ln(odd_i)=f_{m-1}} = \\
-& = - \left[ \frac{\partial (-y_iln(odd_i) + ln(1+e^{ln(odd_i)})}{\partial ln(odd_i)} \right]_{ln(odd_i)=f_{m-1}} = - \left[ - y_i + \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}} \right]_{ln(odd_i) = f_{m-1}} =  \\
-& = y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}
+r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{m-1}} =  y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}
 \end{split}
-\end{equation*}
+\end{equation}
 
 Notemos que $f_{m-1}(x_i)$ es, realmente, la última predicción realizada de $ln(odd_i)$. Por tanto, $r_{im}$ podría escribirse como:
 \begin{equation*}
@@ -1097,39 +1090,17 @@ y derivamos respecto de $\gamma$ e igualamos a cero puesto que es lo que buscamo
 \end{split}
 \end{equation*}
 
-Por tanto, como tenemos que $L(y_i, ln(odd_i)) = -y_iln(odd_i) + ln(1 + e^{ln(odd_i)})$, las derivadas respecto de $ln(odd_i)$ quedarán:
-\begin{equation*}
-\frac{d}{d(ln(odd_i))}L(y_i, ln(odd_i)) = y_i - \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}}
-\end{equation*}
-
-\noindent
-y:
-\begin{equation*}
-\begin{split}
-\frac{d^2}{d(ln(odd_i))^2}L(y_i, ln(odd_i)) &=\frac{d}{d(ln(odd_i)} \left( - \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}} \right) = - \frac{e^{ln(odd_i)}(1 + e^{ln(odd_i)}) - e^{ln(odd_i)}e^{ln(odd_i)}}{(1 + e^{ln(odd_i)})^2} = \\
-&= - \frac{e^{ln(odd_i)}}{(1 + e^{ln(odd_i)})^2}
-\end{split}
-\end{equation*}
-
-En resumen:
-\begin{equation*}
+Realizando el cálculo de estas derivadas se obtiene:
+\begin{equation}
+\label{eqn:3}
 \gamma = \frac{y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}}{\frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})^2}}
-\end{equation*}
+\end{equation}
 
-Notemos que la expresión del numerador es equivalente a la que hemos dado para los ``pseudo-residuos'' $r_{im}$. Por tanto, el numerador se puede escribir como:
-\begin{equation*}
-y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}} = y_i - p_{i, m-1}
-\end{equation*}
-
-Por otro lado, podemos transformar el denominador de manera que:
-\begin{equation*}
-\frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})^2} = \frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})} \times \frac{1}{1 + e^{f_{m-1}(x_i)}} = p_{i, m-1}(1 - p_{i, m-1})
-\end{equation*}
-
-Es decir, la expresión del $\gamma$ que minimiza el sumatorio anterior queda:
-\begin{equation*}
+Además, realizando las transformaciones adecuadas, se llega a que esta expresión es equivalente a:
+\begin{equation}
+\label{eqn:4}
 \gamma = \frac{y_i - p_{i, m-1}}{p_{i, m-1}(1 - p_{i, m-1})}
-\end{equation*}
+\end{equation}
 
 Para finalizar con los cálculos, recordemos que hemos decidido omitir los sumatorios en el desarrollo realizado. Ahora bien, como la derivada de un sumatorio es igual al sumatorio de las derivadas, podemos afirmar que:
 \begin{equation*}
@@ -1148,19 +1119,19 @@ p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 
 
 \subsubsection{XGBoost} \label{sec:XGBoost}
-XGBoost(\textit{'eXtreme Gradient Boosting'}) es un algoritmo que utiliza de base lo explicado en la última sección y, además, añade una serie de mejoras que lo convierten en una herramienta muy potente. Fue publicado en 2014 \cite{CH01} y su repercusión fue inmediata. Actualmente, es uno de los modelos cuyo dominio es imprescindible y su continuada aparición entre los finalistas de concursos de Machine Learning dan fe de su importancia y utilidad.
+XGBoost(\textit{'e\textbf{X}treme \textbf{G}radient \textbf{Boost}ing'}) es un algoritmo que utiliza de base lo explicado en la última sección y, además, añade una serie de mejoras que lo convierten en una herramienta muy potente. Fue publicado en 2014 \cite{CH01} y su repercusión fue inmediata. Actualmente, es uno de los modelos cuyo dominio es imprescindible y su continuada aparición entre los finalistas de concursos de Machine Learning dan fe de su importancia y utilidad.
 
 Como ya avanzábamos, XGBoost utiliza la misma idea de Gradient Boosting: generar árboles de decisión que realicen predicciones secuenciales de los residuos. No obstante, presenta una serie de modificaciones entre las que destacan la manera de construir los árboles y la inclusión de parámetros de regularización. Estos parámetros son ciertos valores que se incluyen al modelo para tratar de evitar el sobreajuste. Además, XGBoost fue diseñado para trabajar con conjuntos de datos muy grandes, por lo que estos parámetros de regularización nos ayudarán, sobretodo, en caso de que el conjunto de datos no sea lo suficientemente grande.
 
 El algoritmo XGBoost es el siguiente:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.6\textwidth]{XGB_01}
+\includegraphics[width = 0.53\textwidth]{XGB_01}
 \caption{Algoritmo de XGBoost. Fuente: \cite{JI01}}
 \label{fig:XGB_01}
 \end{figure}
 
-Podemos observar que el número de inputs es elevado. No obstante, ninguno es nuevo para nosotros. El algoritmo requiere de un conjunto de datos de entrenamiento, una Loss Function, el número de iteraciones $M$ (equivalente a la $M$ del bucle de Gradient Boosting), una tasa de aprendizaje y el número máximo de nodos hoja que le vamos a permitir a cada árbol.
+Podemos observar que el número de \textit{inputs} es elevado. No obstante, la mayoría ya son conocidos. El algoritmo requiere de un conjunto de datos de entrenamiento, una Loss Function, el número de iteraciones $M$ (equivalente a la $M$ del bucle de Gradient Boosting), una tasa de aprendizaje y el número máximo de nodos hoja que le vamos a permitir a cada árbol. También, tendrá que establecerse el valor de los parámetros de regularización $\lambda$ y $\gamma$, que serán de ayuda a la hora de evitar el sobreajuste del modelo, restando importancia a los datos aislados y aportando un poco de aleatoriedad. A lo largo del desarrollo, se explicará cómo actúan exactamente cada uno de estos parámetros.
 
 A continuación, al igual que realizamos en Gradient Boosting, explicaremos el caso de regresión y el de clasificación por separado.
 
@@ -1302,7 +1273,7 @@ para obtener la probabilidad deseada y clasificar.
 
 
 
-\bigskip
+\newpage
 
 \textbf{\underline{Otras optimizaciones}}
 
@@ -1337,9 +1308,7 @@ Por último, también se tienen en cuenta ciertas mejoras desde el punto de vist
 
 \subsubsection{LightGBM}
 
-LightGBM (del inglés: \textit{Light Gradient Boosting Machine}) es un modelo desarrollado por Microsoft que fue publicado en 2017 \cite{CH02}. Su funcionamiento es similar al de XGBoost pero añadiendo una serie de matices que consiguen que el algoritmo sea muy potente y eficiente.
-
-La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{``Gain''}. Por el contrario, se podría decir que LightGBM no trabaja por capas. A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, nos encontraremos con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
+LightGBM (del inglés: \textit{\textbf{Light} \textbf{G}radient \textbf{B}oosting \textbf{M}achine}) es un modelo desarrollado por Microsoft que fue publicado en 2017 \cite{CH02}. Su funcionamiento es similar al de XGBoost pero añadiendo una serie de matices que consiguen que el algoritmo sea muy potente y eficiente.
 
 \begin{figure}[h]
 \centering
@@ -1347,7 +1316,10 @@ La diferencia principal reside en el modo de construir los árboles. En cada cap
 \caption{Construcción de árboles en LightGBM vs XGBoost (Fuente: \cite{MA01})}
 \end{figure}
 
-Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor.
+La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{``Gain''}. Por el contrario, se podría decir que LightGBM no trabaja por capas. A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, nos encontraremos con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
+
+
+Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor. Por ejemplo, LightGBM está diseñado para ser muy veloz al hacer uso de la CPU, procesador presente en todos los ordenadores. Por el contrario, XGBoost obtiene mejores resultados de tiempo al trabajar con la GPU, procesador que no contienen todos los equipos. Por tanto, al trabajar en CPU ambos, los tiempos de ejecución de LightGBM son mejores que los de XGBoost.
 
 
 
@@ -1368,6 +1340,7 @@ V_j(x) =
 \right.
 \end{equation*}
 
+\newpage
 Por ejemplo:
 \begin{table}[h]
 \centering
@@ -1436,7 +1409,7 @@ donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los ind
 y por tanto, el valor de la codificación para el sexto individuo queda:
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.3 \textwidth]{CatBoost_04}
+\includegraphics[width = 0.25 \textwidth]{CatBoost_04}
 \caption{Codificación sexto individuo}
 \end{figure}
 
@@ -1449,7 +1422,7 @@ Para el octavo individuo:
 y:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.3 \textwidth]{CatBoost_05}
+\includegraphics[width = 0.25 \textwidth]{CatBoost_05}
 \caption{Codificación octavo individuo}
 \end{figure}
 
@@ -1457,12 +1430,14 @@ Con el fin de ajustarnos con la mayor exactitud posible al funcionamiento real d
 
 %Finalizando con la codificación, a la hora de realizar una predicción de un individuo que no pertenece al conjunto de datos de entrenamiento, tendremos que codificar las variables categóricas del mismo para poder introducirlo en el modelo. Así, las variables categóricas se transformarán de forma que
 
-Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito informático para ciertas optimizaciones. También, cabe destacar que este modelo construye árboles de decisión simétricos:
+Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito informático para ciertas optimizaciones. Por ejemplo, está implementado de manera que es muy eficiente al trabajar con procesadores GPU. También, cabe destacar que este modelo construye árboles de decisión simétricos:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.6 \textwidth]{CatBoost_06}
 \caption{Árboles simétricos. Fuente: \cite{SE01}}
 \end{figure}
+
+La construcción de árboles simétricos consigue que trabajar con procesadores CPU sea mucho más eficiente, además de actuar como regularizador. De esta manera, CatBoost consigue reducir el coste tanto en CPU como en GPU.
 
 
 
@@ -1483,13 +1458,13 @@ Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito in
 
 \emph{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting tendremos que preocuparnos por ver que no estamos cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
 
+\emph{También, atendiendo a los tiempos de ejecución, se puede observar la eficiencia de LightGBM ya que donde algunos algoritmos tardan entre 1 y 10 minutos en entrenarse, LGBM apenas necesita 5 segundos.}
+
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5\textwidth]{ex_boost_02}
+\includegraphics[width = 0.9\textwidth]{ex_boost_02}
 \caption{Evolución del $delta\%$ y del tiempo de ejecución}
 \end{figure}
-
-\emph{También, atendiendo a los tiempos de ejecución, se puede observar la eficiencia de LightGBM ya que donde algunos algoritmos tardan entre 1 y 10 minutos en entrenarse, LGBM apenas necesita 5 segundos.}
 
 
 
@@ -1582,24 +1557,21 @@ Por tanto, a través de este gráfico se puede obtener una información muy comp
 \newpage
 \section{Conclusión}
 A lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. Con el fin de sintetizar la información que se ha detallado, a continuación se realizará una tabla resumen que contendrá, de manera esquemática, la información más importante de cada algoritmo:
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[h]
 \resizebox{17cm}{!} {
 \begin{tabular}{|
 >{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|l|l|}
 \hline
-\cellcolor[HTML]{C0C0C0}Algoritmo & \cellcolor[HTML]{C0C0C0}Metodología & \cellcolor[HTML]{C0C0C0}Python & \cellcolor[HTML]{C0C0C0}Parámetros & \cellcolor[HTML]{C0C0C0}\begin{tabular}[c]{@{}l@{}}Control\\ \textit{Overfitting}\end{tabular} & \cellcolor[HTML]{C0C0C0}\begin{tabular}[c]{@{}l@{}}Coste \\ Computacional\end{tabular} & \cellcolor[HTML]{C0C0C0}Consideraciones \\ \hline
-CART                              & Simple                              & \begin{tabular}[c]{@{}l@{}} Scikit-Learn: \\ - DecisionTreeRegressor \\ - DecisionTreeClassifier\end{tabular}                                                                   &                                     & Profundidad máxima                                                                                                                & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Exploración inicial de datos \\ - Método sencillo \\ - Admite representación gráfica \\ - Inestable \end{tabular}                                         \\ \hline
-Bagging                           & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - BaggingRegressor \\ - BaggingClassifier \end{tabular}                                                                             &                                    & \begin{tabular}[c]{@{}l@{}} Profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Alto  & \begin{tabular}[c]{@{}l@{}}- Uso de todas las variables explicativas \\ disponibles \\ - Convergencia del error\end{tabular}                                                                                                                              \\ \hline
-Random Forest                     & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - RandomForestRegressor \\ - RandomForestClassifier \end{tabular}                                                                             & $m$                                    & \begin{tabular}[c]{@{}l@{}} Profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                                                                                                                                                                                                                                                    & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Cada árbol utiliza $m$ variables \\ - Disminución de la varianza \\ - Convergencia del error \end{tabular}                                                                                                                                                                      \\ \hline
-Extra-Trees                       & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - ExtraTreesRegressor \\ - ExtraTreesClassifier \end{tabular}                                                                             & $m$                                    & \begin{tabular}[c]{@{}l@{}} Profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Mayor aleatoriedad \\ - Útil ante problemas de \textit{overfitting} extremos \\ - Convergencia del error \end{tabular}                                                                                                                     \\ \hline
-AdaBoost                          & Boosting                            & Scikit-Learn                                                                             &                                    &                                                                                                                 &                                                                                        &                                         \\ \hline
-Gradient Boosting                 & Boosting                            & Scikit-Learn                                                                             &                                    &                                                                                                                 &                                                                                        &                                         \\ \hline
-XGBoost                           & Boosting                            & XGBoost                                                                                  &                                    &                                                                                                                 &                                                                                        &                                         \\ \hline
-LightGBM                          & Boosting                            & LightGBM                                                                                 &                                    &                                                                                                                 &                                                                                        &                                         \\ \hline
-CatBoost                          & Boosting                            & Catboost                                                                                 &                                    &                                                                                                                 &                                                                                        &                                         \\ \hline
+\cellcolor[HTML]{C0C0C0}Algoritmo & \cellcolor[HTML]{C0C0C0}Metodología & \cellcolor[HTML]{C0C0C0} Implementación Python & \cellcolor[HTML]{C0C0C0}Parámetros & \cellcolor[HTML]{C0C0C0}Control \textit{Overfitting} & \cellcolor[HTML]{C0C0C0}\begin{tabular}[c]{@{}l@{}}Coste \\ Computacional\end{tabular} & \cellcolor[HTML]{C0C0C0}Consideraciones \\ \hline
+CART                              & Simple                              & \begin{tabular}[c]{@{}l@{}} Scikit-Learn: \\ - DecisionTreeRegressor \\ - DecisionTreeClassifier\end{tabular}                                                                   &                                     & Disminución de la profundidad máxima                                                                                                                & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Exploración inicial de datos \\ - Método sencillo \\ - Admite representación gráfica \\ - Inestable \end{tabular}                                         \\ \hline
+Bagging                           & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - BaggingRegressor \\ - BaggingClassifier \end{tabular}                                                                             &                                    & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Alto  & \begin{tabular}[c]{@{}l@{}}- Uso de todas las variables explicativas \\ disponibles \\ - Convergencia del error\end{tabular}                                                                                                                              \\ \hline
+Random Forest                     & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - RandomForestRegressor \\ - RandomForestClassifier \end{tabular}                                                                             & $m$                                    & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                                                                                                                                                                                                                                                    & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Cada árbol utiliza $m$ variables \\ - Disminución de la varianza \\ - Convergencia del error \end{tabular}                                                                                                                                                                      \\ \hline
+Extra-Trees                       & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - ExtraTreesRegressor \\ - ExtraTreesClassifier \end{tabular}                                                                             & $m$                                    & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Mayor aleatoriedad \\ - Útil ante problemas de \textit{overfitting} extremos \\ - Convergencia del error \end{tabular}                                                                                                                     \\ \hline
+AdaBoost                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - AdaBoostRegressor \\ - AdaBoostClassifier \end{tabular}                                                                             &                                    & Número de iteraciones                                                                                                                 & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Generación de árboles de dos nodos hoja \end{tabular}                                                                                                                     \\ \hline
+Gradient Boosting                 & Boosting                            & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - GradientBoostingRegressor \\ - GradientBoostingClassifier \end{tabular}                                                                             & $\nu$                                    & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\nu$) \\ - Disminución del número de iteraciones \end{tabular}                                                                                                                                                                                             & Alto                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \end{tabular}                                                                                                                                                            \\ \hline
+XGBoost                           & Boosting                            & \begin{tabular}[c]{@{}l@{}}XGBoost: \\ - XGBRegressor \\ - XGBClassifier \end{tabular}                                                                             & \begin{tabular}[c]{@{}l@{}} - $\eta$ \\ - $\lambda$ \\ - $\gamma$ \end{tabular}                                                                                                                & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                             & Medio                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \end{tabular}                                                                                                                                                                                                     \\ \hline
+LightGBM                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}LightGBM: \\ - LGBMRegressor \\ - LGBMClassifier \end{tabular} & \begin{tabular}[c]{@{}l@{}} - $\eta$ \\ - $\lambda$ \\ - $\gamma$ \end{tabular}                                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                                                                                                                                            & Bajo                                                                                        & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \\ - Árboles que maximizan la ganancia \\ nodo a nodo \end{tabular}                                                                                                                                                                                                                                            \\ \hline
+CatBoost                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}CatBoost: \\ - CatBoostRegressor \\ - CatBoostClassifier \end{tabular} & \begin{tabular}[c]{@{}l@{}} - $\eta$ \\ - $\lambda$ \\ - $\gamma$ \end{tabular}                                                                                                                                                                                    & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                                                                                                                                                                                                                                                           & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \\ - Codificación de las variables categóricas \\ sin utilizar \textit{one-hot-encoding} \\ - Generación de árboles simétricos \end{tabular}                                                                                                                                                                                                                                                                                   \\ \hline
 \end{tabular}
 }
 \end{table}
@@ -1663,6 +1635,72 @@ Análisis de Datos II & General & Relación general con diferentes aspectos trat
 \end{tabular}
 \caption{Asignaturas relacionadas con el trabajo} \label{tab{03}}
 \end{table}
+
+
+
+
+\newpage
+\appendix
+\section{Desarrollos Gradient Boosting para clasificación} \label{Anexo2}
+
+Se tiene que $f_0(x)$ viene dado por:
+\begin{equation*}
+f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right)
+\end{equation*}
+
+\noindent
+por tanto, para obtener la expresión de la predicción inicial dada en \ref{eqn:1} se debe derivar la expresión y ver dónde alcanza el mínimo:
+\begin{equation*}
+\begin{split}
+& \frac{\partial}{\partial \gamma}\sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right) = \sum_{i=1}^N \left( -y_i + \frac{1}{1 + e^{\gamma}} e^{\gamma} \right) = \sum_{i=1}^N (-y_i + p) = 0 \, \, \Leftrightarrow  \\
+& \Leftrightarrow \, \, p = \frac{\sum_{i=1}^{N} y_i}{N} 
+\end{split}
+\end{equation*}
+
+El cálculo de los ``pseudo-residuos'' dado en \ref{eqn:2} es el siguiente:
+\begin{equation*}
+\begin{split}
+r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{m-1}} = - \left[ \frac{\partial L(y_i, ln(odd_i))}{\partial ln(odd_i)} \right]_{ln(odd_i)=f_{m-1}} = \\
+& = - \left[ \frac{\partial (-y_iln(odd_i) + ln(1+e^{ln(odd_i)})}{\partial ln(odd_i)} \right]_{ln(odd_i)=f_{m-1}} = - \left[ - y_i + \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}} \right]_{ln(odd_i) = f_{m-1}} =  \\
+& = y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}
+\end{split}
+\end{equation*}
+
+Más tarde, una vez obtenida la expresión de $\gamma$, el valor de respuesta de cada nodo hoja:
+\begin{equation*}
+\gamma = - \frac{\frac{d}{df_{m-1}(x_i)}L(y_i, f_{m-1}(x_i))}{\frac{d^2}{df_{m-1}(x_i)^2}L(y_i, f_{m-1}(x_i))}
+\end{equation*}
+
+\noindent
+se requiere calcular el valor de las derivadas involucradas. Como se tiene que $L(y_i, ln(odd_i)) = -y_iln(odd_i) + ln(1 + e^{ln(odd_i)})$, las derivadas respecto de $ln(odd_i)$ quedarán:
+\begin{equation*}
+\frac{d}{d(ln(odd_i))}L(y_i, ln(odd_i)) = y_i - \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}}
+\end{equation*}
+
+\noindent
+y:
+\begin{equation*}
+\begin{split}
+\frac{d^2}{d(ln(odd_i))^2}L(y_i, ln(odd_i)) &=\frac{d}{d(ln(odd_i)} \left( - \frac{e^{ln(odd_i)}}{1 + e^{ln(odd_i)}} \right) = - \frac{e^{ln(odd_i)}(1 + e^{ln(odd_i)}) - e^{ln(odd_i)}e^{ln(odd_i)}}{(1 + e^{ln(odd_i)})^2} = \\
+&= - \frac{e^{ln(odd_i)}}{(1 + e^{ln(odd_i)})^2}
+\end{split}
+\end{equation*}
+
+\noindent
+y así se obtiene la expresión recogida en \ref{eqn:3}. Además, esta expresión se puede modificar para obtener la fracción equivalente de la ecuación \ref{eqn:4}.
+
+Por un lado, se observa que la expresión del numerador es equivalente a la dada para los ``pseudo-residuos'' $r_{im}$. Por tanto, el numerador se puede escribir como:
+\begin{equation*}
+y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}} = y_i - p_{i, m-1}
+\end{equation*}
+
+Por otro lado, se puede transformar el denominador de manera que:
+\begin{equation*}
+\frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})^2} = \frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})} \times \frac{1}{1 + e^{f_{m-1}(x_i)}} = p_{i, m-1}(1 - p_{i, m-1})
+\end{equation*}
+
+Así:
+
 
 
 
