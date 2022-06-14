@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  14 JUN 2022 12:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  14 JUN 2022 12:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -880,11 +880,12 @@ File: Kedro.png Graphic file (type png)
 Package pdftex.def Info: Kedro.png  used on input line 1596.
 (pdftex.def)             Requested size: 455.24411pt x 159.41878pt.
 
+[56 <./Kedro.png>]
 Overfull \hbox (28.84201pt too wide) in paragraph at lines 1623--1636
  [][] 
  []
 
-[56 <./Kedro.png>]
+[57]
 pdfTeX warning (ext4): destination with the same identifier (name{appendix.Alph
 1}) has been already used, duplicate ignored
 <to be read again> 
@@ -896,9 +897,6 @@ Overfull \hbox (25.92278pt too wide) detected at line 1667
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [57]
 Overfull \hbox (11.05487pt too wide) in paragraph at lines 1674--1676
 \T1/cmr/m/n/12 se re-quie-re cal-cu-lar el va-lor de las de-ri-va-das in-vo-lu-
 cra-das. Co-mo se tie-ne que $\OML/cmm/m/it/12 L\OT1/cmr/m/n/12 (\OML/cmm/m/it/
@@ -910,44 +908,44 @@ Overfull \hbox (68.84935pt too wide) detected at line 1687
 []
  []
 
-[58] [59]
-Underfull \hbox (badness 10000) in paragraph at lines 1757--1758
+[58] [59] [60]
+Underfull \hbox (badness 10000) in paragraph at lines 1760--1761
 \T1/cmr/m/n/12 Ma-chi-ne Lear-ning Com-pe-ti-tion?. []$\T1/cmtt/m/n/12 https : 
 / / medium . com / syncedreview /
  []
 
 
-Overfull \hbox (167.25946pt too wide) in paragraph at lines 1757--1758
+Overfull \hbox (167.25946pt too wide) in paragraph at lines 1760--1761
 \T1/cmtt/m/n/12 tree-[]boosting-[]with-[]xgboost-[]why-[]does-[]xgboost-[]win-[
 ]every-[]machine-[]learning-[]competition-[]ca8034c0b283$[]
  []
 
 
-Underfull \hbox (badness 6173) in paragraph at lines 1759--1760
+Underfull \hbox (badness 6173) in paragraph at lines 1762--1763
 []\T1/cmr/m/n/12 Mandot, P., What is LightGBM, How to im-ple-ment it? How to fi
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1759--1760
+Underfull \hbox (badness 10000) in paragraph at lines 1762--1763
 \T1/cmr/m/n/12 ne tu-ne the pa-ra-me-ters?. []$\T1/cmtt/m/n/12 https : / / medi
 um . com / @pushkarmandot /
  []
 
 
-Overfull \hbox (274.70883pt too wide) in paragraph at lines 1759--1760
+Overfull \hbox (274.70883pt too wide) in paragraph at lines 1762--1763
 \T1/cmtt/m/n/12 https-[]medium-[]com-[]pushkarmandot-[]what-[]is-[]lightgbm-[]h
 ow-[]to-[]implement-[]it-[]how-[]to-[]fine-[]tune-[]the-[]parameters-[]60347819
 b7fc$[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1761--1762
+Underfull \hbox (badness 10000) in paragraph at lines 1764--1765
 []\T1/cmr/m/n/12 Segura, T., ``Cat-Boost Al-go-rithm'' ex-plai-ned in 200 words
 . []$\T1/cmtt/m/n/12 https :
  []
 
-[60] (TFG.aux
+[61] (TFG.aux
 LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
 )
@@ -955,8 +953,8 @@ Package rerunfilecheck Info: File `TFG.out' has not changed.
 (rerunfilecheck)             Checksum: 3646F74A87CD06FB1A2BFA1E0E758EBC;5747.
  ) 
 Here is how much of TeX's memory you used:
- 15060 strings out of 478584
- 242910 string characters out of 2843458
+ 15061 strings out of 478584
+ 242917 string characters out of 2843458
  557323 words of memory out of 3000000
  32855 multiletter control sequences out of 15000+600000
  484726 words of font info for 61 fonts, out of 8000000 for 9000
@@ -987,9 +985,9 @@ amsfonts/cm/cmsy6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX
 /fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Usuario/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on TFG.pdf (60 pages, 2263656 bytes).
+Output written on TFG.pdf (61 pages, 2264954 bytes).
 PDF statistics:
- 1173 PDF objects out of 1200 (max. 8388607)
- 166 named destinations out of 1000 (max. 500000)
+ 1179 PDF objects out of 1200 (max. 8388607)
+ 167 named destinations out of 1000 (max. 500000)
  423 words of extra memory for PDF output out of 10000 (max. 10000000)
 

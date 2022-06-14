@@ -31,5 +31,5 @@
 \contentsline {section}{\numberline {4}Comparación de modelos}{53}{section.4}%
 \contentsline {section}{\numberline {5}Conclusión}{55}{section.5}%
 \contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{56}{appendix.Alph1}%
-\contentsline {section}{\numberline {A}Desarrollos Gradient Boosting para clasificación}{57}{appendix.Alph1}%
-\contentsline {section}{Referencias}{59}{appendix.Alph1}%
+\contentsline {section}{\numberline {A}Desarrollos Gradient Boosting para clasificación}{58}{appendix.Alph1}%
+\contentsline {section}{Referencias}{60}{appendix.Alph1}%

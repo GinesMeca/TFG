@@ -1597,8 +1597,8 @@ Los datos utilizados, como ya se comenta en la introducción (\ref{sec: subsec11
 \caption{Figuras disponibles en el link de Kedro.}
 \end{figure}
 
-
-En cuanto al tiempo invertido a cada parte del trabajo, este se podría repartir, aproximadamente, de la siguiente manera:
+\newpage
+En cuanto al tiempo invertido a cada parte del trabajo, éste se podría repartir, aproximadamente, de la siguiente manera:
 \begin{table}[ht] 
 \centering
 \begin{tabular}{lc} 
@@ -1649,7 +1649,7 @@ f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \sum_{i
 \end{equation*}
 
 \noindent
-por tanto, para obtener la expresión de la predicción inicial dada en \ref{eqn:1} se debe derivar la expresión y ver dónde alcanza el mínimo:
+por tanto, para obtener la expresión de la predicción inicial dada en (\ref{eqn:1}) se debe derivar la expresión y ver dónde alcanza el mínimo:
 \begin{equation*}
 \begin{split}
 & \frac{\partial}{\partial \gamma}\sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right) = \sum_{i=1}^N \left( -y_i + \frac{1}{1 + e^{\gamma}} e^{\gamma} \right) = \sum_{i=1}^N (-y_i + p) = 0 \, \, \Leftrightarrow  \\
@@ -1657,7 +1657,7 @@ por tanto, para obtener la expresión de la predicción inicial dada en \ref{eqn
 \end{split}
 \end{equation*}
 
-El cálculo de los ``pseudo-residuos'' dado en \ref{eqn:2} es el siguiente:
+El cálculo de los ``pseudo-residuos'' dado en (\ref{eqn:2}) es el siguiente:
 \begin{equation*}
 \begin{split}
 r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{m-1}} = - \left[ \frac{\partial L(y_i, ln(odd_i))}{\partial ln(odd_i)} \right]_{ln(odd_i)=f_{m-1}} = \\
@@ -1687,7 +1687,7 @@ y:
 \end{equation*}
 
 \noindent
-y así se obtiene la expresión recogida en \ref{eqn:3}. Además, esta expresión se puede modificar para obtener la fracción equivalente de la ecuación \ref{eqn:4}.
+y así se obtiene la expresión recogida en (\ref{eqn:3}). Además, esta expresión se puede modificar para obtener la fracción equivalente de la ecuación (\ref{eqn:4}).
 
 Por un lado, se observa que la expresión del numerador es equivalente a la dada para los ``pseudo-residuos'' $r_{im}$. Por tanto, el numerador se puede escribir como:
 \begin{equation*}
@@ -1700,6 +1700,9 @@ Por otro lado, se puede transformar el denominador de manera que:
 \end{equation*}
 
 Así:
+\begin{equation*}
+\gamma = \frac{y_i - p_{i, m-1}}{p_{i, m-1}(1 - p_{i, m-1})}
+\end{equation*}
 
 
 
