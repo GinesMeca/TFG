@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  14 JUN 2022 12:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  28 JUN 2022 19:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -584,7 +584,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-<anexo-1-portada-memoria-tfg-matematicas.pdf, id=137, 597.55246pt x 845.07718pt
+<anexo-1-portada-memoria-tfg-matematicas.pdf, id=138, 597.55246pt x 845.07718pt
 >
 File: anexo-1-portada-memoria-tfg-matematicas.pdf Graphic file (type pdf)
 <use anexo-1-portada-memoria-tfg-matematicas.pdf>
@@ -596,7 +596,7 @@ File: anexo-1-portada-memoria-tfg-matematicas.pdf Graphic file (type pdf)
 Package pdftex.def Info: anexo-1-portada-memoria-tfg-matematicas.pdf  used on i
 nput line 100.
 (pdftex.def)             Requested size: 597.551pt x 845.07512pt.
-<anexo-1-portada-memoria-tfg-matematicas.pdf, id=140, page=1, 597.55246pt x 845
+<anexo-1-portada-memoria-tfg-matematicas.pdf, id=141, page=1, 597.55246pt x 845
 .07718pt>
 File: anexo-1-portada-memoria-tfg-matematicas.pdf Graphic file (type pdf)
 <use anexo-1-portada-memoria-tfg-matematicas.pdf, page 1>
@@ -644,7 +644,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout4 = `TFG.toc'.
 
  [5]
-<Intro_01.png, id=226, 337.86224pt x 416.757pt>
+<Intro_01.png, id=227, 337.86224pt x 416.757pt>
 File: Intro_01.png Graphic file (type png)
 <use Intro_01.png>
 Package pdftex.def Info: Intro_01.png  used on input line 164.
@@ -654,28 +654,25 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [6]
 [7 <./Intro_01.png>] [8]
-<ex2_1_01.png, id=255, 673.91776pt x 376.40625pt>
+<ex2_1_01.png, id=256, 655.248pt x 364.9635pt>
 File: ex2_1_01.png Graphic file (type png)
 <use ex2_1_01.png>
 Package pdftex.def Info: ex2_1_01.png  used on input line 203.
-(pdftex.def)             Requested size: 318.66948pt x 177.98499pt.
-<ex2_1_02.png, id=258, 309.5565pt x 208.98074pt>
+(pdftex.def)             Requested size: 318.66948pt x 177.49713pt.
+<ex2_1_02.png, id=259, 309.5565pt x 208.98074pt>
 File: ex2_1_02.png Graphic file (type png)
 <use ex2_1_02.png>
 Package pdftex.def Info: ex2_1_02.png  used on input line 213.
 (pdftex.def)             Requested size: 227.62206pt x 153.67075pt.
- [9 <./ex2_1_01.png>] [10 <./ex2_1_02.png>]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[11] [12] [13] [14]
-<ex2_2_01.png, id=310, 255.354pt x 154.77824pt>
+ [9 <./ex2_1_01.png>] [10 <./ex2_1_02.png>] [11]
+[12] [13] [14]
+<ex2_2_01.png, id=311, 255.354pt x 154.77824pt>
 File: ex2_2_01.png Graphic file (type png)
 <use ex2_2_01.png>
 Package pdftex.def Info: ex2_2_01.png  used on input line 381.
 (pdftex.def)             Requested size: 177.54492pt x 107.61897pt.
  [15 <./ex2_2_01.png>]
-<ex2_2_02.png, id=317, 302.3295pt x 206.57175pt>
+<ex2_2_02.png, id=318, 302.3295pt x 206.57175pt>
 File: ex2_2_02.png Graphic file (type png)
 <use ex2_2_02.png>
 Package pdftex.def Info: ex2_2_02.png  used on input line 391.
@@ -685,7 +682,7 @@ Underfull \vbox (badness 6364) has occurred while \output is active []
 
  [18]
 [19]
-<ex3_1_01.png, id=341, 867.84225pt x 254.1495pt>
+<ex3_1_01.png, id=342, 867.84225pt x 254.1495pt>
 File: ex3_1_01.png Graphic file (type png)
 <use ex3_1_01.png>
 Package pdftex.def Info: ex3_1_01.png  used on input line 484.
@@ -695,20 +692,20 @@ Package pdftex.def Info: ex3_1_01.png  used on input line 484.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [20]
-<ex3_1_02.png, id=346, 627.5445pt x 204.16275pt>
+<ex3_1_02.png, id=347, 627.5445pt x 204.16275pt>
 File: ex3_1_02.png Graphic file (type png)
 <use ex3_1_02.png>
 Package pdftex.def Info: ex3_1_02.png  used on input line 497.
 (pdftex.def)             Requested size: 364.19667pt x 118.48611pt.
  [21 <./ex3_1_01.png> <./ex3_1_02.png>] [22]
-<AdaBoost_01.png, id=361, 649.82774pt x 394.47375pt>
+<AdaBoost_01.png, id=362, 649.82774pt x 394.47375pt>
 File: AdaBoost_01.png Graphic file (type png)
 <use AdaBoost_01.png>
 Package pdftex.def Info: AdaBoost_01.png  used on input line 537.
 (pdftex.def)             Requested size: 227.62206pt x 138.17622pt.
  [23 <./AdaBoost_01.png>]
 [24]
-<AdaBoost_02.png, id=377, 387.4475pt x 265.99374pt>
+<AdaBoost_02.png, id=379, 387.4475pt x 265.99374pt>
 File: AdaBoost_02.png Graphic file (type png)
 <use AdaBoost_02.png>
 Package pdftex.def Info: AdaBoost_02.png  used on input line 603.
@@ -721,18 +718,18 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [26]
-<AdaBoost_03.png, id=392, 258.9675pt x 219.219pt>
+<AdaBoost_03.png, id=394, 258.9675pt x 219.219pt>
 File: AdaBoost_03.png Graphic file (type png)
 <use AdaBoost_03.png>
 Package pdftex.def Info: AdaBoost_03.png  used on input line 720.
 (pdftex.def)             Requested size: 136.57462pt x 115.61685pt.
-<AdaBoost_04.png, id=393, 545.6385pt x 210.18526pt>
+<AdaBoost_04.png, id=395, 545.6385pt x 210.18526pt>
 File: AdaBoost_04.png Graphic file (type png)
 <use AdaBoost_04.png>
 Package pdftex.def Info: AdaBoost_04.png  used on input line 728.
 (pdftex.def)             Requested size: 227.62206pt x 87.68387pt.
  [27 <./AdaBoost_03.png>]
-Overfull \hbox (36.2973pt too wide) detected at line 767
+Overfull \hbox (36.2973pt too wide) detected at line 768
 \OML/cmm/m/it/12 w[] \OT1/cmr/m/n/12 = [] \OMS/cmsy/m/n/12 ) \OML/cmm/m/it/12 w
 [] \OT1/cmr/m/n/12 = [] \OMS/cmsy/m/n/12 ) \OML/cmm/m/it/12 w[] \OT1/cmr/m/n/12
  = []
@@ -742,26 +739,21 @@ Overfull \hbox (36.2973pt too wide) detected at line 767
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Overfull \hbox (27.93076pt too wide) in paragraph at lines 842--847
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (27.93076pt too wide) in paragraph at lines 844--849
  [][] 
  []
 
 [28 <./AdaBoost_04.png>] [29] [30]
-<GB_01.png, id=425, 658.25925pt x 522.15076pt>
+<GB_01.png, id=427, 658.25925pt x 522.15076pt>
 File: GB_01.png Graphic file (type png)
 <use GB_01.png>
-Package pdftex.def Info: GB_01.png  used on input line 916.
+Package pdftex.def Info: GB_01.png  used on input line 918.
 (pdftex.def)             Requested size: 191.20169pt x 151.66682pt.
  [31 <./GB_01.png>] [32] [33] [34] [35]
-Overfull \hbox (1.93712pt too wide) in paragraph at lines 1079--1080
-[]\T1/cmr/m/n/12 Ahora, pa-ra ob-te-ner el $\OML/cmm/m/it/12 $ \T1/cmr/m/n/12 
-que mi-ni-mi-za di-cha ex-pre-sión, apro-xi-ma-re-mos $\OML/cmm/m/it/12 L\OT1/c
-mr/m/n/12 (\OML/cmm/m/it/12 x[]; f[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OT1/c
-mr/m/n/12 ) +
- []
-
-
-Overfull \hbox (45.42332pt too wide) detected at line 1082
+Overfull \hbox (45.42332pt too wide) detected at line 1084
 \OML/cmm/m/it/12 L\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 y[]; f[]\OT1/cmr/m/n/12 (\O
 ML/cmm/m/it/12 x[]\OT1/cmr/m/n/12 ) + \OML/cmm/m/it/12 \OT1/cmr/m/n/12 ) \OMS/
 cmsy/m/n/12  \OML/cmm/m/it/12 L\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 y[]; f[]\OT1/
@@ -773,71 +765,68 @@ mr/m/n/12 ))\OML/cmm/m/it/12  \OT1/cmr/m/n/12 + [][]\OML/cmm/m/it/12 L\OT1/cmr
  []
 
 [36] [37]
-<XGB_01.png, id=471, 953.5625pt x 910.40125pt>
+<XGB_01.png, id=474, 953.5625pt x 910.40125pt>
 File: XGB_01.png Graphic file (type png)
 <use XGB_01.png>
-Package pdftex.def Info: XGB_01.png  used on input line 1129.
+Package pdftex.def Info: XGB_01.png  used on input line 1131.
 (pdftex.def)             Requested size: 241.27881pt x 230.35028pt.
  [38 <./XGB_01.png (PNG copy)>] [39] [40]
-Overfull \hbox (36.273pt too wide) detected at line 1223
+Overfull \hbox (36.273pt too wide) detected at line 1225
 \OMS/cmsy/m/n/12 L[] \OT1/cmr/m/n/12 = [] [] \OMS/cmsy/m/n/12   \OML/cmm/m/it/1
 2 
  []
 
 [41] [42] [43]
-<LGBM_01.png, id=508, 677.53125pt x 606.265pt>
+<LGBM_01.png, id=509, 677.53125pt x 606.265pt>
 File: LGBM_01.png Graphic file (type png)
 <use LGBM_01.png>
-Package pdftex.def Info: LGBM_01.png  used on input line 1315.
+Package pdftex.def Info: LGBM_01.png  used on input line 1317.
 (pdftex.def)             Requested size: 182.09486pt x 162.94441pt.
  [44 <./LGBM_01.png>] [45]
-<CatBoost_01.png, id=525, 518.53725pt x 198.14024pt>
+<CatBoost_01.png, id=526, 518.53725pt x 198.14024pt>
 File: CatBoost_01.png Graphic file (type png)
 <use CatBoost_01.png>
-Package pdftex.def Info: CatBoost_01.png  used on input line 1376.
-(pdftex.def)             Requested size: 273.14923pt x 104.37286pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<CatBoost_02.png, id=526, 233.673pt x 215.00325pt>
+Package pdftex.def Info: CatBoost_01.png  used on input line 1378.
+(pdftex.def)             Requested size: 250.38564pt x 95.67462pt.
+ [46 <./CatBoost_01.png>]
+<CatBoost_02.png, id=534, 233.673pt x 215.00325pt>
 File: CatBoost_02.png Graphic file (type png)
 <use CatBoost_02.png>
-Package pdftex.def Info: CatBoost_02.png  used on input line 1386.
+Package pdftex.def Info: CatBoost_02.png  used on input line 1388.
 (pdftex.def)             Requested size: 136.57462pt x 125.65993pt.
-[46]
-<CatBoost_03.png, id=532, 227.04825pt x 213.1965pt>
+<CatBoost_03.png, id=535, 227.04825pt x 213.1965pt>
 File: CatBoost_03.png Graphic file (type png)
 <use CatBoost_03.png>
-Package pdftex.def Info: CatBoost_03.png  used on input line 1393.
+Package pdftex.def Info: CatBoost_03.png  used on input line 1395.
 (pdftex.def)             Requested size: 136.57462pt x 128.24094pt.
- [47 <./CatBoost_01.png> <./CatBoost_02.png> <./CatBoost_03.png>]
-<CatBoost_04.png, id=543, 227.04825pt x 218.61674pt>
+ [47 <./CatBoost_02.png> <./CatBoost_03.png>]
+<CatBoost_04.png, id=544, 227.04825pt x 218.61674pt>
 File: CatBoost_04.png Graphic file (type png)
 <use CatBoost_04.png>
-Package pdftex.def Info: CatBoost_04.png  used on input line 1412.
+Package pdftex.def Info: CatBoost_04.png  used on input line 1414.
 (pdftex.def)             Requested size: 113.81102pt x 109.58496pt.
-<CatBoost_05.png, id=544, 227.04825pt x 213.1965pt>
+<CatBoost_05.png, id=545, 227.04825pt x 213.1965pt>
 File: CatBoost_05.png Graphic file (type png)
 <use CatBoost_05.png>
-Package pdftex.def Info: CatBoost_05.png  used on input line 1425.
+Package pdftex.def Info: CatBoost_05.png  used on input line 1427.
 (pdftex.def)             Requested size: 113.81102pt x 106.86798pt.
  [48 <./CatBoost_04.png> <./CatBoost_05.png>]
-<CatBoost_06.png, id=553, 468.5505pt x 141.52875pt>
+<CatBoost_06.png, id=554, 468.5505pt x 141.52875pt>
 File: CatBoost_06.png Graphic file (type png)
 <use CatBoost_06.png>
-Package pdftex.def Info: CatBoost_06.png  used on input line 1436.
+Package pdftex.def Info: CatBoost_06.png  used on input line 1438.
 (pdftex.def)             Requested size: 273.14923pt x 82.50783pt.
-<ex_boost_01.png, id=556, 943.72575pt x 520.344pt>
+<ex_boost_01.png, id=557, 943.72575pt x 520.344pt>
 File: ex_boost_01.png Graphic file (type png)
 <use ex_boost_01.png>
-Package pdftex.def Info: ex_boost_01.png  used on input line 1453.
+Package pdftex.def Info: ex_boost_01.png  used on input line 1455.
 (pdftex.def)             Requested size: 455.24411pt x 251.00882pt.
- [49 <./CatBoost_06.png>]
-<ex_boost_02.png, id=564, 667.89525pt x 213.1965pt>
+
+[49 <./CatBoost_06.png>]
+<ex_boost_02.png, id=565, 667.89525pt x 213.1965pt>
 File: ex_boost_02.png Graphic file (type png)
 <use ex_boost_02.png>
-Package pdftex.def Info: ex_boost_02.png  used on input line 1465.
+Package pdftex.def Info: ex_boost_02.png  used on input line 1467.
 (pdftex.def)             Requested size: 409.71692pt x 130.78487pt.
 
 
@@ -847,100 +836,94 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [50 <./ex_boost_01.png>] [51 <./ex_boost_02.png>] [52]
-<Conc_01.png, id=582, 238.491pt x 190.311pt>
+<Conc_01.png, id=583, 238.491pt x 190.311pt>
 File: Conc_01.png Graphic file (type png)
 <use Conc_01.png>
-Package pdftex.def Info: Conc_01.png  used on input line 1521.
+Package pdftex.def Info: Conc_01.png  used on input line 1523.
 (pdftex.def)             Requested size: 136.57462pt x 108.98366pt.
-<Conc_02.png, id=583, 1018.40475pt x 242.1045pt>
+<Conc_02.png, id=584, 1018.40475pt x 242.1045pt>
 File: Conc_02.png Graphic file (type png)
 <use Conc_02.png>
-Package pdftex.def Info: Conc_02.png  used on input line 1528.
+Package pdftex.def Info: Conc_02.png  used on input line 1530.
 (pdftex.def)             Requested size: 455.24411pt x 108.22565pt.
  [53 <./Conc_01.png> <./Conc_02.png>]
-<Conc_03.png, id=592, 722.09775pt x 363.759pt>
+<Conc_03.png, id=593, 722.09775pt x 363.759pt>
 File: Conc_03.png Graphic file (type png)
 <use Conc_03.png>
-Package pdftex.def Info: Conc_03.png  used on input line 1539.
+Package pdftex.def Info: Conc_03.png  used on input line 1541.
 (pdftex.def)             Requested size: 386.96027pt x 194.9283pt.
  [54 <./Conc_03.png>]
-Overfull \hbox (28.45508pt too wide) in paragraph at lines 1561--1577
-[][] 
+Overfull \hbox (28.44496pt too wide) in paragraph at lines 1568--1584
+ [][] 
  []
 
 [55]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-591.
+598.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-<Kedro.png, id=611, 1025.0295pt x 358.941pt>
+<Kedro.png, id=613, 1025.0295pt x 358.941pt>
 File: Kedro.png Graphic file (type png)
 <use Kedro.png>
-Package pdftex.def Info: Kedro.png  used on input line 1596.
+Package pdftex.def Info: Kedro.png  used on input line 1603.
 (pdftex.def)             Requested size: 455.24411pt x 159.41878pt.
 
 [56 <./Kedro.png>]
-Overfull \hbox (28.84201pt too wide) in paragraph at lines 1623--1636
+Overfull \hbox (28.84201pt too wide) in paragraph at lines 1630--1643
  [][] 
  []
 
 [57]
-pdfTeX warning (ext4): destination with the same identifier (name{appendix.Alph
-1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1644 ...s Gradient Boosting para clasificaciÃ³n}
-                                                   \label{Anexo2}
-Overfull \hbox (25.92278pt too wide) detected at line 1667
+Overfull \hbox (25.92278pt too wide) detected at line 1673
 []
  []
 
 
-Overfull \hbox (11.05487pt too wide) in paragraph at lines 1674--1676
+Overfull \hbox (11.05487pt too wide) in paragraph at lines 1680--1682
 \T1/cmr/m/n/12 se re-quie-re cal-cu-lar el va-lor de las de-ri-va-das in-vo-lu-
 cra-das. Co-mo se tie-ne que $\OML/cmm/m/it/12 L\OT1/cmr/m/n/12 (\OML/cmm/m/it/
 12 y[]; ln\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 odd[]\OT1/cmr/m/n/12 )) =
  []
 
 
-Overfull \hbox (68.84935pt too wide) detected at line 1687
+Overfull \hbox (68.84935pt too wide) detected at line 1693
 []
  []
 
-[58] [59] [60]
-Underfull \hbox (badness 10000) in paragraph at lines 1760--1761
+[58] [59]
+Underfull \hbox (badness 10000) in paragraph at lines 1746--1747
 \T1/cmr/m/n/12 Ma-chi-ne Lear-ning Com-pe-ti-tion?. []$\T1/cmtt/m/n/12 https : 
 / / medium . com / syncedreview /
  []
 
 
-Overfull \hbox (167.25946pt too wide) in paragraph at lines 1760--1761
+Overfull \hbox (167.25946pt too wide) in paragraph at lines 1746--1747
 \T1/cmtt/m/n/12 tree-[]boosting-[]with-[]xgboost-[]why-[]does-[]xgboost-[]win-[
 ]every-[]machine-[]learning-[]competition-[]ca8034c0b283$[]
  []
 
 
-Underfull \hbox (badness 6173) in paragraph at lines 1762--1763
+Underfull \hbox (badness 6173) in paragraph at lines 1752--1753
 []\T1/cmr/m/n/12 Mandot, P., What is LightGBM, How to im-ple-ment it? How to fi
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1762--1763
+Underfull \hbox (badness 10000) in paragraph at lines 1752--1753
 \T1/cmr/m/n/12 ne tu-ne the pa-ra-me-ters?. []$\T1/cmtt/m/n/12 https : / / medi
 um . com / @pushkarmandot /
  []
 
 
-Overfull \hbox (274.70883pt too wide) in paragraph at lines 1762--1763
+Overfull \hbox (274.70883pt too wide) in paragraph at lines 1752--1753
 \T1/cmtt/m/n/12 https-[]medium-[]com-[]pushkarmandot-[]what-[]is-[]lightgbm-[]h
 ow-[]to-[]implement-[]it-[]how-[]to-[]fine-[]tune-[]the-[]parameters-[]60347819
 b7fc$[]
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1764--1765
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 1756--1757
 []\T1/cmr/m/n/12 Segura, T., ``Cat-Boost Al-go-rithm'' ex-plai-ned in 200 words
 . []$\T1/cmtt/m/n/12 https :
  []
@@ -950,16 +933,16 @@ LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
 )
 Package rerunfilecheck Info: File `TFG.out' has not changed.
-(rerunfilecheck)             Checksum: 3646F74A87CD06FB1A2BFA1E0E758EBC;5747.
+(rerunfilecheck)             Checksum: 1764A5C8DE65BE86FF2F820261B56113;5747.
  ) 
 Here is how much of TeX's memory you used:
- 15061 strings out of 478584
- 242917 string characters out of 2843458
- 557323 words of memory out of 3000000
- 32855 multiletter control sequences out of 15000+600000
+ 15054 strings out of 478584
+ 242887 string characters out of 2843458
+ 557188 words of memory out of 3000000
+ 32852 multiletter control sequences out of 15000+600000
  484726 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,19n,64p,1934b,685s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,19n,64p,1749b,685s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ec
 tt1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\ecbi1200.pk> <C:\Users\Usuario\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
@@ -985,9 +968,9 @@ amsfonts/cm/cmsy6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX
 /fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Usuario/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on TFG.pdf (61 pages, 2264954 bytes).
+Output written on TFG.pdf (61 pages, 2254411 bytes).
 PDF statistics:
- 1179 PDF objects out of 1200 (max. 8388607)
- 167 named destinations out of 1000 (max. 500000)
+ 1181 PDF objects out of 1200 (max. 8388607)
+ 163 named destinations out of 1000 (max. 500000)
  423 words of extra memory for PDF output out of 10000 (max. 10000000)
 

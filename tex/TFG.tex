@@ -103,7 +103,7 @@ Universidad de Alicante \\
 
 \section*{Resumen}
 
-\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning que derivan de los árboles de decisión, confeccionando un mapa conceptual de modelos de manera que podamos clasificarlos en cuanto a aspectos teóricos y reconocer sus principales características. Los árboles de decisión son algoritmos capaces de aprender de variables explicativas de datos conocidos y realizar predicciones sobre datos nuevos. Mediante diferentes tipos de combinaciones, se llegan a dos grandes familias de modelos más complejos: algoritmos de bagging y algoritmos de boosting. Estos modelos de mayor complejidad son capaces de conseguir un significativo aumento de precisión, especialmente cuando se enfrentan a grandes cantidades de datos. Por ello, son muy utilizados e imprescindibles actualmente para trabajar en Big Data.}
+\emph{En este trabajo, se ha estudiado el conjunto de algoritmos de Machine Learning que derivan de los árboles de decisión, confeccionando un mapa conceptual de modelos de manera que sea posible clasificarlos en cuanto a aspectos teóricos y reconocer sus principales características. Los árboles de decisión son algoritmos capaces de aprender de variables explicativas de datos conocidos y realizar predicciones sobre datos nuevos. Mediante diferentes tipos de combinaciones, se llegan a dos grandes familias de modelos más complejos: algoritmos de bagging y algoritmos de boosting. Estos modelos de mayor complejidad son capaces de conseguir un significativo aumento de precisión, especialmente cuando se enfrentan a grandes cantidades de datos. Por ello, son muy utilizados e imprescindibles actualmente para trabajar en Big Data.}
 
 \emph{Para poder profundizar y realizar un correcto análisis de los modelos más complejos, en la primera parte se ha estudiado el proceso de construcción de árboles de decisión. En particular, se ha analizado el algoritmo CART, que es el más utilizado. A lo largo de esta sección, se introducen diferentes nociones como los criterios de escisión, los criterios de parada o la asignación de valores de respuesta. No obstante, dado que esta sección ya se ha tratado en varios trabajos de años anteriores, se ha decidido no profundizar en exceso para poder invertir un mayor tiempo en aquello que resulta novedoso.}
 
@@ -148,17 +148,17 @@ error de predicción.}
 
 \section{Introducción}
 
-Vivimos en la era de la información. Cada segundo, millones de datos viajan entre diferentes lugares del planeta y se guardan formando enormes conjuntos de datos. Además, cada vez hay más instrumentos capaces de recoger información. Donde antes se necesitaba hacer uso de encuestas, ahora nos encontramos con dispositivos, como los teléfonos móviles, capaces de escribir texto, recoger audio y realizar fotografías y vídeos. Así, la información a nuestra alcance es infinita. Podemos conocer cuáles son los conceptos que son tendencia en los buscadores de internet, o cuáles son aquellos audiovisuales que más éxito están teniendo en las redes sociales. Del mismo modo, podemos acceder al historial de imágenes de la cámara de seguridad de nuestra vivienda o a la tabla que recoge las últimas operaciones de nuestra empresa. Es fácil obtener grandes cantidades de datos de aquello que nos interesa.
+Vivimos en la era de la información. Cada segundo, millones de datos viajan entre diferentes lugares del planeta y se guardan formando enormes conjuntos de datos. Además, cada vez hay más instrumentos capaces de recoger información. Donde antes se necesitaba hacer uso de encuestas, ahora existen con dispositivos, como los teléfonos móviles, capaces de escribir texto, recoger audio y realizar fotografías y vídeos. Así, la información al alcance es infinita. Es posible conocer cuáles son los conceptos que son tendencia en los buscadores de internet, o cuáles son aquellos audiovisuales que más éxito están teniendo en las redes sociales. Del mismo modo, se  puede acceder al historial de imágenes de la cámara de seguridad de una vivienda o a la tabla que recoge las últimas operaciones de la empresa familiar. Es fácil obtener grandes cantidades de datos de aquello en lo que se está interesado.
 
-Dado que el número de datos que manipulamos cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist \cite{MO01}, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que estudiaremos en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984 \cite{BR03}. De hecho, fue el propio Leo Breiman quien, haciendo uso de CART, desarrolló años más tarde algoritmos como Bagging \cite{BR01} Random Forest \cite{BR02}. Paralelamente, la publicación de Freund y Schapire en 1997 \cite{FR01} de un nuevo método basado en boosting daría lugar a otra serie de algoritmos, donde nos encontramos algoritmos más complejos, como XGBoost, que ocuparán gran parte del trabajo.
+Dado que el número de datos manipulados cada vez es mayor,las técnicas utilizadas para analizarlos van evolucionando constantemente. Muchas de las técnicas clásicas del análisis de datos han quedado obsoletas, otras se utilizan para crear algoritmos más complejos. Uno de los algoritmos más conocidos es el de los árboles de decisión. Fueron introducidos por primera vez en 1963 por James N. Morgan y John A. Sonquist \cite{MO01}, quienes obtuvieron un método muy eficaz a través de un algoritmo muy básico. Actualmente, existen diferentes algoritmos que se pueden emplear a la hora de generar un árbol de decisión: CHAID, C4.5, FACT, QUEST, CRUISE... No obstante, el más conocido, y el que se estudiará en este trabajo, es el algoritmo CART (Classification And Regression Trees), creado por Breiman, Friedman, Olshen y Stone en 1984 \cite{BR03}. De hecho, fue el propio Leo Breiman quien, haciendo uso de CART, desarrolló años más tarde algoritmos como Bagging \cite{BR01} Random Forest \cite{BR02}. Paralelamente, la publicación de Freund y Schapire en 1997 \cite{FR01} de un nuevo método basado en boosting daría lugar a otra serie de algoritmos, donde aparecen algoritmos más complejos, como XGBoost, que ocuparán gran parte del trabajo.
 
-Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, resumiré las secciones dedicadas a ello con el fin de centrarme en analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, lograr elaborar un mapa conceptual de modelos lo más completo posible.
+Dado que en los últimos años varios alumnos han realizado su TFG sobre árboles de decisión explicando su estructura más básica, se resumirán las secciones dedicadas a ello con el fin de analizar a fondo los algoritmos más complejos y novedosos que no se han tratado en estos trabajos y, así, lograr elaborar un mapa conceptual de modelos lo más completo posible.
 
 
 
 \subsection{Datos: Llueve en Australia} \label{sec: subsec11}
 
-Para hacernos una idea de cómo funciona cada uno de los algoritmos explicados a lo largo del trabajo, haremos uso del conjunto de datos ``Rain in Australia'', de Kaggle. Se trata de un dataset en el que podemos encontrar mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente. Así, el objetivo será averiguar si con los datos del día actual se puede predecir si lloverá el día siguiente utilizando los diferentes algoritmos descritos. 
+Para poder ejemplificar cada uno de los algoritmos explicados a lo largo del trabajo, se hará uso del conjunto de datos ``Rain in Australia'', de Kaggle. Se trata de un dataset formado por mediciones de diferentes variables meteorológicas así como la fecha y localidad correspondientes y la información relativa a si llovió o no el día de la medición y el día siguiente. Así, el objetivo será averiguar si con los datos del día actual se puede predecir si lloverá el día siguiente utilizando los diferentes algoritmos descritos. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.4\textwidth]{Intro_01}
@@ -180,9 +180,9 @@ A la hora de aplicar los diferentes métodos al conjunto de datos se procederá 
 \item Se comprueba la precisión de las predicciones realizadas.
 \end{enumerate}
 
-Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos de entrenamiento y testeo se realiza de manera aleatoria. No obstante, dado que los datos podrían interpretarse como una serie temporal, donde se recogen mediciones diarios a lo largo de 10 años, a la hora de realizar predicciones sobre las posibles variables de interés nos interesa conocer la la precisión de nuestro modelo ante datos futuros.  Así, realizar una división aleatoria del conjunto incial conllevaría que los datos de entrenamiento se encontrarían intercalados con los de testeo por lo que no sabríamos determinar la fiabilidad real del modelo, pues estas predicciones no nos aportarían ningún tipo de información acerca de la precisión del algoritmo a la hora de clasificar datos de fechas posteriores.
+Habitualmente, la división del conjunto inicial que da lugar a los subconjuntos de entrenamiento y testeo se realiza de manera aleatoria. No obstante, dado que los datos podrían interpretarse como una serie temporal, donde se recogen mediciones diarios a lo largo de 10 años, a la hora de realizar predicciones sobre las posibles variables de interés interesa conocer la precisión del modelo ante datos futuros.  Así, realizar una división aleatoria del conjunto inicial conllevaría que los datos de entrenamiento se encontrarían intercalados con los de testeo por lo que no se podría determinar la fiabilidad real del modelo, pues estas predicciones no nos aportarían ningún tipo de información acerca de la precisión del algoritmo a la hora de clasificar datos de fechas posteriores.
 
-Por tanto, el procedimiento será ligeramente distinto. Emplearemos una validación \textit{``Out Of Time''}, basada en separar el conjunto de datos siguiendo un orden cronológico. Dado que nuestro dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, nuestro conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, entrenamos el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y asemejarnos más a lo que nos interesaría en un caso real: entrenar el modelo en función de los datos que poseemos para predecir fechas futuras.
+Por tanto, el procedimiento será ligeramente distinto. Se empleará una validación \textit{``Out Of Time''}, basada en separar el conjunto de datos siguiendo un orden cronológico. Dado que el dataset contiene fechas desde el 01/11/2007 hasta el 24/06/2017, el conjunto de entrenamiento estará formado por todos aquellos datos con fecha anterior al 01/01/2015 y los datos de testeo serán los restantes. Así, se entrenará el modelo con datos anteriores a los de testeo para saber cómo van a ser las predicciones futuras y lograr una mayor semejanza respecto a lo que interesaría en un caso real: entrenar el modelo en función de los datos que se poseen para predecir fechas futuras.
 
 Además, los cálculos se realizarán en el lenguaje de programación Python. Todo el código se encuentra disponible en el Anexo (\ref{Anexo}), publicado en GitHub.
 
@@ -229,11 +229,11 @@ A continuación, se introducen una serie de términos básicos para poder hacer 
 \item[Nodo hoja: ]Nodos finales que dan lugar a la predicción.
 \end{description}
 
-Todos estos elementos son fácilmente identificables en la figura \ref{fig:Ejemplo 2.1} del ejemplo 2.1 . Se tiene un nodo raíz, seis nodos internos y 8 nodos hoja.
+Todos estos elementos son fácilmente identificables en la figura \ref{fig:Ejemplo 2.1} del ejemplo 2.1 . Se tiene un nodo raíz, dos nodos internos y cuatro nodos hoja.
 
 Por otro lado, conviene hablar del concepto de sobreajuste (en inglés: \textit{overfitting}). Se dice que un modelo se encuentra sobreajustado si el algoritmo se ha adaptado en exceso a los individuos del conjunto de entrenamiento. Este hecho provoca que la predicción de los individuos de este conjunto sea muy buena, pero que las predicciones de nuevos individuos presenten grandes errores.
 
-Para lidiar con el sobreajuste, interesa manejar otras dos nociones: el sesgo y la varianza. El sesgo (en inglés: bias) hace referencia a los errores cometidos en las predicciones de los individuos de nuestro conjunto de entrenamiento. Por contra, la varianza es la medida del error cometido en los individuos que no pertenecen a este conjunto; en nuestro caso, lo mediremos en los individuos del conjunto de testeo. No obstante, estos conceptos plantean un problema: interesa tener valores bajos de ambos indicadores, pero disminuir el sesgo conlleva un aumento de la varianza. Así, a la hora de construir un modelo de Machine Learning, interesa estudiar que el sesgo no sea excesivamente bajo, para evitar el sobreajuste, pero también que no sea excesivamente alto para que las predicciones sean fiables.
+Para lidiar con el sobreajuste, interesa manejar otras dos nociones: el sesgo y la varianza. El sesgo (en inglés: \textit{bias}) hace referencia a los errores cometidos en las predicciones de los individuos del conjunto de entrenamiento. Por contra, la varianza es la medida del error cometido en los individuos que no pertenecen a este conjunto. En el trabajo, la varianza será medida en los individuos del conjunto de testeo. Estos conceptos plantean un problema: interesa tener valores bajos de ambos indicadores, pero disminuir el sesgo conlleva un aumento de la varianza. Así, a la hora de construir un modelo de Machine Learning, interesa estudiar que el sesgo no sea excesivamente bajo, para evitar el sobreajuste, pero también que no sea excesivamente alto para que las predicciones sean fiables.
 
 
 \subsubsection{Objetos de estudio de un CART}
@@ -248,7 +248,7 @@ Una vez explicada, de manera intuitiva, la manera de proceder de los árboles de
 
 
 \subsection{Valor o clase asignada a cada nodo hoja} \label{sec:2.4}
-Sea un conjunto de datos de n individuos y p+1 variables ($n,p \in \mathbb{N}$). De este modo, sean $X_1, X_2, ... , X_p$ las variables explicativas e $y$ la variable dependiente. En el caso de nuestro conjunto de datos de ejemplo:
+Sea un conjunto de datos de $n$ individuos y $p+1$ variables ($n,p \in \mathbb{N}$). De este modo, sean $X_1, X_2, ... , X_p$ las variables explicativas e $y$ la variable dependiente. En el caso del conjunto de datos de ejemplo:
 \begin{table}[h]
 \centering
 \begin{tabular}{l|l|l|l|l|l|}
@@ -263,13 +263,13 @@ Sea un conjunto de datos de n individuos y p+1 variables ($n,p \in \mathbb{N}$).
 \label{tab:Datos}
 \end{table}
 
-Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supongamos que se obtienen $M$ regiones diferentes, denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, definamos como Y al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de Y) asociadas a cada región $R_m$. De este modo:
+Como se comentaba anteriormente, el resultado de un árbol de decisión es una partición del espacio. Supóngase que se obtienen $M$ regiones diferentes, denotadas por $R_{m}$ con $m = 1, ..., M$. Por tanto, se define como $Y$ al árbol de decisión y como $c_m$, con $m = 1,...,M$, a las predicciones (imágenes de $Y$) asociadas a cada región $R_m$. De este modo:
 \begin{equation*}
 Y(x) = \sum^M_{m = 1} c_{m}I(x \in R_m) \, \, \, \forall x \in D
 \end{equation*}
 
 \noindent
-donde D es el dominio de la función (espacio de las variables explicativas) e I es la función indicadora:
+donde $D$ es el dominio de la función (espacio de las variables explicativas) e $I$ es la función indicadora:
 \begin{equation*}
 I(x) = 
 \left\{
@@ -280,16 +280,16 @@ I(x) =
 \right.
 \end{equation*}
 
-La manera de establecer el valor de estas predicciones presenta ligeras diferencias en función del tipo de problema con el que tratemos (regresión o clasificación). Por tanto, lo analizaremos por separado.
+La manera de establecer el valor de estas predicciones presenta ligeras diferencias en función del tipo de problema con el que se trate (regresión o clasificación). Por tanto, se analizarán por separado.
 
 
-A la hora de entrenar un modelo de regresión, se busca minimizar los errores entre $y$ e $Y$. Tomando el error mínimo cuadrático, llegamos al problema:
+A la hora de entrenar un modelo de regresión, se busca minimizar los errores entre $y$ e $Y$. Tomando el error mínimo cuadrático, se llega al problema:
 \begin{equation*}
 \min_{Y_i} \sum_{i=1}^n (y_i - Y_i)^2 \Rightarrow \min_{c_m} \sum_{m = 1}^M \sum_{x_i \in R_m} (y_i - c_m)^2
 \end{equation*}
 
 \noindent
-donde $Y_i = Y(x_i) \, \, \forall i=1,...n$. Si denotamos $f(c_m) = \sum_{x_i \in R_m} (y_i - c_m)^2$, observamos que alcanzar la solución óptima del problema planteado es equivalente a minimizar la función f. Derivando, obtenemos un candidato a óptimo:
+donde $Y_i = Y(x_i) \, \, \forall i=1,...n$. Denotando $f(c_m) = \sum_{x_i \in R_m} (y_i - c_m)^2$, se observa que alcanzar la solución óptima del problema planteado es equivalente a minimizar la función $f$. Derivando, se obtiene un candidato a óptimo:
 \begin{equation*}
 f'(c_m) = -2 \sum_{x_i \in R_m} (y_i - c_m) = -2 \sum_{x_i \in R_m}y_i + 2n_mc_m = 0 \Leftrightarrow c_m = \frac{1}{n_m} \sum_{x_i \in R_m}y_i
 \end{equation*}
@@ -314,30 +314,30 @@ Pese a las similitudes existentes entre los árboles de regresión y los de clas
 
 
 \subsubsection*{Árboles de regresión}
-Se busca conocer cómo realizar las divisiones. En particular, nos centraremos en la primera división y el proceso será similar para las siguientes. Al situarnos en el nodo raíz, nos encontramos con el conjunto de datos al completo y pretendemos dividirlo en dos regiones, que denotaremos $R_1$ y $R_2$, en función de una de las variables explicativas, $X_j$, y de un valor respecto de esta, $s$, de manera que cada región contendrá a los individuos:
+Se busca conocer cómo realizar las divisiones. En particular, se analizará la primera división y el proceso será similar para las siguientes. Al situarse en el nodo raíz, se pretende dividir el conjunto de datos inicial en dos regiones, denotadas por $R_1$ y $R_2$, en función de una de las variables explicativas, $X_j$, y de un valor respecto de ésta, $s$, de manera que cada región contendrá a los individuos:
 \begin{equation*}
 R_1 (j,s) = \{ x_i | x_{ij} \leq s \} \, \, \, \wedge \, \, \,  R_2 (j,s) = \{ x_{i} | x_{ij} > s\}
 \end{equation*}
 
-Así, se generan dos valores de predicción constantes, uno por cada nodo hoja; es decir, se definen $c_1$ y $c_2$ tales que $c_1$ se mantendrá constante sobre $R_1$ e $c_2$ constante sobre $R_2$. Ya hemos visto que estos $c_m$ se corresponderán con la media de los individuos del nodo hoja:
+Así, se generan dos valores de predicción constantes, uno por cada nodo hoja; es decir, se definen $c_1$ y $c_2$ tales que $c_1$ se mantendrá constante sobre $R_1$ y $c_2$ constante sobre $R_2$. Ya hemos visto que estos $c_m$ se corresponderán con la media de los individuos del nodo hoja:
 \begin{equation*}
 c_m = \frac{1}{n_m}\sum_{x_i \in R_m} y_i
 \end{equation*}
 
 \noindent
-donde $n_m$ es el número de individuos que pertenecen a dicho nodo. De esta manera, buscamos $j$ y $s$ que minimicen:
+donde $n_m$ es el número de individuos que pertenecen a dicho nodo. De esta manera, se buscan $j$ y $s$ que minimicen:
 \begin{equation*}
 \min_{j,s} \left( \sum_{x_i \in R_1}(y_i - c_1)^2 + \sum_{x_i \in R_2}(y_i - c_2)^2 \right)
 \end{equation*}
 
 \noindent
-o lo que es lo mismo, buscamos $j$ y $s$ que minimicen la suma de residuos cuadráticos (RSS, del inglés: \textit{``Residuals Sum of Squares''}) en el conjunto de entrenamiento.
+o lo que es lo mismo, se buscan $j$ y $s$ que minimicen la suma de residuos cuadráticos (RSS, del inglés: \textit{``Residuals Sum of Squares''}) en el conjunto de entrenamiento.
 
 Así, a la hora de dividir el nodo raíz, se comprueban todas las posibles divisiones posibles y se escogen $j$ y $s$ óptimos. A continuación, se aplica el mismo proceso recursivamente para los nodos hijos generados.
 
 
 \subsubsection*{Árboles de clasificación}
-En el caso de los árboles de clasificación, la variable dependiente es una clase. Es decir, nos encontramos en la situación recogida en la Tabla \ref{tab:Datos}. Ahora, en lugar de calcular el RSS, introduciremos una función de impureza que nos permita evaluar la homogeneidad de los nodos; o lo que es lo mismo, que nos permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define de la forma:
+En el caso de los árboles de clasificación, la variable dependiente es una clase. Es decir, la situación es equivalente a la recogida en la Tabla \ref{tab:Datos}. Ahora, en lugar de calcular el RSS, se introducirá una función de impureza que permita evaluar la homogeneidad de los nodos; o lo que es lo mismo, que permita estudiar qué acciones separan mejor el espacio en función de las diferentes clases. El criterio más empleado es el índice Gini, que se define de la forma:
 \begin{equation*}
 G_{region\_m} = G_m = \sum_{k=1}^K p_{mk}(1 - p_{mk})
 \end{equation*}
@@ -359,9 +359,9 @@ Por tanto, al igual que en los árboles de regresión, la tarea se resume en obt
 
 
 \subsection{Criterio de parada de escisión de nodos}
-Es lógico pensar que la precisión de un árbol CART aumenta conforme aumenta en profundidad. No obstante, como ya se ha introducido, cuantas más particiones del espacio realice el algoritmo, mayor será el ajuste del mismo a los datos de entrenamiento, lo que puede llevar a problemas de \textit{overfitting}. Con tal de evitar estos problemas, se han implementado algunos métodos de ``poda'' del árbol. Es evidente que podando el árbol se introduce sesgo, pues no dejamos que se ajuste totalmente a los datos; sin embargo, aplicando estos procesos de manera controlada se consigue disminuir la varianza y mejorar las predicciones.
+Es lógico pensar que la precisión de un árbol CART aumenta conforme aumenta en profundidad. No obstante, como ya se ha introducido, cuantas más particiones del espacio realice el algoritmo, mayor será el ajuste del mismo a los datos de entrenamiento, lo que puede llevar a problemas de \textit{overfitting}. Con tal de evitar estos problemas, se han implementado algunos métodos de ``poda'' del árbol. Es evidente que podando el árbol se introduce sesgo, pues no se permite que se ajuste totalmente a los datos; sin embargo, aplicando estos procesos de manera controlada se consigue disminuir la varianza y mejorar las predicciones.
 
-Por un lado, la técnica más simple consiste en establecer una profundidad máxima del árbol, es decir, poner límite a ña cantidad de nodos hijo a desarrollar. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo \ref{Ej:2.1} se ha establecido una profundidad máxima igual a 2.
+Por un lado, la técnica más simple consiste en establecer una profundidad máxima del árbol, es decir, poner límite a la cantidad de nodos hijo a desarrollar. Con esta condición, se puede asegurar que los nodos dejarán de dividirse una vez alcanzado el nivel indicado. Por ejemplo, en el Ejemplo \ref{Ej:2.1} se ha establecido una profundidad máxima igual a 2.
 
 Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separación del mismo no sea conveniente en términos de pureza. El procedimiento es el siguiente: en primer lugar, se calcula el índice Gini de la región asociada a ese nodo y, después, se realiza la mejor división del nodo y se calcula el índice Gini del mismo (proveniente de la media ponderada de índices de sus regiones). Si el índice de la región sin dividir es inferior al índice del nodo, se deshará la división y se determinará el nodo como nodo hoja, pues su división no mejora la pureza.
 
@@ -372,9 +372,9 @@ Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separaci�
 \subsection{Ejemplo} \label{ex:CART}
 \emph{Se desea obtener una predicción fiable acerca de las precipitaciones del día siguiente en una ciudad de Australia. Para ello, haciendo uso del dataset anteriormente introducido, se dividirá el conjunto de datos en dos subconjuntos: uno de entrenamiento y otro de testeo. Además, probaremos con diferentes profundidades máximas permitidas para escoger el modelo más fiable.}
 
-\emph{Con el fin de analizar los resultados y llevar a cabo esta elección, utilizaremos el AUC; es decir, el área bajo la curva ROC (``Area Under the Curve''), creada en base a la sensibilidad (tasa de  verdaderos positivos) y especifidad (tasa de verdaderos negativos) de las predicciones. El AUC representa la probabilidad de ordenar correctamente dos individuos o datos dada la predicción. Dado que la métrica AUC se encuentra en el intervalo $[-1,1]$, se realiza la transofmrmación  $2 \times AUC - 1$ para obtener una nueva métrica en el intervalo $[0,1]$. Esta nueva métrica recibe el nombre de coeficiente Gini (no confundir con el índice Gini de escisión de nodos) y permite dar un porcenbtaje de efectividad del modelo.}
+\emph{Con el fin de analizar los resultados y llevar a cabo esta elección, se utilizará el AUC; es decir, el área bajo la curva ROC (``Area Under the Curve''), creada en base a la sensibilidad (tasa de  verdaderos positivos) y especifidad (tasa de verdaderos negativos) de las predicciones. El AUC representa la probabilidad de ordenar correctamente dos individuos o datos dada la predicción. Dado que la métrica AUC se encuentra en el intervalo $[0,1]$, se realiza la transformación  $2 \times AUC - 1$ para obtener una nueva métrica en el intervalo $[-1,1]$. Esta nueva métrica recibe el nombre de coeficiente Gini (no confundir con el índice Gini de escisión de nodos) y permite dar un porcentaje de efectividad del modelo.}
 
-\emph{Con esto, aplicando los diferentes árboles de clasificación, llegamos al siguiente resultado (redondeado):}
+\emph{Con esto, aplicando los diferentes árboles de clasificación, se llega al siguiente resultado (redondeado):}
 
 \begin{figure}[H]
 \centering
@@ -384,7 +384,7 @@ Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separaci�
 
 \emph{En la tabla se ven reflejados el tiempo de ejecución de cada modelo, los coeficientes de Gini para los conjuntos de entrenamiento y testeo y el porcentaje de información que se pierde en el conjunto de testeo respecto del de entrenamiento.}
 
-\emph{Como podemos observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento, aumentando la desviación entre los conjuntos conforme aumenta la profundidad máxima permitida. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
+\emph{Como se puede observar, cuando la profundidad máxima permitida es superior o igual a 10, el modelo empieza a sobreajustarse a los datos de entrenamiento, aumentando la desviación entre los conjuntos conforme aumenta la profundidad máxima permitida. Es decir, el bias se reduce pero la varianza se dispara. Así, los modelos más fiables son el $DT\_3$ y el $DT\_5$ (profundidades 3 y 5) pues en ambos la variación se encuentra por debajo del $5\%$.}
 
 \begin{figure}[h]
 \centering
@@ -392,16 +392,16 @@ Por otro lado, el árbol determinará un nodo como nodo hoja cuando la separaci�
 \caption{Evolución de los coeficientes Gini en ambos conjuntos}
 \end{figure}
 
-\emph{Intuitivamente, el valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (recordemos que los datos de testeo van de 2015 a 2017). Por tanto, si escogiésemos un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en nuestras predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, escogemos aquellos con variaciones pequeñas.}
+\emph{Intuitivamente, el valor $delta\%$ se puede entender como desviación que sufre el conjunto de testeo con el paso de 2 años (los datos de testeo van de 2015 a 2017). Por tanto, si se escogiese un modelo con un $delta\% = 20\%$, tendríamos que este $20\%$ se iría incrementando en las predicciones cada dos años, algo que llevaría a un modelo totalmente impreciso. Por ello, se escogen aquellos con variaciones pequeñas.}
 
-\emph{Por último, notemos que el tiempo empleado en la generación de los árboles presentados es mínimo. Los modelos escogidos ($DT_3$ y $DT_5$) apenas tardan medio segundo en construirse, resultado que es prueba de la eficiencia de esta clase de modelos.}
+\emph{Por último, nótese que el tiempo empleado en la generación de los árboles presentados es mínimo. Los modelos escogidos ($DT_3$ y $DT_5$) apenas tardan medio segundo en construirse, resultado que es prueba de la eficiencia de esta clase de modelos.}
 
 
 
 
 
 \subsection{Ventajas y desventajas}
-Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los árboles de decisión son una herramienta muy potente para el análisis de datos. No obstante, pese a presentar muchos puntos a favor, también hay una serie de inconvenientes a tener en cuenta. En esta subsección, nos encargaremos de analizarlos.
+Como ya se avanzaba, y como se ha podido observar a través del ejemplo, los árboles de decisión son una herramienta muy potente para el análisis de datos. No obstante, pese a presentar muchos puntos a favor, también hay una serie de inconvenientes a tener en cuenta. En esta subsección, se tratará de analizarlos.
 
 \textbf{\underline{Ventajas:}}
 \begin{itemize}
@@ -426,7 +426,7 @@ Como ya avanzábamos, y como hemos podido observar a través del ejemplo, los á
 
 \newpage
 \section{Métodos derivados de los árboles de decisión}
-Los árboles de decisión son una gran herramienta predictiva. Tanto CART como muchos de los algoritmos utilizados para construir árboles de decisión se desarrollaron a lo largo de la década de los 80. No obstante, ya hemos visto que estos algoritmos no llegan a alcanzar grandes niveles de precisión; es por eso que a partir de la década de los 90 empiezan a surgir diferentes artículos que introdujeron nuevas técnicas que, mediante distintas combinación de árboles de decisión, consiguen modelos de mayor fiabilidad y que incorporan distintas características que los convierte en modelos muy potentes.
+Los árboles de decisión son una gran herramienta predictiva. Tanto CART como muchos de los algoritmos utilizados para construir árboles de decisión se desarrollaron a lo largo de la década de los 80. No obstante, ya se ha visto que estos algoritmos no llegan a alcanzar grandes niveles de precisión; es por eso que a partir de la década de los 90 empiezan a surgir diferentes artículos que introdujeron nuevas técnicas que, mediante distintas combinaciones de árboles de decisión, consiguen modelos de mayor fiabilidad y que incorporan distintas características que los convierte en modelos muy potentes.
 
 A la hora de combinar los árboles de decisión para construir modelos más complejos se pueden seguir dos caminos: bagging o boosting. Dedicaremos esta sección al estudio de ambos.
 
@@ -434,7 +434,7 @@ A la hora de combinar los árboles de decisión para construir modelos más comp
 \subsection{Algoritmos de bagging}
 Los algoritmos de bagging (\textit{``Bootstrap Aggregation''}) se caracterizan por tomar muestras aleatorias del conjunto de datos inicial y construir con ellas árboles de decisión diferentes. De esta manera, generan tantos árboles, independientes entre sí, como muestras hayan tomado. Así, la respuesta de un algoritmo de bagging en un problema de regresión será el promedio de las respuestas de cada uno de los árboles, y en un problema de clasificación será la clase que más veces se ha repetido.
 
-Analizaremos tres algoritmos de bagging distintos: Bagging, Random Forest y Extra-Trees.
+Se analizarán tres algoritmos de bagging distintos: Bagging, Random Forest y Extra-Trees.
 
 
 \subsubsection{Bagging}
@@ -452,30 +452,30 @@ El algoritmo Extra-Trees, o Extremely Randomized Trees, aporta aún más margen 
 
 
 \subsubsection{Error de Out-Of-Bag}
-Cabe dedicar un apartado para hablar de la noción del error \textit{Out-Of-Bag} (OOB). Como ya hemos visto, los algoritmos de bagging toman muestras con repetición de los individuos para la construcción de cada uno de los árboles. Aquellos individuos que no participan en la creación de un árbol reciben el nombre de individuos \textit{out-of-bag}. Es decir, si tenemos $n$ individuos, la probabilidad de que un individuo no se escoja para la creación de un árbol (individuo \textit{out-of-bag}) es:
+Cabe dedicar un apartado para hablar de la noción del error \textit{Out-Of-Bag} (OOB). Como ya se ha visto, los algoritmos de bagging toman muestras con repetición de los individuos para la construcción de cada uno de los árboles. Aquellos individuos que no participan en la creación de un árbol reciben el nombre de individuos \textit{out-of-bag}. Es decir, si tenemos $n$ individuos, la probabilidad de que un individuo no se escoja para la creación de un árbol (individuo \textit{out-of-bag}) es:
 \begin{equation*}
 \left( \frac{n-1}{n} \right)^n
 \end{equation*}
 
-Por tanto, como podemos observar, cuando el número de invididuos de nuestra muestra sea elevado (supongamos $n \rightarrow +\infty$):
+Por tanto, se puede observar que cuando el número de invididuos de la muestra sea elevado (supóngase $n \rightarrow +\infty$):
 \begin{equation*}
 \lim_{n \rightarrow + \infty} \left( \frac{n-1}{n} \right)^n = \lim_{n \rightarrow +\infty} \left( 1 - \frac{1}{n} \right)^n = \lim_{n \rightarrow +\infty} \left[ \left( 1 + \frac{1}{-n} \right)^{-n} \right] ^{-1} = e^{-1} \simeq 0.3679
 \end{equation*}
 
-Es decir, sabemos que, si contamos con un conjunto de datos de gran tamaño, cerca de un $37 \%$ de los individuos no se tendrán en cuenta para la creación de cada árbol (en particular).
+Es decir, si se trabaja con un conjunto de datos de gran tamaño, cerca de un $37 \%$ de los individuos no se tendrán en cuenta para la creación de cada árbol (en particular).
 
 Gracias al \textit{Out-Of-Bag} se pueden desarrollar conceptos interesantes. Uno de estos conceptos es el error OOB, que se basa en la idea de la validación cruzada para medir la fiabilidad del modelo. En lugar de separar previamente el conjunto de datos en conjunto de entrenamiento y conjunto de testeo, para cada árbol, los individuos que se utilizarán para el test serán aquellos individuos \textit{out-of-bag} del árbol en cuestión. Además, una propiedad muy buena del error OOB es que converge a medida que se añaden árboles al modelo. De esta manera, podemos asegurar que los modelos de bagging no se sobreajustan.
 
-No obstante, pese a que el error OOB es muy cómodo, dado que no hace falta separar el conjunto de datos en dos, nosotros seguiremos evaluando la precisión del modelo mediante validación cruzada. El motivo es el que ya comentamos en la introducción \ref{subsec:Metodología} nos interesa aplicar una validación \textit{``Out Of Time''} y el error OOB no respeta esta validación pues, evidentemente, los individuos \textit{out-of-bag} son aleatorios dentro del conjunto de entrenamiento.
+No obstante, pese a que el error OOB es muy cómodo, dado que no hace falta separar el conjunto de datos en dos, en los ejemplos se seguirá evaluando la precisión del modelo mediante validación cruzada. El motivo es el ya comentado en la introducción \ref{subsec:Metodología}: interesa aplicar una validación \textit{``Out Of Time''} y el error OOB no respeta esta validación pues, evidentemente, los individuos \textit{out-of-bag} son aleatorios dentro del conjunto de entrenamiento.
 
 
 %QUEDA PENDIENTE ENUNCIAR EL TEOREMA EXACTO (¿Y DEMOSTRARLO?).
 
 
 \subsubsection{Ejemplo} \label{ex:Bag}
-\emph{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, usaremos el conjunto de datos que ya hemos utilizado con anterioridad y aplicaremos los diferentes algoritmos de bagging vistos en la sección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, estableceremos el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y probaremos con diferentes números de árboles generados por cada algoritmo.}
+\emph{Nuevamente, se desea predecir si lloverá o no el próximo día en una ciudad de Australia. Para ello, se hará uso del conjunto de datos ya utilizado con anterioridad y se aplicarán los diferentes algoritmos de bagging vistos en la sección con el fin de compararlos y comentar sus mejoras. Además, con tal de evitar sobreajustes, se establecerá el criterio de parada de los árboles generados en 5 (como se ve en el ejemplo de CART, es el más fiable junto a 3) y se probará con diferentes números de árboles generados por cada algoritmo.}
 
-\emph{Al igual que en el ejemplo de CART, calcularemos el coeficiente Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
+\emph{Al igual que en el ejemplo de CART, se calculará el coeficiente Gini haciendo uso del AUC para elegir los modelos más precisos y realizar correctamente las comparaciones.}
 
 \emph{Aplicando los diferentes algoritmos llegamos a: }
 
@@ -487,7 +487,7 @@ No obstante, pese a que el error OOB es muy cómodo, dado que no hace falta sepa
 
 \newpage
 \noindent
-\emph{donde ``Bag'' se corresponde con Bagging, ``RT'' con Random Forest y ``ET'' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior llegamos a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que nos otorgaba una precisión en Gini del 66$\%$ en el conjunto de entrenamiento y del 63$\%$ en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, obtenemos coeficientes de Gini que rozan, en ocasiones, el 70$\%$ en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto porcentual, en delta, lo cual refleja una clara disminución de la varianza del modelo.}
+\emph{donde ``Bag'' se corresponde con Bagging, ``RT'' con Random Forest y ``ET'' con Extra-Trees. Como se puede apreciar, la mejora respecto a CART es evidente: en el ejemplo anterior se llegaba a la conclusión de que una de las mejores opciones era elegir el árbol con profundidad máxima 5 que otorgaba una precisión en Gini del 66$\%$ en el conjunto de entrenamiento y del 63$\%$ en el de testeo. Ahora, tanto en Bagging como en Random Forest, escogiendo cualquiera de los modelos que realiza al menos 10 árboles, se obtienen coeficientes de Gini que rozan, en ocasiones, el 70$\%$ en ambos conjuntos. En el caso de Extra-Trees, la mejora no es tan significativa pero los coeficientes siguen siendo mejores. Además, en los tres modelos se aprecia un sustancial descenso, de aproximadamente 1 punto porcentual, en delta, lo cual refleja una clara disminución de la varianza del modelo.}
 
 \emph{También, se puede observar que el modelo no se sobreajusta al incrementar el número de estimadores que se generan; y que este incremento no produce grandes cambios en los coeficientes de Gini a partir de un cierto número de árboles. Esto se debe a la convergencia del error OOB:}
 
@@ -498,7 +498,7 @@ No obstante, pese a que el error OOB es muy cómodo, dado que no hace falta sepa
 \caption{Convergencia coeficientes Gini}
 \end{figure}
 
-\emph{Por último, notemos que los algoritmos de bagging son más costosos que CART en cuanto al tiempo empleado para su construcción. Además, podemos observar una clara relación entre los diferentes modelos y el tiempo que requieren. A la hora de construir los árboles de decisión, Bagging tiene en cuenta todas las variables, Random Forest solo considera algunas de ellas y Extra-Trees, además de no usar todas las variables, evalúa las posibles escisiones de nodos en base a valores aleatorios. Estas características se ven claramente reflejadas en los tiempos de ejecución, pues los tiempos de ejecución más altos corresponden a Bagging y los más bajos se le atribuyen a Extra-Trees.}
+\emph{Por último, nótese que los algoritmos de bagging son más costosos que CART en cuanto al tiempo empleado para su construcción. Además, se puede observar una clara relación entre los diferentes modelos y el tiempo que requieren. A la hora de construir los árboles de decisión, Bagging tiene en cuenta todas las variables, Random Forest solo considera algunas de ellas y Extra-Trees, además de no usar todas las variables, evalúa las posibles escisiones de nodos en base a valores aleatorios. Estas características se ven claramente reflejadas en los tiempos de ejecución, pues los tiempos de ejecución más altos corresponden a Bagging y los más bajos se le atribuyen a Extra-Trees.}
 
 
 \subsubsection{Ventajas y desventajas}
@@ -526,7 +526,7 @@ A lo largo de esta subsección trataremos de abordar a fondo los principales alg
 
 
 \subsubsection{AdaBoost} \label{sec:AdaBoost}
-Adaboost (\textit{``Adaptative Boosting''}) fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión les llamaremos ``tocones''. En la práctica, AdaBoost construye un primer tocón a partir de todos los datos disponibles, cuyo resultado consideraremos como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial, en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un nuevos tocones que clasifiquen la muestra de datos correspondiente a la iteración, calculando los errores pertinentes y los sucesivos conjuntos de datos.
+Adaboost (\textit{``\textbf{Ada}ptative \textbf{Boost}ing''}) fue publicado en 1997 por Freund y Schapire \cite{FR01}. Se trata de un algoritmo que construye árboles de decisión con solo dos nodos hoja; es decir, con una sola escisión, por lo que está pensado para ser ejecutado con un alto número de iteraciones. A estos árboles de decisión se les llamará ``tocones''. En la práctica, AdaBoost construye un primer tocón a partir de todos los datos disponibles, cuyo resultado es considerado como la predicción inicial del modelo, y a continuación se realiza un cálculo de errores respecto a esta predicción. Así, se genera un nuevo conjunto de datos a través de una muestra con repetición del conjunto inicial, en la que tendrán mayor probabilidad de aparecer aquellos individuos con errores más altos. Después, la siguiente y sucesivas iteraciones consistirán en construir un nuevos tocones que clasifiquen la muestra de datos correspondiente a la iteración, calculando los errores pertinentes y los sucesivos conjuntos de datos.
 
 De esta manera, AdaBoost construye una cadena de árboles donde se le resta importancia a la predicción de aquellos individuos para los que ya ha conseguido errores bajos mientras que aumenta el peso de los individuos mal predichos para que sean el principal objetivo en los árboles posteriores. Por último, la respuesta final del modelo será la predicción inicial más las predicciones de las sucesivas iteraciones. 
 
@@ -539,7 +539,7 @@ A continuación, formalizaremos este proceso. El algoritmo es el siguiente:
 \label{fig: AdaBoost_01}
 \end{figure}
 
-Partimos de una matriz de datos X compuesta por n individuos y el valor que toman para p variables. Además, disponemos de la variables dependiente, que denotaremos por y. Como ya avanzábamos, AdaBoost construye los árboles secuencialmente modificando los pesos de los individuos en cada iteración; por tanto, también habrá que tener en cuenta la matriz de pesos. Es decir:
+Se parte de una matriz de datos $X$ compuesta por $n$ individuos y el valor que toman para $p$ variables. Además, se dispone de la variables dependiente, denotada por $y$. Como ya se avanzaba, AdaBoost construye los árboles secuencialmente modificando los pesos de los individuos en cada iteración; por tanto, también habrá que tener en cuenta la matriz de pesos. Es decir:
 \begin{equation*}
 X =
 \begin{pmatrix}
@@ -570,33 +570,33 @@ w_1 & 0 & \dots & 0 \\
 \end{pmatrix}
 \end{equation*}
 
-Como podemos ver en la Figura \ref{fig: AdaBoost_01}, el primer paso consiste en asignar el mismo peso a todos los individuos; ya que no se ha realizado ningún árbol previo y, por tanto, nos interesa calcular buenas predicciones del máximo número de individuos posibles. Así, en primer lugar:
+Como se puede ver en la Figura \ref{fig: AdaBoost_01}, el primer paso consiste en asignar el mismo peso a todos los individuos; ya que no se ha realizado ningún árbol previo y, por tanto, interesa calcular buenas predicciones del máximo número de individuos posibles. Así, en primer lugar:
 \begin{equation*}
 w_i = \frac{1}{n} \, \, \, \forall i \in \{1, \dots, n \}
 \end{equation*}
 
 A continuación, siguiendo el esquema de la Figura \ref{fig: AdaBoost_01}, se crea un árbol de decisión de dos nodos hoja, un tocón. De esta manera, cada tocón construido (denotados por $G_m$) realiza una única división del espacio, obteniendo dos subconjuntos. Además, es evidente que en cada tocón únicamente se verá involucrada una variable.
 
-Una vez construido el tocón, definimos:
+Una vez construido el tocón, se define:
 
 \begin{equation*}
 err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_m(x_i))}{\sum_{i=1}^{n} w_i} 
 \end{equation*}
 
 \noindent
-es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma total de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas nos encontramos con que el denominador puede ser distinto de 1. No obstante, nosotros siempre estandarizaremos los pesos antes de empezar de nuevo con el bucle, por lo que podemos considerar el denominador igual a 1:
+es decir, la suma de los pesos de los individuos mal clasificados en el numerador y la suma total de los pesos en el denominador. Dado que Adaboost tiene diferentes implementaciones, en algunas de ellas el denominador puede ser distinto de 1. No obstante, siguiendo la implementación de Python, siempre se estandarizarán los pesos antes de empezar de nuevo con el bucle, por lo que se puede considerar el denominador igual a 1:
 
 \begin{equation*}
 err_m = \frac{\sum_{i=1}^{n} w_i I(y_i \neq G_1(x_i))}{\sum_{i=1}^{n} w_i} = \frac{\frac{1}{n} \sum_{i=1}^{n}I(y_i \neq G_1(x_i))}{1} = \frac{num.errores}{n}
 \end{equation*}
 
-A continuación, siguiendo el apartado 2b de la Figura \ref{fig: AdaBoost_01}, definimos:
+A continuación, siguiendo el apartado 2b de la Figura \ref{fig: AdaBoost_01}, se define:
 
 \begin{equation*}
 \alpha _m = \log \left( \frac{1 - err_m}{err_m} \right)
 \end{equation*}
 
-Como podemos observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de clasificación ($err_m \simeq 0$), a $\alpha_m$ le corresponderá un valor positivo. Por el contrario, un mal trabajo de clasificación ($err_m \simeq 1$) se verá traducido en un $\alpha_m$ negativo. Así, podemos entender $\alpha_m$ como un medidor de la importancia del tocón $G_m(x)$ en el modelo: un valor alto implica una buena clasificación general y, por tanto, su respuesta es importante para el resultado final y, por otro lado, un valor bajo implica una clasificación general pobre con un número considerable de errores y, por tanto, conviene que su influencia en el resultado final no sea muy elevada.
+Como se puede observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de clasificación ($err_m \simeq 0$), a $\alpha_m$ le corresponderá un valor positivo. Por el contrario, un mal trabajo de clasificación ($err_m \simeq 1$) se verá traducido en un $\alpha_m$ negativo. Así, se puede entender $\alpha_m$ como un medidor de la importancia del tocón $G_m(x)$ en el modelo: un valor alto implica una buena clasificación general y, por tanto, su respuesta es importante para el resultado final y, por otro lado, un valor bajo implica una clasificación general pobre con un número considerable de errores y conviene que su influencia en el resultado final no sea muy elevada.
 
 \begin{figure}[h]
 \centering
@@ -605,14 +605,14 @@ Como podemos observar, si el tocón $G_m(x)$ ha realizado un buen trabajo de cla
 \label{fig: AdaBoost_02}
 \end{figure}
 
-Para cerrar la segunda parte del algoritmo, nos queda analizar la expresión:
+Para cerrar la segunda parte del algoritmo, queda analizar la expresión:
 
 \begin{equation*}
 (d) \, \, Set \, \, w_i \longleftarrow w_i \cdot exp[\alpha_m \cdot I(y_i \neq G_m(x_i))], \, i = 1, 2, \dots n 
 \end{equation*}
 
 \noindent
-que se encarga de modificar los pesos para el paso siguiente. Definimos:
+que se encarga de modificar los pesos para el paso siguiente. Se define:
 
 \begin{equation*}
 P_m = 
@@ -637,7 +637,7 @@ w_i^m e^{\alpha_m} & si & y_i \neq G_m(x_i) \\
 \right.
 \end{equation*}
 
-Notemos que en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m \ggg 0$) habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $\alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen. Por otro lado, en caso de que $G_m(x)$ tenga una eficacia del $50\%$, $\alpha_m = 0$, el modelo no tendrá importancia y, dado que la probabilidad de acertar o no es la misma, no tiene sentido modificar los pesos. Por último, en el caso de obtener un modelo $G_m(x)$ que haga un pésimo trabajo de clasificación (eficacia menor que el $50\%$), $\alpha_m \lll 0$, podríamos interpretar que el modelo está trabajando a la inversa y que hay que considerar las clasificaciones contrarias que éste nos da. Por tanto, en este caso, interesa disminuir el peso de los mal clasificados por el modelo, lo que es equivalente a aumentar el peso de los bien clasificados, ya que los que el modelo clasifique correctamente serán los que nosotros consideraremos como erróneos dada la eficacia del modelo.
+Nótese que en caso de que $G_m(x)$ haga un buen trabajo de clasificación ($\alpha_m \ggg 0$) habrá pocos individuos mal clasificados y a $e^{\alpha_m}$ le corresponderá un valor alto; pues, dado que $G_m(x)$ tendrá una importancia relevante en el modelo, interesa priorizar la correcta clasificación de aquellos que han presentado errores. Así, conforme $\alpha_m$ se va acercando a 0, la importancia del tocón en el modelo y el aumento del peso de los individuos mal clasificados disminuyen. Por otro lado, en caso de que $G_m(x)$ tenga una eficacia del $50\%$, $\alpha_m = 0$, el modelo no tendrá importancia y, dado que la probabilidad de acertar o no es la misma, no tiene sentido modificar los pesos. Por último, en el caso de obtener un modelo $G_m(x)$ que haga un pésimo trabajo de clasificación (eficacia menor que el $50\%$), $\alpha_m \lll 0$, se podría interpretar que el modelo está trabajando a la inversa y que hay que considerar las clasificaciones contrarias que éste proporciona. Por tanto, en este caso, interesa disminuir el peso de los mal clasificados por el modelo, lo que es equivalente a aumentar el peso de los bien clasificados, ya que los que el modelo clasifique correctamente serán los que serán considerados como erróneos dada la eficacia del modelo.
 
 Para finalizar con el bucle, queda hacer especial hincapié en un par de conceptos. Si $m=1$, el proceso explicado no genera ninguna complicación: todos los individuos tienen el mismo peso, se genera un árbol de solo dos nodos hoja, se realiza el cálculo de $err_1$ y $\alpha_1$ y se calcula $P_2$(matriz de pesos a utilizar en m=2). No obstante, para $m > 1$, $P_m \neq I$; es decir, los individuos tendrán pesos diferentes. Esto se tiene que ver reflejado a la hora de generar $G_m(x)$. El índice Gini de una región, involucrado en el criterio de escisión de nodos (\ref{sec: subsec22}), es el siguiente:
 
@@ -646,9 +646,9 @@ G_{region} = \sum_{k=1}^K p_{rk}(1 - p_{rk}) = 1 - \sum_{k=1}^K p_{rk}^2
 \end{equation*}
 
 \noindent
-donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase $k$ que se encuentran en la región $r$ y $K$ era el número total de clases (en la expresión original de la sección \ref{sec: subsec22}, $r$ viene denotado por $m$, notación que hemos cambiado aquí para evitar confusiones). Como podemos observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento, por lo que tendremos que encontrar una manera de conseguir que estos pesos sean considerados.
+donde $p_{rk}$ era la proporción de individuos del conjunto de entrenamiento de clase $k$ que se encuentran en la región $r$ y $K$ era el número total de clases (en la expresión original de la sección \ref{sec: subsec22}, $r$ viene denotado por $m$, notación modificada aquí para evitar confusiones). Como se puede observar, esta definición del índice Gini no hace referencia a los pesos de los individuos en ningún momento, por lo que se tendrá que encontrar una manera de conseguir que estos pesos sean considerados.
 
-La solución más fácil, y la que se encuentra implementada en la librería \emph{Scikit-learn} de Python, es la siguiente: estandarizamos los pesos, es decir, dividimos el peso de cada individuo por la suma total de pesos, y consideramos el resultado como las frecuencias relativas de cada individuo. Así, podemos conseguir también las frecuencias absolutas de la muestra:
+La solución más fácil, y la que se encuentra implementada en la librería \emph{Scikit-learn} de Python, es la siguiente: se estandarizan los pesos, es decir, se dividde el peso de cada individuo por la suma total de pesos, y se considera el resultado como las frecuencias relativas de cada individuo. Así, se pueden conseguir también las frecuencias absolutas de la muestra:
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|}
@@ -709,19 +709,19 @@ El siguiente paso es generar n números aleatorios $(t_1, t_2, \dots, t_n)$ pert
 \end{equation*}
 donde $F_0$ = 0.
 
-Entonces, la solución propuesta al problema de los pesos consiste en crear un nuevo conjunto de datos utilizando los $t_i$ generados aleatoriamente: si $t_i \in [F_{j-1}, F_{j}]$, entonces añadimos $x_j$ a nuestro nuevo conjunto. De esta manera, obtendremos un nuevo conjunto de datos de n individuos en el que los individuos mal clasificados por el árbol anterior tendrán mayor presencia (como sus pesos son más altos, los intervalos $[F_{j-1}, F_{j}]$ serán más amplios). Por último, asignamos un peso de 1/n a cada uno de los individuos del nuevo conjunto de datos y ya podemos proceder a la creación del siguiente tocón.
+Entonces, la solución propuesta al problema de los pesos consiste en crear un nuevo conjunto de datos utilizando los $t_i$ generados aleatoriamente: si $t_i \in [F_{j-1}, F_{j}]$, entonces se añade $x_j$ al nuevo conjunto. De esta manera, se obtiene un nuevo conjunto de datos de $n$ individuos en el que los individuos mal clasificados por el árbol anterior tendrán mayor presencia (como sus pesos son más altos, los intervalos $[F_{j-1}, F_{j}]$ serán más amplios). Por último, se asigna un peso de $1/n$ a cada uno de los individuos del nuevo conjunto de datos y ya se procede a la creación del siguiente tocón.
 
 
 \textbf{\underline{Ejemplo funcionamiento del bucle:}}
 
-\textit{Supongamos que nuestro conjunto de datos se redujese a:}
+\textit{Supongamos que el conjunto de datos se redujese a:}
 \begin{figure}[H]
 \centering
 \includegraphics[width = 0.3\textwidth]{AdaBoost_03}
 \caption{Datos para el ejemplo teórico de AdaBoost}
 \end{figure}
 
-\textit{Por tanto, creamos un árbol de decisión de una única división y obtenemos:}
+\textit{Por tanto, se crea un árbol de decisión de una única división, obteniendo:}
 
 \begin{figure}[h]
 \centering
@@ -729,17 +729,18 @@ Entonces, la solución propuesta al problema de los pesos consiste en crear un n
 \caption{Primer tocón del modelo}
 \end{figure}
 
-\textit{Como podemos observar, solo hay un individuo mal clasificado, el número 9. A continuación, calculamos $err_1$:}
+\textit{Como se puede observar, solo hay un individuo mal clasificado, el número 9. A continuación, se calcula $err_1$:}
 \begin{equation*}
 err_1 = \frac{num.errores}{n} = \frac{1}{10} = 0.1
 \end{equation*}
+
 \noindent
-\textit{y, haciendo uso de él, obtenemos $\alpha_1$:}
+\textit{y, haciendo uso de él, se obtiene $\alpha_1$:}
 \begin{equation*}
 \alpha_1 = \log{\frac{1 - err_1}{err_1}} = \log{\frac{1- 0.1}{0.1}} = \log{\frac{0.9}{0.1}} = \log{9} \simeq 2.1972
 \end{equation*}
 
-\textit{Una vez hechos estos cálculos, podemos realizar la reasignación de pesos:}
+\textit{Una vez hechos estos cálculos, se realiza la reasignación de pesos:}
 \begin{equation*}
 w_i^{m+1} =
 \left\{
@@ -765,8 +766,9 @@ w_i^1 & if & i \neq 9 \\
 \end{array}
 \right.
 \end{equation*}
+
 \noindent
-\textit{donde los superíndices hacen referencia a la iteración en la que nos encontramos. Así, modificamos los pesos y aplicando el proceso recogido en la Tabla \ref{tab:AdaB_pesos}: }
+\textit{donde los superíndices hacen referencia a la iteración. Así, modificados los pesos, se aplica el proceso recogido en la Tabla \ref{tab:AdaB_pesos}: }
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|}
@@ -848,28 +850,28 @@ Fila & 7 & 7 & 0 & 9 & 0 & 9 & 1 & 9 & 9 & 9 \\ \hline
 \label{tab:AdaB_selec}
 \end{table}
 
-\textit{Por tanto, el conjunto de datos que utilizaremos para entrenar el segundo tocón será el formado por los individuos que aparecen en la Tabla \ref{tab:AdaB_selec}. Como podemos comprobar, el individuo 9, antes mal clasificado, ahora aparece 5 veces, por lo que el algoritmo tendrá que clasificarlo bien para no asumir un error tan elevado.}
+\textit{Por tanto, el conjunto de datos que utilizaremos para entrenar el segundo tocón será el formado por los individuos que aparecen en la Tabla \ref{tab:AdaB_selec}. Como se puede comprobar, el individuo 9, antes mal clasificado, ahora aparece 5 veces, por lo que el algoritmo tendrá que clasificarlo bien para no asumir un error tan elevado.}
 
 \bigskip \bigskip
 
 
-Una vez terminado el bucle, nos queda analizar cómo realiza las predicciones AdaBoost. Como podemos ver en el pseudocódigo, la solución de la función es:
+Una vez terminado el bucle, queda analizar cómo realiza las predicciones AdaBoost. Como podemos ver en el pseudocódigo, la solución de la función es:
 \begin{equation*}
 G(x) = sign \left[ \sum_{m=1}^M \alpha_m G_m(x) \right]
 \end{equation*}
 
-Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba diseñado para resolver problemas de clasificación binaria, a una clase se le asocia el valor $-1$ y a la otra el valor $+1$. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, $G(x) = - 1$; y en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, $G(x) = 1$. De esta manera, como avanzábamos antes, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $\alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
+Entonces, dado que el algoritmo AdaBoost publicado en 1997 estaba diseñado para resolver problemas de clasificación binaria, a una clase se le asocia el valor $-1$ y a la otra el valor $+1$. Por tanto, la respuesta será la siguiente: si $\sum_{m=1}^M \alpha_m G_m(x) < 0$, $G(x) = - 1$; y en caso de $\sum_{m=1}^M \alpha_m G_m(x) > 0$, $G(x) = 1$. De esta manera, como ya se avanzaba anteriormente, $\alpha_m$ es un medidor de la importancia del tocón dentro del modelo, pues un $\alpha_m$ alto implicará una gran contribución de la respuesta del tocón a la respuesta final.
 
 \bigskip
 
 \textbf{\underline{Consideraciones finales AdaBoost:}}
 
-Por último, comentar que este algoritmo es conocido como ``Discrete AdaBoost''. Como podemos ver, es un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso el algoritmo ``Real Adaboost'' \cite{FR02}, que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos.
+Por último, cabe comentar que este algoritmo es conocido como ``Discrete AdaBoost''. Se trata de un algoritmo de respuesta simple, dado que solo sirve para clasificación binaria. No obstante, 3 años más tarde se expuso el algoritmo ``Real Adaboost'' \cite{FR02}, que extendía el funcionamiento del algoritmo visto al caso continuo y a más de dos grupos.
 
 En el caso de tener más de dos grupos, la única modificación a realizar se encuentra en el último paso. La respuesta de la función será la clase cuyo sumatorio de $\alpha_m's$ sea mayor. Es decir, para cada clase $k$ se calcula $\sum_{m / G_m(x) = k} \alpha_m$ y la clase cuyo sumatorio sea mayor, es la que corresponde a la respuesta del algoritmo.
 %Esto se puede desarrollar mucho mejor y más formal comentando lo de los J pares del artículo de Friedman et al.
 
-En el caso de un problema de regresión, la solución no es tan inmediata. Resumiendo, habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una ``función de pérdida'' o, en inglés, \textit{``Loss Function''} (a partir de ahora, nos referiremos a ella en su término inglés dado que es como se conoce realmente). Esta función nos devolverá un valor entre $0$ y $1$, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y su objetivo es dar una medida del error. Vendrá dada de la siguiente forma:
+En el caso de un problema de regresión, la solución no es tan inmediata. Resumiendo, habrá que modificar la manera en la que se miden los errores dado que ahora la variable dependiente no es binaria, sino que es una variable continua. La solución que se ofrece pasa por definir una ``función de pérdida'' o, en inglés, \textit{``Loss Function''} (a partir de ahora, se hará referencia a ella en su término inglés dado que es como se conoce realmente). Esta función devolverá un valor entre $0$ y $1$, al igual que lo hacían anteriormente las funciones $err_m$ o $alpha_m$, y su objetivo es dar una medida del error. Vendrá dada de la siguiente forma:
 \begin{equation*}
 L_i^{(m)} = L \left[ |y^{(m)}(x_i) - y_i| \right] \, \, \, \, \forall i \in \{ 1, \dots, n \}
 \end{equation*}
@@ -892,7 +894,7 @@ Una vez elegida la función a emplear, se calcula el error ponderado del tocón 
 L^{(m)} = \frac{1}{n}\sum_{i=1}^n L_i^{(m)}
 \end{equation*}
 
-De esta manera, ya podemos definir el $\alpha_m$ en el caso de regresión de manera análoga a lo explicado anteriormente:
+De esta manera, se define el $\alpha_m$ en el caso de regresión de manera análoga a lo explicado anteriormente:
 \begin{equation*}
 \alpha_m = \log \left( \frac{1 - L^{(m)}}{L^{(m)}} \right)
 \end{equation*}
@@ -918,14 +920,14 @@ Además, Gradient Boosting requiere de una Loss Function a través de la cual ob
 \label{fig:GB_01}
 \end{figure}
 
-El algoritmo es el mismo tanto para el caso de regresión como para el de clasificación. La diferencia entre estos dos casos reside únicamente en la elección de la Loss Function a emplear. A continuación, analizaremos estos dos casos por separado.
+El algoritmo es el mismo tanto para el caso de regresión como para el de clasificación. La diferencia entre estos dos casos reside únicamente en la elección de la Loss Function a emplear. A continuación, se analizarán estos dos casos por separado.
 
 \bigskip \bigskip 
 
 \textbf{\underline{Regresión}}
 
 
-En primer lugar, para iniciar el algoritmo se debe contar con una matriz de datos $X$ (matriz de variables explicativas), un vector $y$ (vector de la variable dependiente a predecir) y se debe establecer una Loss Function $L(y_i, f(x_i))$, donde $y_i$ es el elemento $i$-ésimo de $y$ y $f(x_i)$ es la predicción de la fila $i$-ésima de $X$. Ya hemos visto que existen diferentes funciones que pueden ser candidatas a Loss Function, por ello el algoritmo viene definido para una $L(y_i, f(x_i))$ cualquiera. No obstante, en Gradient Boosting se suele hacer uso de:
+En primer lugar, para iniciar el algoritmo se debe contar con una matriz de datos $X$ (matriz de variables explicativas), un vector $y$ (vector de la variable dependiente a predecir) y se debe establecer una Loss Function $L(y_i, f(x_i))$, donde $y_i$ es el elemento $i$-ésimo de $y$ y $f(x_i)$ es la predicción de la fila $i$-ésima de $X$. Ya se ha visto que existen diferentes funciones que pueden ser candidatas a Loss Function, por ello el algoritmo viene definido para una $L(y_i, f(x_i))$ cualquiera. No obstante, en Gradient Boosting se suele hacer uso de:
 \begin{equation*}
 L(y_i, f(x_i)) = \frac{1}{2}(y_i - f(x_i))^2
 \end{equation*}
@@ -937,23 +939,23 @@ La elección de esta Loss Function se debe a que va a ser necesario derivarla. A
 \noindent
 la expresión resultante no es más que el residuo de la predicción.
 
-Una vez establecida la Loss Function a emplear, veamos cómo funciona el algoritmo al sustituirla. Como podemos observar en la Figura \ref{fig:GB_01}, el primer paso consiste en determinar un valor fijo que representará la ``primera predicción''; es decir, aquella que luego modificaremos en función de los residuos:
+Una vez establecida la Loss Function a emplear, se puede observar en la Figura \ref{fig:GB_01} que el primer paso consiste en determinar un valor fijo que representará la ``primera predicción''; es decir, aquella que luego será modificada en función de los residuos:
 \begin{equation*}
 f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma)
 \end{equation*}
 
 \noindent
-que sustituyendo por la función que hemos fijado queda:
+que sustituyendo por la función fijada queda:
 \begin{equation*}
 f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \frac{1}{2}\sum_{i=1}^N (y_i - \gamma)^2 
 \end{equation*}
 
-Ya vimos en la sección \ref{sec:2.4} que el valor que minimiza este valor es la media, por tanto:
+Ya se vio en la sección \ref{sec:2.4} que el valor que minimiza este valor es la media, por tanto:
 \begin{equation*}
 f_0(x) = \frac{1}{N} \sum_{i=1}^N y_i
 \end{equation*}
 
-En el paso 2, se construye un bucle. Cada iteración de este bucle genera un nuevo árbol que añadirá información a la última predicción realizada. Primero, se calcula el residuo de la última predicción de cada uno de los individuos(la $(m-1)$-ésima) mediante la derivada que ya hemos especificado anteriormente:
+En el paso 2, se construye un bucle. Cada iteración de este bucle genera un nuevo árbol que añadirá información a la última predicción realizada. Primero, se calcula el residuo de la última predicción de cada uno de los individuos(la $(m-1)$-ésima) mediante la derivada especificada anteriormente:
 \begin{equation*}
 r_{im} = - \left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f = f_{m-1}} = y_i -f_{m-1}(x_i)
 \end{equation*}
@@ -978,7 +980,7 @@ f_m(x) = f_{m-1}(x) + \nu \sum_{j = 1}^{J_m}\gamma_{jm} I(x \in R_{jm})
 \noindent
 donde $\nu \in (0, 1)$ es esta tasa de aprendizaje comentada y hace que las modificaciones que se van realizando sean menores. Por ello, Gradient Boosting se suele aplicar con un $M$ grande, pues en la práctica se comprueba que es más fiable utilizar modelos que realicen muchos pasos de pequeñas modificaciones en lugar de pocos pasos de grandes modificaciones, pues tienden a sobreajustarse menos.
 
-Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo la hipótesis de que la Loss Function escogida es la más habitual en este caso. Evidentemente, el procedimiento es análogo para cualquier función, pero en ese caso valores como $f_0(x)$ o $\gamma_{jm}$ dejarán de ser medias y tendremos que calcular los valores que minimizan las nuevas expresiones. Además, puntualizar que en este caso no sería del todo correcto definir los $r_{im}$ como residuos, ya que la forma de estos puede ser, ahora, muy diferente (ya no tiene por qué ser ``valor observado - valor predicho''). Es por eso que en Gradient Boosting se denomina a estos valores como ``pseudo-residuos'' (\textit{pseudo-residuals} en inglés).
+Por otro lado, se concluirá recordando que se ha desarrollado el algoritmo bajo la hipótesis de que la Loss Function escogida es la más habitual en este caso. Evidentemente, el procedimiento es análogo para cualquier función, pero en ese caso valores como $f_0(x)$ o $\gamma_{jm}$ dejarán de ser medias y se tendrán que calcular los valores que minimizan las nuevas expresiones. Además, puntualizar que en este caso no sería del todo correcto definir los $r_{im}$ como residuos, ya que la forma de estos puede ser, ahora, muy diferente (ya no tiene por qué ser ``valor observado - valor predicho''). Es por eso que en Gradient Boosting se denomina a estos valores como ``pseudo-residuos'' (\textit{pseudo-residuals} en inglés).
 
 
 
@@ -986,14 +988,14 @@ Por otro lado, concluiremos recordando que hemos desarrollado el algoritmo bajo 
 
 \textbf{\underline{Clasificación: }}
 
-Como avanzábamos, el caso de clasificación volverá a basarse en el algoritmo de la Figura \ref{fig:GB_01}; pero hará uso de una Loss Function diferente a la de regresión.
+Como ya se avanzaba, el caso de clasificación volverá a basarse en el algoritmo de la Figura \ref{fig:GB_01}; pero hará uso de una Loss Function diferente a la de regresión.
 
 El procedimiento descrito está pensado para clasificación binaria. Así, igual que en regresión la estimación que se da es la que corresponde a la variable de interés, en el caso de clasificación estamos interesados en estimar la probabilidad de pertenecer a cierta clase de manera que si la probabilidad es mayor que 0.5 se clasificará en la clase propuesta (``1'') y si la probabilidad es menor que 0.5 se clasificará en la clase opuesta (``0''). No obstante, Gradient Boosting no aproxima esta probabilidad directamente, si no que aproxima el log-odd-ratio y, posteriormente, obtiene la probabilidad deseada:
 \begin{equation*}
 odd-ratio = \frac{p}{1-p}
 \end{equation*}
 
-Veamos en primer lugar cuál es la Loss Function escogida. Notemos que en el caso de clasificación binaria nuestro conjunto de datos se corresponderá con una muestra aleatoria simple de una población con distribución bernoulli. Es decir:
+En primer lugar, se verá cómo determinar la Loss Function escogida. Nótese que en el caso de clasificación binaria el conjunto de datos se corresponderá con una muestra aleatoria simple de una población con distribución bernoulli. Es decir:
 \begin{equation*}
 f(y, p) = p^y(1-p)^{1-y}
 \end{equation*}
@@ -1010,12 +1012,12 @@ y la función de soporte:
 ln(l(p)) = ln \left( \prod_{i=1}^n f_p(y_i) \right) = ln \left( \prod_{i=1}^n p^{y_i}(1-p)^{1-y_i} \right) = \sum_{i=1}^n y_i ln(p) + (1-y_i)ln(1-p)
 \end{equation*}
 
-Ahora, notemos que cuando utilizamos esta función en el método de Máxima Verosimilitud, estamos interesados en maximizar su valor. Por el contrario, cuando trabajamos con una Loss Function, buscamos minimizarla, pues el modelo será más ajustado conforme menor sea el valor de esta función. Por tanto, si deseamos emplear la funció  de soporte como Loss Function, tendremos que multiplicarla por -1. También, como deseamos aplicar esta función individuo a individuo, podemos eliminar el sumatorio. Así, la Loss Function que emplearemos queda:
+Ahora, nótese que cuando se hace uso de esta función en el método de Máxima Verosimilitud, interesa maximizar su valor. Por el contrario, cuando trabajamos con una Loss Function, se trata de minimizarla, pues el modelo será más ajustado conforme menor sea el valor de esta función. Por tanto, si se desea emplear la función de soporte como Loss Function, se tendrá que multiplicar por $-1$. También, como se desea aplicar esta función individuo a individuo, se puede eliminar el sumatorio. Así, la Loss Function queda:
 \begin{equation*}
 L(y_i, p_i) = -( y_i ln(p_i) + (1-y_i)ln(1-p_i))
 \end{equation*}
 
-No obstante, ésta es una función de $p_i$ y, como hemos avanzado antes, deseamos trabajar con log-odd-ratio. Entonces, transformamos esta expresión de manera que las $p_i$ pasen a ser log-odd-ratio (a partir de ahora, por simplificar, $ln(odd_i)$):
+No obstante, ésta es una función de $p_i$ y, como se ha avanzado antes, se desea trabajar con log-odd-ratio. Entonces, se transforma esta expresión de manera que las $p_i$ pasen a ser log-odd-ratio (a partir de ahora, por simplificar, $ln(odd_i)$):
 \begin{equation*}
 \begin{split}
 L(y_i, p_i) &= -(y_i ln(p_i) + (1-y_i)ln(1-p_i)) = -y_i ln(p_i) - ln(1-p_i) + y_i ln(1-p_i) = \\
@@ -1035,7 +1037,7 @@ L(y_i, p_i) = -y_i ln(odd_i) - ln(1-p_i) = -y_i ln(odd_i) + ln \left( 1 + e^{ln(
 \end{equation*}
 
 \noindent
-y ya tenemos la Loss Function en función de $ln(odd_i)$:
+y ya se tiene la Loss Function en función de $ln(odd_i)$:
 \begin{equation*}
 L(y_i, ln(odd_i)) = -y_i ln(odd_i) + ln \left( 1 + e^{ln(odd_i)} \right)
 \end{equation*}
@@ -1048,12 +1050,12 @@ Ahora, la predicción inicial vendrá dada por:
 f_0(x) = arg\min_{\gamma} \sum_{i=1}^N L(y_i, \gamma) = arg\min_{\gamma} \sum_{i=1}^N \left( -y_i \gamma + ln \left( 1 + e^{\gamma} \right) \right) = \frac{\sum_{i=1}^{N} y_i}{N} 
 \end{equation}
 
-Podemos observar, dado que $y_i \in \{0, 1 \} \, \forall i \in \{1, \dots, n \}$, que la predicción inicial es la proporción de individuos del conjunto de entrenamiento que pertenecen a la clase ``1''. No obstante, dado que queremos trabajar en términos de $ln(odd_i)$, debemos escribir esta probabilidad en la forma correspondiente. De esta manera:
+Se puede observar, dado que $y_i \in \{0, 1 \} \, \forall i \in \{1, \dots, n \}$, que la predicción inicial es la proporción de individuos del conjunto de entrenamiento que pertenecen a la clase ``1''. No obstante, dado que se quiere trabajar en términos de $ln(odd_i)$, se debe escribir esta probabilidad en la forma correspondiente. De esta manera:
 \begin{equation*}
 f_0(x) = \frac{p}{1-p} = \frac{\frac{\sum_{i=1}^{N} y_i}{N}}{1 - \frac{\sum_{i=1}^{N} y_i}{N}} = \frac{\sum_{i=1}^{N} y_i}{N -\sum_{i=1}^{N} y_i}
 \end{equation*}
 
-Ahora, se debe afinar esta predicción inicial a través de predicciones secuenciales de los ``pseudo-residuos''. De acuerdo con lo anterior, el siguiente paso consiste en el bucle que calculará en cada iteración (supongamos la iteración $m$-ésima): los ``pseudo-residuos'' de la predicción $f_{m-1}(x)$, un árbol de decisión que clasifique estos residuos, los valores de respuesta de los nodos hoja del árbol generado y la nueva predicción $f_m(x)$.
+Ahora, se debe afinar esta predicción inicial a través de predicciones secuenciales de los ``pseudo-residuos''. De acuerdo con lo anterior, el siguiente paso consiste en el bucle que calculará en cada iteración (supóngase la iteración $m$-ésima): los ``pseudo-residuos'' de la predicción $f_{m-1}(x)$, un árbol de decisión que clasifique estos residuos, los valores de respuesta de los nodos hoja del árbol generado y la nueva predicción $f_m(x)$.
 
 Los ``pseudo-residuos'' vendrán dados por:
 \begin{equation}
@@ -1063,7 +1065,7 @@ r_{im} &= -\left[ \frac{\partial L(y_i, f(x_i))}{\partial f(x_i)} \right]_{f=f_{
 \end{split}
 \end{equation}
 
-Notemos que $f_{m-1}(x_i)$ es, realmente, la última predicción realizada de $ln(odd_i)$. Por tanto, $r_{im}$ podría escribirse como:
+Nótese que $f_{m-1}(x_i)$ es, realmente, la última predicción realizada de $ln(odd_i)$. Por tanto, $r_{im}$ podría escribirse como:
 \begin{equation*}
 r_{im} = y_i - p_{i, m-1}
 \end{equation*}
@@ -1071,18 +1073,18 @@ r_{im} = y_i - p_{i, m-1}
 \noindent
 donde $p_{i, m-1}$ es la predicción $(m-1)$-ésima de $p_i$. Es decir, $r_{im}$ es $y_i$ menos la última predicción realizada del mismo. Así, tiene sentido que este valor sea conocido como ``pseudo-residuo''.
 
-A continuación, se construye un árbol de decisión que realice una predicción de los $r_{im}$'s en función de las variables independientes y denotamos sus nodos hoja por $R_{jm}$ con $j \in \{1, \dots, J_m \}$, donde $J_m$ es el número total de nodos hoja del $m$-ésimo árbol. Dado $j$, la predicción de los individuos pertenecientes a $R_{jm}$ vendrá dada por:
+A continuación, se construye un árbol de decisión que realice una predicción de los $r_{im}$'s en función de las variables independientes y se denotan sus nodos hoja por $R_{jm}$ con $j \in \{1, \dots, J_m \}$, donde $J_m$ es el número total de nodos hoja del $m$-ésimo árbol. Dado $j$, la predicción de los individuos pertenecientes a $R_{jm}$ vendrá dada por:
 \begin{equation*}
 \gamma_{jm} = arg\min_{\gamma} \sum_{x_i \in R_{jm}} L(y_i, f_{m-1}(x_i) + \gamma)
 \end{equation*}
 
-Ahora, para obtener el $\gamma$ que minimiza dicha expresión, aproximaremos $L(x_i, f_{m-1}(x_i) + \gamma)$ mediante su desarollo de Taylor de segundo orden. Lo haremos para un $x_i$ cualquiera con el fin de no complicar los cálculos con los sumatorios. Es decir, consideramos:
+Ahora, para obtener el $\gamma$ que minimiza dicha expresión, se aproxima $L(x_i, f_{m-1}(x_i) + \gamma)$ mediante su desarollo de Taylor de segundo orden. Se hará para un $x_i$ cualquiera con el fin de no complicar los cálculos con los sumatorios. Es decir, se considera:
 \begin{equation*}
 L(y_i, f_{m-1}(x_i) + \gamma) \approx L(y_i, f_{m-1}(x_i)) + \frac{d}{d(ln(odd_i))}L(y_i, f_{m-1}(x_i))\gamma + \frac{1}{2}\frac{d^2}{d(ln(odd_i))^2}L(y_i, f_{m-1}(x_i))\gamma^2
 \end{equation*}
 
 \noindent
-y derivamos respecto de $\gamma$ e igualamos a cero puesto que es lo que buscamos minimizar:
+y se deriva respecto de $\gamma$ igualando a cero puesto que es lo que se busca minimizar:
 \begin{equation*}
 \begin{split}
 \frac{d}{d\gamma}L(y_i, f_{m-1}(x_i) + \gamma) &\approx \frac{d}{d(ln(odd_i))}L(y_i, f_{m-1}(x_i)) + \frac{d^2}{d(ln(odd_i))^2}L(y_i, f_{m-1}(x_i))\gamma \, \, \Rightarrow \\
@@ -1102,7 +1104,7 @@ Además, realizando las transformaciones adecuadas, se llega a que esta expresi�
 \gamma = \frac{y_i - p_{i, m-1}}{p_{i, m-1}(1 - p_{i, m-1})}
 \end{equation}
 
-Para finalizar con los cálculos, recordemos que hemos decidido omitir los sumatorios en el desarrollo realizado. Ahora bien, como la derivada de un sumatorio es igual al sumatorio de las derivadas, podemos afirmar que:
+Para finalizar con los cálculos, recuérdese que se ha decidido omitir los sumatorios en el desarrollo realizado. Ahora bien, como la derivada de un sumatorio es igual al sumatorio de las derivadas, se puede afirmar que:
 \begin{equation*}
 \gamma_{jm} = \frac{\displaystyle \sum_{x_i \in R_{jm}} y_i - \frac{e^{f_{m-1}(x_i)}}{1 + e^{f_{m-1}(x_i)}}}{\displaystyle \sum_{x_i \in R_{jm}} \frac{e^{f_{m-1}(x_i)}}{(1 + e^{f_{m-1}(x_i)})^2}} = \frac{\displaystyle \sum_{x_i \in R_{jm}} y_i - p_{i, m-1}}{\displaystyle \sum_{x_i \in R_{jm}} p_{i, m-1}(1 - p_{i, m-1})}
 \end{equation*}
@@ -1121,7 +1123,7 @@ p = \frac{e^{ln(odd)}}{1 + e^{ln(odd)}}
 \subsubsection{XGBoost} \label{sec:XGBoost}
 XGBoost(\textit{'e\textbf{X}treme \textbf{G}radient \textbf{Boost}ing'}) es un algoritmo que utiliza de base lo explicado en la última sección y, además, añade una serie de mejoras que lo convierten en una herramienta muy potente. Fue publicado en 2014 \cite{CH01} y su repercusión fue inmediata. Actualmente, es uno de los modelos cuyo dominio es imprescindible y su continuada aparición entre los finalistas de concursos de Machine Learning dan fe de su importancia y utilidad.
 
-Como ya avanzábamos, XGBoost utiliza la misma idea de Gradient Boosting: generar árboles de decisión que realicen predicciones secuenciales de los residuos. No obstante, presenta una serie de modificaciones entre las que destacan la manera de construir los árboles y la inclusión de parámetros de regularización. Estos parámetros son ciertos valores que se incluyen al modelo para tratar de evitar el sobreajuste. Además, XGBoost fue diseñado para trabajar con conjuntos de datos muy grandes, por lo que estos parámetros de regularización nos ayudarán, sobretodo, en caso de que el conjunto de datos no sea lo suficientemente grande.
+Como ya se avanzaba, XGBoost utiliza la misma idea de Gradient Boosting: generar árboles de decisión que realicen predicciones secuenciales de los residuos. No obstante, presenta una serie de modificaciones entre las que destacan la manera de construir los árboles y la inclusión de parámetros de regularización. Estos parámetros son ciertos valores que se incluyen al modelo para tratar de evitar el sobreajuste. Además, XGBoost fue diseñado para trabajar con conjuntos de datos muy grandes, por lo que estos parámetros de regularización serán de ayuda, sobretodo, en caso de que el conjunto de datos no sea lo suficientemente grande.
 
 El algoritmo XGBoost es el siguiente:
 \begin{figure}[h]
@@ -1131,9 +1133,9 @@ El algoritmo XGBoost es el siguiente:
 \label{fig:XGB_01}
 \end{figure}
 
-Podemos observar que el número de \textit{inputs} es elevado. No obstante, la mayoría ya son conocidos. El algoritmo requiere de un conjunto de datos de entrenamiento, una Loss Function, el número de iteraciones $M$ (equivalente a la $M$ del bucle de Gradient Boosting), una tasa de aprendizaje y el número máximo de nodos hoja que le vamos a permitir a cada árbol. También, tendrá que establecerse el valor de los parámetros de regularización $\lambda$ y $\gamma$, que serán de ayuda a la hora de evitar el sobreajuste del modelo, restando importancia a los datos aislados y aportando un poco de aleatoriedad. A lo largo del desarrollo, se explicará cómo actúan exactamente cada uno de estos parámetros.
+Podemos observar que el número de \textit{inputs} es elevado. No obstante, la mayoría ya son conocidos. El algoritmo requiere de un conjunto de datos de entrenamiento, una Loss Function, el número de iteraciones $M$ (equivalente a la $M$ del bucle de Gradient Boosting), una tasa de aprendizaje y el número máximo de nodos hoja que se le permite a cada árbol. También, tendrá que establecerse el valor de los parámetros de regularización $\lambda$ y $\gamma$, que serán de ayuda a la hora de evitar el sobreajuste del modelo, restando importancia a los datos aislados y aportando un poco de aleatoriedad. A lo largo del desarrollo, se explicará cómo actúan exactamente cada uno de estos parámetros.
 
-A continuación, al igual que realizamos en Gradient Boosting, explicaremos el caso de regresión y el de clasificación por separado.
+A continuación, al igual que se realizó en Gradient Boosting, se explicarán el caso de regresión y el de clasificación por separado.
 
 
 
@@ -1141,12 +1143,12 @@ A continuación, al igual que realizamos en Gradient Boosting, explicaremos el c
 
 \textbf{\underline{Regresión}}
 
-En el caso de regresión, la Loss Function elegida será la misma que escogimos en Gradient Boosting:
+En el caso de regresión, la Loss Function elegida será la misma que se escogió en Gradient Boosting:
 \begin{equation*}
 L(y_i, f(x_i)) = \frac{1}{2}(y_i - f(x_i))^2
 \end{equation*}
 
-El primer paso consistirá en definir la predicción inicial, que en el algoritmo de la Figura \ref{fig:XGB_01} viene denotada por $f^{(0)}$. Como ya hemos visto en cálculos anteriores (\ref{sec:GB}), esta primera predicción vendrá dada por:
+El primer paso consistirá en definir la predicción inicial, que en el algoritmo de la Figura \ref{fig:XGB_01} viene denotada por $f^{(0)}$. Como ya se ha visto en cálculos anteriores (\ref{sec:GB}), esta primera predicción vendrá dada por:
 \begin{equation*}
 f^{(0)}(x) = \frac{1}{N} \sum_{i=1}^N y_i
 \end{equation*}
@@ -1162,7 +1164,7 @@ cuyo cálculo ya fue realizado en Gradient Boosting para regresión (\ref{sec:GB
 g_{m}(x_i) = f^{(m-1)}(x_i) - y_i
 \end{equation*}
 
-A continuación, calculamos:
+Por otro lado, se tiene:
 \begin{equation*}
 h_{m}(x_i) = \left[ \frac{\partial^2 L(y_i, f(x_i))}{\partial f(x_i)^2} \right]_{f = f^{(m-1)}} = 1
 \end{equation*}
@@ -1173,12 +1175,12 @@ A continuación se genera un árbol de decisión que clasifique los residuos. La
 \end{equation*}
 
 \noindent
-donde $\gamma$ y $\lambda$ son parámetros de regularización. Esto es así pues queremos minimizar el error cometido por la predicción $m$-ésima, que vendrá dada por: $f^m(x_i) = f^{(m-1)}(x_i) + f_m(x_i)$, donde $f_m$ hace referencia al $m$-ésimo árbol generado. La función a minimizar es el sumatorio de las Loss Function (al igual que en Gradient Boosting) junto con una serie de parámetros de regularización. Para minimizar esta función se recurre al desarrollo de Taylor de segundo orden de $L(y_i, f{^{(m-1)}}(x_i) + f_m(x_i))$ de manera que:
+donde $\gamma$ y $\lambda$ son parámetros de regularización. Esto es así pues se desea minimizar el error cometido por la predicción $m$-ésima, que vendrá dada por: $f^m(x_i) = f^{(m-1)}(x_i) + f_m(x_i)$, donde $f_m$ hace referencia al $m$-ésimo árbol generado. La función a minimizar es el sumatorio de las Loss Function (al igual que en Gradient Boosting) junto con una serie de parámetros de regularización. Para minimizar esta función se recurre al desarrollo de Taylor de segundo orden de $L(y_i, f{^{(m-1)}}(x_i) + f_m(x_i))$ de manera que:
 \begin{equation*}
 \mathcal{L}^{(m)} \approx \sum_{i=1}^n \left( L(y_i, f^{(m-1)}(x_i)) + g_m(x_i)f_m(x_i) + h_m(x_i)f_m(x_i)^2 \right)  + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^T \omega_j^2
 \end{equation*}
 
-Ahora, teniendo en cuenta que $ \displaystyle \sum_{i=1}^n f_m(x_i) = \sum_{j = 1}^T \left( \sum_{i \in I_j} \omega_j \right)$ con $I_j = \{ i \, / \, x_i \in R_j \}$, podemos reescribir la expresión anterior de la forma:
+Ahora, teniendo en cuenta que $ \displaystyle \sum_{i=1}^n f_m(x_i) = \sum_{j = 1}^T \left( \sum_{i \in I_j} \omega_j \right)$ con $I_j = \{ i \, / \, x_i \in R_j \}$, la expresión anterior se puede reescribir de la forma:
 \begin{equation*}
 \mathcal{L}^{(m)} \approx \sum_{j = 1}^T \left( (\sum_{i \in I_j} g_m(x_i))\omega_j + \frac{1}{2}(\sum_{i\in I_j} h_m(x_i) + \lambda)\omega_j^2 \right) + \gamma T
 \end{equation*}
@@ -1189,7 +1191,7 @@ Así, derivando respecto de $\omega_j$ e igualando a 0 se tiene que:
 \end{equation*}
 
 \noindent
-expresión que se puede interpretar como $\frac{\sum_{i \in I_j} Residuos_i}{Num\_Residuos_j + \lambda}$. De esta manera, observamos que para nodos hoja donde encontramos muchos residuos, el efecto del parámetro $\lambda$ será mínimo y el $\omega_j$ se corresponderá, prácticamente, con la media de los valores del nodo. Esto es porque, para $N_j$ (número de residuos del $j$-ésimo nodo hoja) grande:
+expresión que se puede interpretar como $\frac{\sum_{i \in I_j} Residuos_i}{Num\_Residuos_j + \lambda}$. De esta manera, observamos que para nodos hoja formados por muchos residuos, el efecto del parámetro $\lambda$ será mínimo y el $\omega_j$ se corresponderá, prácticamente, con la media de los valores del nodo. Esto es porque, para $N_j$ (número de residuos del $j$-ésimo nodo hoja) grande:
 \begin{equation*}
 \omega_j = \frac{\sum_{i \in I_j} Residuos_i}{N_j + \lambda} = \frac{\sum_{i \in I_j} Residuos_i}{N_j} \times \frac{N_j}{N_j + \lambda} \approx \frac{\sum_{i \in I_j} Residuos_i}{N_j}
 \end{equation*}
@@ -1201,7 +1203,7 @@ Una vez visto qué valor asignar a los nodos hoja de los árboles que se constru
 \mathcal{L}^{*(m)} = - \frac{1}{2} \sum_{j = 1}^T \frac{\left( \sum_{i \in I_j} g_m(x_i) \right)^2}{\sum_{i \in I_j} h_m(x_i) + \lambda} + \gamma T 
 \end{equation*}
 
-El criterio de escisión de nodos de los árboles se basará en esta última fórmula. Dado un nodo $I$, realizamos una división de manera que $I = I_L \cup I_R$, donde $I_L$ hace referencia al nodo hijo izquierdo e $I_R$ al derecho. Así, se define una función de ganancia (\textit{``Gain''}) que realiza un trabajo análogo al realizado por la función de impureza explicada en CART (\ref{sec: subsec22}):
+El criterio de escisión de nodos de los árboles se basará en esta última fórmula. Dado un nodo $I$, se realiza una división de manera que $I = I_L \cup I_R$, donde $I_L$ hace referencia al nodo hijo izquierdo e $I_R$ al derecho. Así, se define una función de ganancia (\textit{``Gain''}) que realiza un trabajo análogo al realizado por la función de impureza explicada en CART (\ref{sec: subsec22}):
 \begin{equation*}
 Gain_I = \frac{G_I}{H_I} = \frac{\left( \sum_{i \in I} g_m(x_i) \right)^2}{\sum_{i \in I} h_m(x_i) + \lambda}
 \end{equation*}
@@ -1217,7 +1219,7 @@ Entonces, las variables y los valores escogidos como referencia para la escisió
 \noindent
 y el criterio de escisión será dividir en caso de que $\mathcal{L}_{split} > 0$ y no dividir en caso de que $\mathcal{L}_{split} < 0$. En este criterio, se puede apreciar la función de parámetro de regularización que realiza $\gamma$, ya que cuanto mayor sea el $\gamma$, menor será la probabilidad de dividir el nodo. De esta manera, para $\gamma \ggg 0$, los árboles generados no serán muy profundos y se evitará el sobreajuste; y para $\gamma \simeq 0$, los árboles se generarán de manera parecida a CART: si la ganancia de los nodos hijos es mayor que la del nodo padre, se divide.
 
-En particular, dada la Loss Function con la que estamos trabajando:
+En particular, dada la Loss Function fijada:
 \begin{equation*}
 \mathcal{L}_{split} = \frac{1}{2} \left( \frac{\left( \sum_{i \in I_L} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I_L} 1 + \lambda} + \frac{\left( \sum_{i \in I_R} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I_R} 1 + \lambda} - \frac{\left( \sum_{i \in I} f^{(m-1)}(x_i) - y_i \right)^2}{\sum_{i \in I} 1 + \lambda} \right)   - \gamma
 \end{equation*}
@@ -1277,15 +1279,15 @@ para obtener la probabilidad deseada y clasificar.
 
 \textbf{\underline{Otras optimizaciones}}
 
-Además de la particular forma que tiene XGBoost de construir los árboles, también incluye otra serie de mecanismos que hacen de él una herramienta muy potente. A continuación, trataremos de explicar, sin entrar en muchos detalles, cuáles son estos métodos que aplica.
+Además de la particular forma que tiene XGBoost de construir los árboles, también incluye otra serie de mecanismos que hacen de él una herramienta muy potente. A continuación, se explicará, sin entrar en muchos detalles, cuáles son estos métodos que aplica.
 
-Por un lado, como ya se ha comentado, XGBoost se ideó para conjuntos de datos muy grandes. Por ello, a la hora de realizar las escisiones de los árboles, probar con todos los valores posibles de todas las variables para determinar cuáles maximizan la función $\mathcal{L}_{split}$ conllevaría un gasto computacional inasumible. Así, una manera eficaz de llevar a cabo esta tarea es probar solo con los percentiles de cada variable. Por ejemplo, si tomamos los percentiles $P_{25}$, $P_{50}$ y $P_{75}$, solo tendremos que probar con 3 valores por variable y escoger el óptimo. Cabe citar que, en la práctica, se suelen usar alrededor de 33 percentiles. Además, estos percentiles están ponderados; esto quiere decir que no todos los intervalos recogen el mismo número de individuos, sino que la suma de los pesos de los individuos es igual en todos los intervalos. El peso de cada individuo en la iteración $m$-ésima viene dado por $h_m(x_i)$ que, como ya hemos visto:
+Por un lado, como ya se ha comentado, XGBoost se ideó para conjuntos de datos muy grandes. Por ello, a la hora de realizar las escisiones de los árboles, probar con todos los valores posibles de todas las variables para determinar cuáles maximizan la función $\mathcal{L}_{split}$ conllevaría un gasto computacional inasumible. Así, una manera eficaz de llevar a cabo esta tarea es probar solo con los percentiles de cada variable. Por ejemplo, tomando los percentiles $P_{25}$, $P_{50}$ y $P_{75}$, solo habrá que probar con 3 valores por variable y escoger el óptimo. Cabe citar que, en la práctica, se suelen usar alrededor de 33 percentiles. Además, estos percentiles están ponderados; esto quiere decir que no todos los intervalos recogen el mismo número de individuos, sino que la suma de los pesos de los individuos es igual en todos los intervalos. El peso de cada individuo en la iteración $m$-ésima viene dado por $h_m(x_i)$ que, como ya se ha visto:
 \begin{equation*}
 h_m(x_i) = 1 \, \, \, \, \vee \, \, \, \, h_m(x_i) = p_{i, m-1}(1 - p_{i, m-1})
 \end{equation*}
 
 \noindent
-según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan de forma habitual y en el caso de clasificación se tendrán las últimas predicciones realizadas. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que podemos reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
+según se trate de un problema de regresión o de clasificación, respectivamente. Así, en el caso de regresión los percentiles se calculan de forma habitual y en el caso de clasificación se tendrán las últimas predicciones realizadas. La idea intuitiva de por qué los pesos vienen dados por $h_m(x_i)$ pasa por observar que se puede reescribir la ecuación de $\mathcal{L}^{(m)}$ como:
 \begin{equation*}
 \mathcal{L}^{(m)} = \sum_{i = 1}^n \frac{1}{2} h_m(x_i) \left( f_m(x_i) - \frac{g_m(x_i)}{h_m(x_i)} \right)^2 + \Omega(f_m) + constant
 \end{equation*}
@@ -1316,10 +1318,10 @@ LightGBM (del inglés: \textit{\textbf{Light} \textbf{G}radient \textbf{B}oostin
 \caption{Construcción de árboles en LightGBM vs XGBoost (Fuente: \cite{MA01})}
 \end{figure}
 
-La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{``Gain''}. Por el contrario, se podría decir que LightGBM no trabaja por capas. A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, nos encontraremos con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
+La diferencia principal reside en el modo de construir los árboles. En cada capa de nodos, XGBoost realiza la división de todos los nodos (\textit{Level-wise tree growth}) y luego evalúa si dicha evaluación se debe llevar a cabo a través del valor de \textit{``Gain''}. Por el contrario, se podría decir que LightGBM no trabaja por capas (\textit{Leaf-wise tree growth}). A la hora de generar un árbol de decisión, se decide separar el nodo raíz y luego, de los dos nodos resultantes, sólo se separará el nodo que maximice la ganancia. Así, en la siguiente iteración, se contará con tres nodos que podremos dividir y, de nuevo, se valorará cual de los tres maximiza la ganancia y será dividido. Por tanto, en cada iteración de la construcción del árbol, se calculará la ganancia de cada escisión y sólo se realizará aquella que la maximice.
 
 
-Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor. Por ejemplo, LightGBM está diseñado para ser muy veloz al hacer uso de la CPU, procesador presente en todos los ordenadores. Por el contrario, XGBoost obtiene mejores resultados de tiempo al trabajar con la GPU, procesador que no contienen todos los equipos. Por tanto, al trabajar en CPU ambos, los tiempos de ejecución de LightGBM son mejores que los de XGBoost.
+Además de esta particularidad de LightGBM, también se aplican diferentes modificaciones computacionales que mejoran el tiempo de ejecución considerablemente, consiguiendo a veces una mejor precisión que XGBoost en un tiempo menor. Por ejemplo, LightGBM está diseñado para ser muy veloz al hacer uso de la CPU, procesador presente en todos los ordenadores. Por el contrario, XGBoost obtiene mejores resultados de tiempo al trabajar con la GPU, procesador gráfico que no poseen todos los equipos. Por tanto, al trabajar en CPU ambos, los tiempos de ejecución de LightGBM son mejores que los de XGBoost.
 
 
 
@@ -1366,19 +1368,19 @@ Individuo & ClaseA & ClaseB & ClaseC \\ \hline
 
 De esta manera, el problema quedaría resuelto. Cada nueva variable $V_j$ hará referencia a la propiedad de ``pertenecer a la clase $A_j$'' y el conjunto de datos ya estará correctamente codificado para su uso. En este trabajo ha sido necesario realizar un preprocesado de los datos y se ha utilizado la técnica para codificar variables como ``Location''.
 
-No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables categóricas implica un aumento significativo del número de variables a considerar en nuestro conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional. También, podría provocar problemas de multicolinealidad en algoritmos clásicos como el de Regresión Lineal.
+No obstante, pese a haber solucionado el problema, la codificación \textit{one-hot-encoding} no resulta del todo eficiente ya que la presencia de muchas variables categóricas implica un aumento significativo del número de variables a considerar en el conjunto de datos, lo que se traduce en un mayor uso de la memoria y en un mayor coste computacional. También, podría provocar problemas de multicolinealidad en algoritmos clásicos como el de Regresión Lineal.
 
 Por tanto, la principal innovación de CatBoost respecto al resto de algoritmos es que consigue codificar las variables categóricas sin necesidad de recurrir a la codificación \textit{one-hot-encoding}. Así, se consigue una ahorro de recursos que permite obtener resultados similares en un menor tiempo de ejecución.
 
-En el caso de clasificación, la codificación realizada por CatBoost se basa en intentar codificar cada clase $A_j$ con el valor de $P(Y = 1 | X \in A_j)$. Dado que este valor es desconocido, un razonamiento lógico sería proceder a través de proporciones.  Veámoslo a través de un ejemplo; sea el conjunto de datos:
+En el caso de clasificación, la codificación realizada por CatBoost se basa en intentar codificar cada clase $A_j$ con el valor de $P(Y = 1 | X \in A_j)$. Dado que este valor es desconocido, un razonamiento lógico sería proceder a través de proporciones. Se verá con el apoyo de un ejemplo, sea el conjunto de datos:
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.6 \textwidth]{CatBoost_01}
+\includegraphics[width = 0.55 \textwidth]{CatBoost_01}
 \caption{Conjunto de datos del ejemplo teórico}
 \end{figure}
 
 \noindent
-donde ``Country'' es la variable explicativa que deseamos codificar y ``Target'' la variable binaria a predecir. Entonces, la idea es codificar ``Spain'' teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, ``Spain'' se codificaría como $\frac{3}{5}$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo ``Target'' en función de ``Country'' cuando a su vez ``Country'' ha sido codificada en función de ``Target''. Entonces, la manera de proceder no será exactamente la anterior, pero sí muy parecida.
+donde ``Country'' es la variable explicativa que se desea codificar y ``Target'' la variable binaria a predecir. Entonces, la idea es codificar ``Spain'' teniendo en cuenta que aparece 5 veces y toma el valor $1$ en 3 ocasiones. Así, ``Spain'' se codificaría como $\frac{3}{5}$. No obstante, un modelo construido de esta manera se sobreajustaría dado que estaríamos prediciendo ``Target'' en función de ``Country'' cuando a su vez ``Country'' ha sido codificada en función de ``Target''. Entonces, la manera de proceder no será exactamente la anterior, pero sí muy parecida.
 
 Para evitar el sobreajuste del modelo, bastaría con añadir parámetros de regularización y técnicas relacionadas con la validación cruzada. En primer lugar, se codifica la variable de la manera propuesta anteriormente, a través de proporciones:
 \begin{figure}[H]
@@ -1400,7 +1402,7 @@ Así, las variables del segundo conjunto se codificarán, secuencialmente, en fu
 \end{equation*}
 
 \noindent
-donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los individuos ya codificados que pertenecen a la clase a codificar, $p$ es el valor de codificación calculado mediante proporción, $Total\_Clase$ es el valor de individuos ya codificados que pertenecen a la clase en cuestión y a es un parámetro de regularización. Es decir, en nuestro ejemplo, para codificar al sexto individuo, necesitamos fijar un $a$ (por ejemplo, tomaremos $a=1$) y realizar :
+donde $Total\_Target\_Clase$ hace referencia al sumatorio de $Target$ de los individuos ya codificados que pertenecen a la clase a codificar, $p$ es el valor de codificación calculado mediante proporción, $Total\_Clase$ es el valor de individuos ya codificados que pertenecen a la clase en cuestión y $a$ es un parámetro de regularización. Es decir, para codificar al sexto individuo del ejemplo, es necesario fijar un $a$ (por ejemplo, $a=1$) y realizar :
 \begin{equation*}
 \frac{Total\_Target\_Clase + a \times p}{Total\_Clase + a} = \frac{(1 + 0 + 1) + 0.8}{3 + 1} = 0.7
 \end{equation*}
@@ -1426,7 +1428,7 @@ y:
 \caption{Codificación octavo individuo}
 \end{figure}
 
-Con el fin de ajustarnos con la mayor exactitud posible al funcionamiento real del modelo, mencionar el hecho de que CatBoost realiza permutaciones del conjunto de datos antes de dividirlo en dos y realiza este proceso varias veces para exhibir finalmente una media del valor obtenido. Además, hemos explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que debemos tener en cuenta es que la $p$ (que antes hemos definido como la proporción de invididuos cuyo valor en la variable dependiente es ``$1$'') ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que estamos interesados en codificar).
+Con el fin de ajustarse con la mayor exactitud posible al funcionamiento real del modelo, cabe mencionar el hecho de que CatBoost realiza permutaciones del conjunto de datos antes de dividirlo en dos y realiza este proceso varias veces para exhibir finalmente una media del valor obtenido. Además, se ha explicado el proceso para el caso de clasificación, pero el caso de regresión no presenta grandes diferencias; lo único que se debe tener en cuenta es que la $p$ (que antes ha sido definida como la proporción de invididuos cuyo valor en la variable dependiente es ``$1$'') ahora será la media (es decir, la media de los valores de la variable dependiente para los individuos que pertenecen a la clase que interesa codificar).
 
 %Finalizando con la codificación, a la hora de realizar una predicción de un individuo que no pertenece al conjunto de datos de entrenamiento, tendremos que codificar las variables categóricas del mismo para poder introducirlo en el modelo. Así, las variables categóricas se transformarán de forma que
 
@@ -1444,9 +1446,9 @@ La construcción de árboles simétricos consigue que trabajar con procesadores 
 
 \subsubsection{Ejemplo} \label{ex:Boost}
 
-\emph{Una vez más, haremos una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos ``Rain in Australia''. Ahora, aplicaremos los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el ``overfitting''. En este caso, no es necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, por realizar una comparación justa con los algoritmos de bagging, fijaremos la profundidad máxima de cada árbol en 5.}
+\emph{Una vez más, se hará una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos ``Rain in Australia''. Ahora, se aplicarán los algoritmos de boosting estudiados a lo largo de la sección para observar sus resultados, compararlos entre ellos y comprobar que se trata de modelos muy potentes que, a su vez, evitan el ``overfitting''. En este caso, no es necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, por realizar una comparación justa con los algoritmos de bagging, se fijará la profundidad máxima de cada árbol en 5.}
 
-\emph{Al igual que en los ejemplos anteriores, utilizaremos la métrica de Gini para realizar las comparaciones. Los resultados son los siguientes:}
+\emph{Al igual que en los ejemplos anteriores, se utilizará la métrica de Gini para realizar las comparaciones. Los resultados son los siguientes:}
 
 \begin{figure}[h]
 \centering
@@ -1454,9 +1456,9 @@ La construcción de árboles simétricos consigue que trabajar con procesadores 
 \caption{Resultados modelos de boosting}
 \end{figure}
 
-\emph{Como podemos observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $70\%$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
+\emph{Como se puede observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $70\%$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
 
-\emph{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting tendremos que preocuparnos por ver que no estamos cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
+\emph{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting habrá que preocuparse por ver que no se están cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización.}
 
 \emph{También, atendiendo a los tiempos de ejecución, se puede observar la eficiencia de LightGBM ya que donde algunos algoritmos tardan entre 1 y 10 minutos en entrenarse, LGBM apenas necesita 5 segundos.}
 
@@ -1472,9 +1474,9 @@ La construcción de árboles simétricos consigue que trabajar con procesadores 
 
 \subsubsection{Otros parámetros}
 
-Los diferentes algoritmos de boosting se han desarrollado explicando la base del funcionamiento de los mismos y los principales parámetros a tener en cuenta. No obstante, la implementación de estos algoritmos contiene un gran número de parámetros que se pueden ajustar a gusto del usuario, dando lugar a modelos muy versátiles. Uno de los parámetros a tener en cuenta que incorpora XGBoost y, por extensión, LightGBM y CatBoost es conocido como \textit{early stopping}. Este parámetro permite a los algoritmos mencionados ``autoregularse'', de manera que los modelos construidos no se sobreajusten. En la práctica, se evalúa el incremento de precisión que se consigue en cada paso en el conjunto test; si este incremento no supera la cota establecida, el algoritmo terminará con el bucle. Esto es así porque se entiende que el resto de árboles conseguirán aumentar la precisión en el conjunto de entrenamiento y no en el de testeo. Sin embargo, realizar esta evaluación del incremento en cada paso supondría un coste elevado a la hora de entrenar el modelo. Es por eso que la librería propia \textit{XGBoost} de Python contiene también el parámetro \textit{early\_stopping\_rounds} a través del cual podemos controlar cada cuantas iteraciones se calculará el valor del incremento.
+Los diferentes algoritmos de boosting se han desarrollado explicando la base del funcionamiento de los mismos y los principales parámetros a tener en cuenta. No obstante, la implementación de estos algoritmos contiene un gran número de parámetros que se pueden ajustar a gusto del usuario, dando lugar a modelos muy versátiles. Uno de los parámetros a tener en cuenta que incorpora XGBoost y, por extensión, LightGBM y CatBoost es conocido como \textit{early stopping}. Este parámetro permite a los algoritmos mencionados ``autoregularse'', de manera que los modelos construidos no se sobreajusten. En la práctica, se evalúa el incremento de precisión que se consigue en cada paso en el conjunto test; si este incremento no supera la cota establecida, el algoritmo terminará con el bucle. Esto es así porque se entiende que el resto de árboles conseguirán aumentar la precisión en el conjunto de entrenamiento y no en el de testeo. Sin embargo, realizar esta evaluación del incremento en cada paso supondría un coste elevado a la hora de entrenar el modelo. Es por eso que la librería propia \textit{XGBoost} de Python contiene también el parámetro \textit{early\_stopping\_rounds} a través del cual se puede controlar cada cuantas iteraciones se calculará el valor del incremento.
 
-Por otro lado, cabe observar que a lo largo del trabajo hemos tratado muchos algoritmos que han resultado ser muy útiles para problemas de regresión y de clasificación binaria. No obstante, muchos de los problemas de clasificación que se presentan no poseen únicamente dos clases posibles. Por ejemplo, si el problema fuese predecir la comunidad autónoma en la que reside un individuo dadas ciertas características del mismo, la respuesta del algoritmo no es binaria. La solución ante estos problemas de clasificación multiclase pasa por aplicar \textit{one-hot-encoding} (visto en CatBoost(\ref{sec:CatBoost})) a la variable dependiente. De esta manera, se aplicará el modelo independientemente a cada nueva variable y se escogerá como respuesta final aquella que maximice la probabilidad.
+Por otro lado, cabe observar que a lo largo del trabajo se han tratado muchos algoritmos que han resultado ser muy útiles para problemas de regresión y de clasificación binaria. No obstante, muchos de los problemas de clasificación que se presentan no poseen únicamente dos clases posibles. Por ejemplo, si el problema fuese predecir la comunidad autónoma en la que reside un individuo dadas ciertas características del mismo, la respuesta del algoritmo no es binaria. La solución ante estos problemas de clasificación multiclase pasa por aplicar \textit{one-hot-encoding} (visto en CatBoost(\ref{sec:CatBoost})) a la variable dependiente. De esta manera, se aplicará el modelo independientemente a cada nueva variable y se escogerá como respuesta final aquella que maximice la probabilidad.
 
 Del mismo modo, en ocasiones las clases no tienen por qué ser exclusivas, si no que un individuo puede pertenecer a dos clases diferentes. Un ejemplo de esto sería el problema de clasificar una película en una determinada plataforma; pues una película puede pertenecer al género ``Adulto'' y ``Comedia'' simultáneamente. En este caso, la solución es la misma; se aplica \textit{one-hot-encoding} a cada variable por separado y se seleccionan aquellas cuya probabilidad supera un cierto valor fijo. Además, la librería Scikit-Learn de Python incluye en XGBoost una implementación de este último caso, cuya salida es un vector de probabilidades. 
 
@@ -1515,7 +1517,7 @@ Tras la debida explicación del funcionamiento de los algoritmos de boosting, ca
 
 A lo largo del trabajo, se han utilizado los diferentes algoritmos explicados para construir modelos que, a partir de los datos de un día actual, predigan si habrá precipitaciones el día próximo. En esta sección, resumiremos los resultados obtenidos en los diferentes ejemplos.
 
-En primer lugar, realizaremos una comparación de los mejores modelos de cada categoría. El criterio que estableceremos para la selección de modelos será el siguiente: para cada algoritmo, escogeremos el modelo que maximice el valor del índice Gini para el conjunto de testeo y que, a su vez, no supere el $5\%$ para el valor de $delta\%$. De esta manera, los modelos seleccionados serán los siguientes:
+En primer lugar, se realizará una comparación de los mejores modelos de cada categoría. El criterio establecido para la selección de modelos será el siguiente: para cada algoritmo, se escogerá el modelo que maximice el valor del índice Gini para el conjunto de testeo y que, a su vez, no supere el $5\%$ para el valor de $delta\%$. De esta manera, los modelos seleccionados serán:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.3 \textwidth]{Conc_01}
@@ -1531,16 +1533,16 @@ A través de estos modelos, se pueden generar los siguientes gráficos:
 
 En vista de los gráficos, es evidente que los modelos que obtienen las mejores predicciones son aquellos que hacen uso del boosting, siendo el modelo más eficiente el $LGBM\_50$ dado que obtiene una de las mejores precisiones en el menor tiempo registrado. No obstante, los gráficos no son del todo justos con CatBoost ya que, pese a obtener un tiempo de ejecución superior al obtenido el LightGBM o XGBoost, hay que tener en cuenta que no se ha considerado el tiempo invertido en procesar los datos y codificar las variables categóricas para el correcto funcionamiento de los dos últimos.
 
-Otros modelos a los que el gráfico no hace justicia son los modelos de Bagging. Según el criterio establecido, la selección de los modelos es la correcta. No obstante, dada la convergencia del error, se pueden obtener modelos cuya ejecución es mucho más rápida y cuya precisión apenas disminuye. Así, tratemos de representar la información en otro gráfico más completo.
+Otros modelos a los que el gráfico no hace justicia son los modelos de Bagging. Según el criterio establecido, la selección de los modelos es la correcta. No obstante, dada la convergencia del error, se pueden obtener modelos cuya ejecución es mucho más rápida y cuya precisión apenas disminuye. Así, se representará la información en otro gráfico más completo.
 
-El nuevo gráfico que generaremos nos mostrará la precisión de cada modelo en función del número de iteraciones y nos indicará, a través del tamaño de los puntos, el tiempo de ejecución registrado. Con tal de poder observar bien la información, dado que el coeficiente de Gini converge a partir de las 100 iteraciones, no contemplaremos las iteraciones posteriores en el gráfico:
+El nuevo gráfico muestra la precisión de cada modelo en función del número de iteraciones e indica, a través del tamaño de los puntos, el tiempo de ejecución registrado; cuanto mayor sea este tiempo, mayor será el tamaño del punto. Con tal de poder observar bien la información, dado que el coeficiente de Gini converge a partir de las 100 iteraciones, no se contemplarán las iteraciones posteriores en el gráfico:
 \begin{figure}[h]
 \centering
 \includegraphics[width = 0.85\textwidth]{Conc_03}
 \caption{Resumen de modelos}
 \end{figure}
 
-De esta manera, comprobamos visualmente que, por ejemplo, Gradient Boosting, XGBoost, LightGBM y CatBoost alcanzan un nivel de precisión muy parecido, siendo CatBoost el que antes converge y siendo Gradient Boosting el que conlleva un mayor coste computacional. Del mismo modo, observamos que AdaBoost es el que registra un mayor incremento de precisión; lo cual se corresponde con lo explicado en \ref{sec:AdaBoost} ya que las primeras iteraciones sólo recogerán las predicciones realizadas por unos pocos tocones que, en particular, son muy imprecisos.
+De esta manera, se comprueba visualmente que, por ejemplo, Gradient Boosting, XGBoost, LightGBM y CatBoost alcanzan un nivel de precisión muy parecido, siendo CatBoost el que antes converge y siendo Gradient Boosting el que conlleva un mayor coste computacional. Del mismo modo, observamos que AdaBoost es el que registra un mayor incremento de precisión; lo cual se corresponde con lo explicado en \ref{sec:AdaBoost} ya que las primeras iteraciones sólo recogerán las predicciones realizadas por unos pocos tocones que, en particular, son muy imprecisos.
 
 Por tanto, a través de este gráfico se puede obtener una información muy completa acerca del nivel de precisión alcanzable con cada modelo y del coste implicado.
 
@@ -1556,22 +1558,27 @@ Por tanto, a través de este gráfico se puede obtener una información muy comp
 
 \newpage
 \section{Conclusión}
-A lo largo del trabajo se han visto diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, hemos llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. Con el fin de sintetizar la información que se ha detallado, a continuación se realizará una tabla resumen que contendrá, de manera esquemática, la información más importante de cada algoritmo:
+A lo largo del trabajo se ha querido profundizar diferentes modelos de Machine Learning que se construyen utilizando como base el algoritmo de los árboles de decisión. Desde los árboles más simples, como CART, se ha llegado a métodos más sofisticados que consiguen reducir los errores cometidos en las predicciones, e incluso evitar el sobreajuste, mediante diferentes técnicas. Estos métodos se clasifican en bagging y en boosting y, tras su estudio, se ha concluido que los algoritmos de bagging son una gran herramienta cuando los datos son muy ruidosos (pues no se sobreajustan), mientras que los de boosting son capaces de optimizar al máximo la construcción de árboles y dan lugar a modelos muy precisos.
+
+Además, se ha hecho uso de un ejemplo extraído de Kaggle para poner en práctica estos algoritmos. El código se ha desarrollado en una serie de \textit{notebooks} (disponibles en \textit{GitHub} (\ref{Anexo})) y, en ellos, se puede comprobar que se cumplen las conclusiones teóricas extraídas anteriormente: la convergencia del error en los algoritmos de bagging, la mejora en precisión de los algoritmos de boosting \dots. También se ha extraído otra serie de observaciones, como el hecho de que los algoritmos de boosting son más costosos dada la alta optimización que realizan, aunque algoritmos como XGBoost, LightGBM o CatBoost son capaces de obtener excelentes resultados en tiempos de ejecución bajos dado que son modelos muy bien implementados informáticamente. 
+
+Con el fin de sintetizar la información que se ha detallado, a continuación se presenta una tabla final que aspira a confeccionar un mapa conceptual de los modelos trabajados:
 \begin{table}[h]
+\centering
 \resizebox{17cm}{!} {
 \begin{tabular}{|
 >{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|l|l|}
 \hline
-\cellcolor[HTML]{C0C0C0}Algoritmo & \cellcolor[HTML]{C0C0C0}Metodología & \cellcolor[HTML]{C0C0C0} Implementación Python & \cellcolor[HTML]{C0C0C0}Parámetros & \cellcolor[HTML]{C0C0C0}Control \textit{Overfitting} & \cellcolor[HTML]{C0C0C0}\begin{tabular}[c]{@{}l@{}}Coste \\ Computacional\end{tabular} & \cellcolor[HTML]{C0C0C0}Consideraciones \\ \hline
-CART                              & Simple                              & \begin{tabular}[c]{@{}l@{}} Scikit-Learn: \\ - DecisionTreeRegressor \\ - DecisionTreeClassifier\end{tabular}                                                                   &                                     & Disminución de la profundidad máxima                                                                                                                & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Exploración inicial de datos \\ - Método sencillo \\ - Admite representación gráfica \\ - Inestable \end{tabular}                                         \\ \hline
-Bagging                           & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - BaggingRegressor \\ - BaggingClassifier \end{tabular}                                                                             &                                    & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Alto  & \begin{tabular}[c]{@{}l@{}}- Uso de todas las variables explicativas \\ disponibles \\ - Convergencia del error\end{tabular}                                                                                                                              \\ \hline
-Random Forest                     & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - RandomForestRegressor \\ - RandomForestClassifier \end{tabular}                                                                             & $m$                                    & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                                                                                                                                                                                                                                                    & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Cada árbol utiliza $m$ variables \\ - Disminución de la varianza \\ - Convergencia del error \end{tabular}                                                                                                                                                                      \\ \hline
-Extra-Trees                       & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - ExtraTreesRegressor \\ - ExtraTreesClassifier \end{tabular}                                                                             & $m$                                    & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Mayor aleatoriedad \\ - Útil ante problemas de \textit{overfitting} extremos \\ - Convergencia del error \end{tabular}                                                                                                                     \\ \hline
-AdaBoost                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - AdaBoostRegressor \\ - AdaBoostClassifier \end{tabular}                                                                             &                                    & Número de iteraciones                                                                                                                 & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Generación de árboles de dos nodos hoja \end{tabular}                                                                                                                     \\ \hline
-Gradient Boosting                 & Boosting                            & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - GradientBoostingRegressor \\ - GradientBoostingClassifier \end{tabular}                                                                             & $\nu$                                    & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\nu$) \\ - Disminución del número de iteraciones \end{tabular}                                                                                                                                                                                             & Alto                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \end{tabular}                                                                                                                                                            \\ \hline
-XGBoost                           & Boosting                            & \begin{tabular}[c]{@{}l@{}}XGBoost: \\ - XGBRegressor \\ - XGBClassifier \end{tabular}                                                                             & \begin{tabular}[c]{@{}l@{}} - $\eta$ \\ - $\lambda$ \\ - $\gamma$ \end{tabular}                                                                                                                & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                             & Medio                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \end{tabular}                                                                                                                                                                                                     \\ \hline
-LightGBM                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}LightGBM: \\ - LGBMRegressor \\ - LGBMClassifier \end{tabular} & \begin{tabular}[c]{@{}l@{}} - $\eta$ \\ - $\lambda$ \\ - $\gamma$ \end{tabular}                                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                                                                                                                                            & Bajo                                                                                        & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \\ - Árboles que maximizan la ganancia \\ nodo a nodo \end{tabular}                                                                                                                                                                                                                                            \\ \hline
-CatBoost                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}CatBoost: \\ - CatBoostRegressor \\ - CatBoostClassifier \end{tabular} & \begin{tabular}[c]{@{}l@{}} - $\eta$ \\ - $\lambda$ \\ - $\gamma$ \end{tabular}                                                                                                                                                                                    & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                                                                                                                                                                                                                                                           & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles \\ que reducen secuencialmente el error \\ - Suele aplicarse con un elevado \\ número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \\ - Codificación de las variables categóricas \\ sin utilizar \textit{one-hot-encoding} \\ - Generación de árboles simétricos \end{tabular}                                                                                                                                                                                                                                                                                   \\ \hline
+\cellcolor[HTML]{C0C0C0}Algoritmo & \cellcolor[HTML]{C0C0C0}Metodología & \cellcolor[HTML]{C0C0C0} Implementación Python & \cellcolor[HTML]{C0C0C0}Parámetros principales & \cellcolor[HTML]{C0C0C0}Control \textit{Overfitting} & \cellcolor[HTML]{C0C0C0}\begin{tabular}[c]{@{}l@{}}Coste \\ Computacional\end{tabular} & \cellcolor[HTML]{C0C0C0}Consideraciones \\ \hline
+CART                              & Simple                              & \begin{tabular}[c]{@{}l@{}} Scikit-Learn: \\ - DecisionTreeRegressor \\ - DecisionTreeClassifier\end{tabular}                                                                   & \begin{tabular}[c]{@{}l@{}} \textit{max\_depth}: Fija la profundidad máxima \\ del árbol \end{tabular}                                     & Disminución de la profundidad máxima                                                                                                                & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Útil para exploración inicial de datos \\ - Método sencillo de explicar \\ - Admite representación gráfica \\ - Inestable \end{tabular}                                         \\ \hline
+Bagging                           & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - BaggingRegressor \\ - BaggingClassifier \end{tabular}                                                                             & \textit{n\_estimators}: Número de árboles                                   & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Alto  & \begin{tabular}[c]{@{}l@{}}- Uso de todas las variables explicativas disponibles \\ - Convergencia del error\end{tabular}                                                                                                                              \\ \hline
+Random Forest                     & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - RandomForestRegressor \\ - RandomForestClassifier \end{tabular}                                                                             & \begin{tabular}[c]{@{}l@{}} - \textit{n\_estimators} \\ - $m$: Número de variables que participan en \\ la construcción de cada árbol \end{tabular}                                                                                                                                                                                          & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                                                                                                                                                                                                                                                    & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Cada árbol utiliza $m$ variables \\ - Disminución de la varianza \\ - Convergencia del error \end{tabular}                                                                                                                                                                      \\ \hline
+Extra-Trees                       & Bagging                             & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - ExtraTreesRegressor \\ - ExtraTreesClassifier \end{tabular}                                                                             & \begin{tabular}[c]{@{}l@{}} - \textit{n\_estimators} \\ - $m$: Número de variables que participan en \\ la construcción de cada árbol. \end{tabular}                                                                                                                                                       & \begin{tabular}[c]{@{}l@{}} Disminución de la profundidad máxima de \\ los árboles generados \end{tabular}                                                                                                                  & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Mayor aleatoriedad \\ - Útil ante problemas de \textit{overfitting} extremos \\ - Convergencia del error \end{tabular}                                                                                                                     \\ \hline
+AdaBoost                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - AdaBoostRegressor \\ - AdaBoostClassifier \end{tabular}                                                                             & - \textit{n\_estimators}                                    & Disminución del número de iteraciones                                                                                                                 & Medio                                                                                        & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles que reducen secuencialmente \\ el error \\ - Generación de árboles de dos nodos hoja \end{tabular}                                                                                                                     \\ \hline
+Gradient Boosting                 & Boosting                            & \begin{tabular}[c]{@{}l@{}}Scikit-Learn: \\ - GradientBoostingRegressor \\ - GradientBoostingClassifier \end{tabular}                                                                             & $\nu$: Tasa de aprendizaje  (\textit{learning\_rate})                                   & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje \\ - Disminución del número de iteraciones \end{tabular}                                                                                                                                                                                             & Alto                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles que reducen secuencialmente \\ el error \\ - Suele aplicarse con un elevado número de iteraciones \end{tabular}                                                                                                                                                            \\ \hline
+XGBoost                           & Boosting                            & \begin{tabular}[c]{@{}l@{}}XGBoost: \\ - XGBRegressor \\ - XGBClassifier \end{tabular}                                                                             & \begin{tabular}[c]{@{}l@{}} - $\eta$: Tasa de aprendizaje (\textit{eta} o \textit{learning\_rate}) \\ - $\lambda$: Parámetro regularizador que disminuye \\ el peso de las observaciones aisladas (\textit{lambda}) \\ - $\gamma$: Parámetro regularizador que controla \\ la profundidad de los árboles. (\textit{gamma}) \end{tabular}                                                                                                                & \begin{tabular}[c]{@{}l@{}}- Disminución de la tasa de aprendizaje ($\eta$) \\ - Aumento de alguno de los parámetros de \\ regularización $\lambda$ y $\gamma$ \end{tabular}                                                                                                                                                                                             & Medio                                                                                       & \begin{tabular}[c]{@{}l@{}}- Construcción de cadenas de árboles que reducen secuencialmente \\ el error \\ - Suele aplicarse con un elevado número de iteraciones \\ - Inclusión de parámetros de regularización \\ - Escisión de nodos a través de percentiles \\ - Autoregularización mediante \textit{early-stopping} \\ - Capacidad de trabajar con \textit{null values} \end{tabular}                                                                                                                                                                                                     \\ \hline
+LightGBM                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}LightGBM: \\ - LGBMRegressor \\ - LGBMClassifier \end{tabular} & Mismos que XGBoost & Equivalente a XGBoost & Bajo                                                                                        & \begin{tabular}[c]{@{}l@{}}- Misma base que XGBoost \\ - Árboles que maximizan la ganancia nodo a nodo \end{tabular}                                                                                                                                                                                                                                            \\ \hline
+CatBoost                          & Boosting                            & \begin{tabular}[c]{@{}l@{}}CatBoost: \\ - CatBoostRegressor \\ - CatBoostClassifier \end{tabular} & Mismos que XGBoost & Equivalente a XGBoost & Bajo                                                                                       & \begin{tabular}[c]{@{}l@{}}- Misma base que XGBoost \\ - Codificación de las variables categóricas sin utilizar \textit{one-hot-encoding} \\ - Generación de árboles simétricos \end{tabular}                                                                                                                                                                                                                                                                                   \\ \hline
 \end{tabular}
 }
 \end{table}
@@ -1640,7 +1647,6 @@ Análisis de Datos II & General & Relación general con diferentes aspectos trat
 
 
 \newpage
-\appendix
 \section{Desarrollos Gradient Boosting para clasificación} \label{Anexo2}
 
 Se tiene que $f_0(x)$ viene dado por:
@@ -1716,52 +1722,48 @@ Así:
 
 \bibitem{BR02} Breiman, L. (2001). Random Forests. \textit{Machine Learning} \textbf{45}, 5-32.
 
+\bibitem{BR03} Breiman, L., Friedman, J.H, Olshen, R.A. and Stone, C.J. (1984).
+\textit{Classification And Regression Trees}. Routledge.
+
 \bibitem{CH01} Chen, T. and Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining} \textbf{1}, 785-794.
 
 \bibitem{CH02} Chen, W., Finley, T., Liu, T.Y., Ke, G., Ma, W., Meng, Q., Wang, T. and Ye, Q. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. \textit{Proceedings of the 31st Conference on Neural Information Processing Systems}
 
 \bibitem{DO01} Dorogush, A.V., Gulin, A., Gusev, G., Prokhorenkova, L. and Vorobev, A. (2018). CatBoost: unbiased boosting with categorical features. \textit{Proceedings of the 32nd Conference on Neural Information Processing Systems}
 
-\bibitem{DR01} Drucker, H. (1997). Improving Regressors using Boosting Techniques. \textit{Proceedings of the 14th International Conference on Machine Learning}.
+%\bibitem{DR01} Drucker, H. (1997). Improving Regressors using Boosting Techniques. \textit{Proceedings of the 14th International Conference on Machine Learning}.
 
 \bibitem{FR01} Freund, Y. and Schapire, R.E. (1997). A Decision-Theoretic Generalization of On-Line Learning and a Application to Boosting. \textit{Journal of Computer and System Sciences} \textbf{55}, 119-139.
 
-\bibitem{FR02} Friedman, J., Hastie, T. and Tibshirani, R. (2000). Additive logistic regression: a statistical view of boosting. \textit{Annals of Statistics}, \textbf{28(2)}, 337-407.
-
 \bibitem{FR03} Friedman, J. (2001). Greedy function approximation: A gradient boosting machine. \textit{Annals of Statistics}, \textbf{29(5)}, 1189-1232.
 
-\bibitem{HO01} Ho, T.K. (1995). Random Decision Forests. \textit{Proceedings of 3rd International Conference on Document Analysis and Recognition} \textbf{1}, 278-282.
 
-\bibitem{LO01} Loh, W.Y. (2014). Fifty Years of Classification and Regression Trees. \textit{International Statistical Review}
-\textbf{82(3)}, 329-348.
-
-\bibitem{MO01} Morgan, J.N., Sonquist, J.A. (1963). Problems in the Analysis of Survey Data, and a proposal. \textit{Journal of the American Statistical Association} \textbf{58}, 415-434.
-
-
-
-%LIBROS
-\bibitem{BR03} Breiman, L., Friedman, J.H, Olshen, R.A. and Stone, C.J. (1984).
-\textit{Classification And Regression Trees}. Routledge.
+\bibitem{FR02} Friedman, J., Hastie, T. and Tibshirani, R. (2000). Additive logistic regression: a statistical view of boosting. \textit{Annals of Statistics}, \textbf{28(2)}, 337-407.
 
 \bibitem{FR04} Friedman, J.H, Hastie, T. and Tibshirani, R. (2001).
 \textit{The Elements of Statistical Learning: data mining, inference and prediction}. Springer.
 
-\bibitem{HA01} Hastie, T., James, G., Tibshirani, R. and Witten, D. (2013).
-\textit{An Introduction to Statistical Learning with Applications in R}. Springer
+\bibitem{JI01} Jin, Y., Tree Boosting With XGBoost — Why Does XGBoost Win ``Every'' Machine Learning Competition?. \url{https://medium.com/syncedreview/tree-boosting-with-xgboost-why-does-xgboost-win-every-machine-learning-competition-ca8034c0b283} (Consultado el 11 de Mayo de 2022).
+
+%\bibitem{HO01} Ho, T.K. (1995). Random Decision Forests. \textit{Proceedings of 3rd International Conference on Document Analysis and Recognition} \textbf{1}, 278-282.
+
+%\bibitem{LO01} Loh, W.Y. (2014). Fifty Years of Classification and Regression Trees. \textit{International Statistical Review}\textbf{82(3)}, 329-348.
+
+\bibitem{MA01} Mandot, P., What is LightGBM, How to implement it? How to fine tune the parameters?. \url{https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc} (Consultado el 12 de Mayo de 2022).
+
+\bibitem{MO01} Morgan, J.N., Sonquist, J.A. (1963). Problems in the Analysis of Survey Data, and a proposal. \textit{Journal of the American Statistical Association} \textbf{58}, 415-434.
+
+\bibitem{SE01} Segura, T., ``CatBoost Algorithm'' explained in 200 words. \url{https://thaddeus-segura.com/catboost/} (Consultado el 12 de Mayo de 2022).
+
+
+
+
+%\bibitem{HA01} Hastie, T., James, G., Tibshirani, R. and Witten, D. (2013).\textit{An Introduction to Statistical Learning with Applications in R}. Springer
 
 
 
 %CAPÍTULOS DE LIBROS
-\bibitem{MO02} Moisen, G. G. (2008). Classification and regression trees. In: Jorgensen, Sven Erik; Fath, Brian D., eds. Encyclopedia of Ecology, Volume 1. Oxford, U.K.: Elsevier. p. 582-588.
-
-
-
-%PÁGINAS WEB
-\bibitem{JI01} Jin, Y., Tree Boosting With XGBoost — Why Does XGBoost Win ``Every'' Machine Learning Competition?. \url{https://medium.com/syncedreview/tree-boosting-with-xgboost-why-does-xgboost-win-every-machine-learning-competition-ca8034c0b283} (Consultado el 11 de Mayo de 2022).
-
-\bibitem{MA01} Mandot, P., What is LightGBM, How to implement it? How to fine tune the parameters?. \url{https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc} (Consultado el 12 de Mayo de 2022).
-
-\bibitem{SE01} Segura, T., ``CatBoost Algorithm'' explained in 200 words. \url{https://thaddeus-segura.com/catboost/} (Consultado el 12 de Mayo de 2022).
+%\bibitem{MO02} Moisen, G. G. (2008). Classification and regression trees. In: Jorgensen, Sven Erik; Fath, Brian D., eds. Encyclopedia of Ecology, Volume 1. Oxford, U.K.: Elsevier. p. 582-588.
 
 \end{thebibliography}
 \end{document}
