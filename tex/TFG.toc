@@ -34,6 +34,6 @@
 \contentsline {subsubsection}{\numberline {3.2.8}Ventajas y desventajas}{50}{subsubsection.3.2.8}%
 \contentsline {section}{\numberline {4}Comparación de modelos}{51}{section.4}%
 \contentsline {section}{\numberline {5}Conclusión}{53}{section.5}%
-\contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{54}{appendix.Alph1}%
-\contentsline {section}{\numberline {B}Desarrollos Gradient Boosting para clasificación}{55}{appendix.Alph2}%
-\contentsline {section}{Referencias}{57}{appendix.Alph2}%
+\contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{56}{appendix.Alph1}%
+\contentsline {section}{\numberline {B}Desarrollos Gradient Boosting para clasificación}{57}{appendix.Alph2}%
+\contentsline {section}{Referencias}{59}{appendix.Alph2}%
