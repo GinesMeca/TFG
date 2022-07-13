@@ -27,11 +27,11 @@
 \contentsline {subsubsection}{\numberline {3.2.1}AdaBoost}{23}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Gradient Boosting}{30}{subsubsection.3.2.2}%
 \contentsline {subsubsection}{\numberline {3.2.3}XGBoost}{36}{subsubsection.3.2.3}%
-\contentsline {subsubsection}{\numberline {3.2.4}LightGBM}{42}{subsubsection.3.2.4}%
-\contentsline {subsubsection}{\numberline {3.2.5}CatBoost}{43}{subsubsection.3.2.5}%
+\contentsline {subsubsection}{\numberline {3.2.4}LightGBM}{41}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.5}CatBoost}{42}{subsubsection.3.2.5}%
 \contentsline {subsubsection}{\numberline {3.2.6}Ejemplo}{47}{subsubsection.3.2.6}%
-\contentsline {subsubsection}{\numberline {3.2.7}Otros parámetros}{49}{subsubsection.3.2.7}%
-\contentsline {subsubsection}{\numberline {3.2.8}Ventajas y desventajas}{50}{subsubsection.3.2.8}%
+\contentsline {subsubsection}{\numberline {3.2.7}Otros parámetros}{48}{subsubsection.3.2.7}%
+\contentsline {subsubsection}{\numberline {3.2.8}Ventajas y desventajas}{49}{subsubsection.3.2.8}%
 \contentsline {section}{\numberline {4}Comparación de modelos}{51}{section.4}%
 \contentsline {section}{\numberline {5}Conclusión}{53}{section.5}%
 \contentsline {section}{\numberline {A}Detalles del desarrollo del trabajo}{56}{appendix.Alph1}%
