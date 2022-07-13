@@ -1326,14 +1326,14 @@ Además, al igual que LightGBM y XGBoost, CatBoost añade mejoras del ámbito in
 
 \emph{Una vez más, se hará una predicción de la probabilidad de lluvia del día próximo con nuestro conjunto de datos ``Rain in Australia''. En este caso, no es necesario establecer un criterio de parada en la construcción de los árboles, dado que la estructura de los modelos de boosting hace que estos no se sobreajusten pese a construir árboles muy profundos. No obstante, por realizar una comparación justa con los algoritmos de bagging, se fijará la profundidad máxima de cada árbol en 5.}
 
-\emph{Aplicando los algoritmos estudiados, se llega a los resultados expuestos en la Tabla \ref{fig:Ex_Boost}. Como se puede observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $70\%$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
-
 \begin{table}[h]
 \centering
 \includegraphics[width = \textwidth]{ex_boost_01}
 \caption{Resultados modelos de boosting: a)AdaBoost b)Gradient Boosting c)XGBoost d)LightGBM e)CatBoost}
 \label{fig:Ex_Boost}
 \end{table}
+
+\emph{Aplicando los algoritmos estudiados, se llega a los resultados expuestos en la Tabla \ref{fig:Ex_Boost}. Como se puede observar, en cualquiera de las tablas se puede escoger un modelo que mantenga el $delta\%$ por debajo del $5\%$ y que a su vez tenga un coeficiente de Gini para el conjunto de testeo superior al $70\%$. Por tanto, se observa claramente que los modelos de boosting suponen una mejora significativa de la precisión del modelo. No obstante, para alcanzar esta precisión, en ocasiones es necesario realizar un número elevado de iteraciones, con el correspondiente coste computacional que conlleva.}
 
 
 \emph{Además, no hay que obviar el hecho de que muchos de estos modelos están sobreajustados. Mientras que al trabajar con modelos de bagging no surgen problemas de overfitting, con modelos de boosting habrá que preocuparse por ver que no se están cometiendo errores en la elección del número de iteraciones u otros parámetros de regularización. También, atendiendo a los tiempos de ejecución, se puede observar la eficiencia de LightGBM ya que donde algunos algoritmos tardan entre 1 y 10 minutos en entrenarse, LGBM apenas necesita 5 segundos. En la Figura \ref{fig:Ex_Boost}, se pueden comprobar cómo aumenta la diferencia entre conjuntos y el tiempo de ejecución, respectivamente, a medida que se añaden árboles a los modelos.}

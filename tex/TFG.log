@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  13 JUL 2022 11:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.3.4)  13 JUL 2022 11:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -801,30 +801,18 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 Underfull \vbox (badness 1960) has occurred while \output is active []
 
  [46 <./CatBoost_05.png>]
-<ex_boost_01.png, id=584, 970.827pt x 537.207pt>
+<ex_boost_01.png, id=583, 970.827pt x 537.207pt>
 File: ex_boost_01.png Graphic file (type png)
 <use ex_boost_01.png>
-Package pdftex.def Info: ex_boost_01.png  used on input line 1333.
+Package pdftex.def Info: ex_boost_01.png  used on input line 1331.
 (pdftex.def)             Requested size: 455.24411pt x 251.90533pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<ex_boost_02.png, id=586, 667.89525pt x 213.1965pt>
+ [47 <./CatBoost_06.png> <./ex_boost_01.png>]
+<ex_boost_02.png, id=593, 667.89525pt x 213.1965pt>
 File: ex_boost_02.png Graphic file (type png)
 <use ex_boost_02.png>
 Package pdftex.def Info: ex_boost_02.png  used on input line 1343.
 (pdftex.def)             Requested size: 409.71692pt x 130.78487pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [47 <./CatBoost_06.png>]
-Underfull \vbox (badness 1127) has occurred while \output is active []
-
- [48 <./ex_boost_01.png> <./ex_boost_02.png>] [49] [50]
+ [48 <./ex_boost_02.png>] [49] [50]
 <Conc_01.png, id=611, 238.491pt x 190.311pt>
 File: Conc_01.png Graphic file (type png)
 <use Conc_01.png>
@@ -841,7 +829,8 @@ File: Conc_03.png Graphic file (type png)
 <use Conc_03.png>
 Package pdftex.def Info: Conc_03.png  used on input line 1417.
 (pdftex.def)             Requested size: 455.24411pt x 229.33035pt.
- [52 <./Conc_03.png>] [53]
+ [52 <./Conc_03.png>]
+[53]
 Overfull \vbox (55.87804pt too high) has occurred while \output is active []
 
 
@@ -963,7 +952,7 @@ amsfonts/cm/cmsy6.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX
 /fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Usuario/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on TFG.pdf (60 pages, 1913075 bytes).
+Output written on TFG.pdf (60 pages, 1913149 bytes).
 PDF statistics:
  1220 PDF objects out of 1440 (max. 8388607)
  164 named destinations out of 1000 (max. 500000)
